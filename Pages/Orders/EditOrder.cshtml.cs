@@ -11,11 +11,11 @@ using GrupoESINuevo.Models;
 
 namespace GrupoESINuevo
 {
-    public class EditeServiceModel : PageModel
+    public class EditOrderModel : PageModel
     {
         private readonly GrupoESINuevo.Data.ApplicationDbContext _context;
 
-        public EditeServiceModel(GrupoESINuevo.Data.ApplicationDbContext context)
+        public EditOrderModel(GrupoESINuevo.Data.ApplicationDbContext context)
         {
             _context = context;
         }
@@ -68,7 +68,7 @@ namespace GrupoESINuevo
                 }
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./IndexOrder");
         }
 
         private bool OrderExists(int id)

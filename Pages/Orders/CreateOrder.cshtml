@@ -1,5 +1,5 @@
 ﻿@page
-@model GrupoESINuevo.CreateServiceModel
+@model GrupoESINuevo.CreateOrderModel
 
 @{
     ViewData["Title"] = "Create";
@@ -12,6 +12,7 @@
 <div class="row">
     <div class="col-md-4">
         <form method="post">
+            <input hidden asp-for="Order.ServiceId" />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Order.OrderDate" class="control-label"></label>
@@ -28,10 +29,7 @@
                 <input asp-for="Order.Concepto" class="form-control" />
                 <span asp-validation-for="Order.Concepto" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Order.ServiceId" class="control-label"></label>
-                <select asp-for="Order.ServiceId" class ="form-control" asp-items="ViewBag.ServiceId"></select>
-            </div>
+            
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

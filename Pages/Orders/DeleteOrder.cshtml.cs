@@ -10,11 +10,11 @@ using GrupoESINuevo.Models;
 
 namespace GrupoESINuevo
 {
-    public class DeleteServiceModel : PageModel
+    public class DeleteOrderModel : PageModel
     {
         private readonly GrupoESINuevo.Data.ApplicationDbContext _context;
 
-        public DeleteServiceModel(GrupoESINuevo.Data.ApplicationDbContext context)
+        public DeleteOrderModel(GrupoESINuevo.Data.ApplicationDbContext context)
         {
             _context = context;
         }
@@ -54,7 +54,7 @@ namespace GrupoESINuevo
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./IndexOrder");
         }
     }
 }

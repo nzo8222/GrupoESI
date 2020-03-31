@@ -26,7 +26,7 @@
             <div class="row" style="padding-bottom:40px; padding-top:20px;">
                 <div class="col-md-3">
                     <p>
-                        <a asp-page="Create" asp-route-userId="@Model.ServiceAndProviderVM.UserObj.Id" class="btn btn-info form-control">
+                        <a asp-page="CreateService" asp-route-userId="@Model.ServiceAndProviderVM.UserObj.Id" class="btn btn-info form-control">
                             <i class="fas fa-plus"></i> &nbsp; Agregar nuevo servicio
                         </a>
                     </p>
@@ -103,14 +103,14 @@
                                 @*@Html.DisplayFor(m => item.Color)*@
                             </td>
                             <td>
-                                <a class="btn btn-secondary" asp-page="../Order/IndexOrder" asp-route-ServiceId="@item.ID">
+                                <a class="btn btn-secondary" asp-page="../Orders/IndexOrder" asp-route-ServiceId="@item.ID">
                                     <i class="fas fa-wrench"></i> &nbsp; Historial de pedidos
                                 </a>
                             </td>
                             *@if (User.IsInRole("Admin"))
                             {
                                 <td>
-                                    <a class="btn btn-success" asp-page="../Order/CreateOrder" asp-route-ServiceId="@item.ID">
+                                    <a class="btn btn-success" asp-page="../Orders/CreateOrder" asp-route-ServiceId="@item.ID">
                                         <i class="fas fa-plus"></i> &nbsp; Nuevo pedido
                                     </a>
                                 </td>

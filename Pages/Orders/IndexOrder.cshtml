@@ -1,5 +1,5 @@
 ﻿@page
-@model GrupoESINuevo.IndexServiceModel
+@model GrupoESINuevo.IndexOrderModel
 
 @{
     ViewData["Title"] = "Index";
@@ -8,7 +8,7 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-page="Create" asp-route-ServiceId="@Model.ServiceId">Create New</a>
+    <a asp-page="CreateOrder" asp-route-ServiceId="@Model.ServiceId">Create New Order</a>
 </p>
 <table class="table">
     <thead>
@@ -44,9 +44,9 @@
                 @Html.DisplayFor(modelItem => item.Service.Nombre)
             </td>
             <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-page="./EditOrder" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./DetailsOrder" asp-route-id="@item.Id">Details</a> |
+                <a asp-page="./DeleteOrder" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
 }

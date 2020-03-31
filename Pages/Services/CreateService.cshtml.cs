@@ -13,7 +13,7 @@ using System.Security.Claims;
 namespace GrupoESINuevo
 {
     [Authorize]
-    public class CreateServiceModel : PageModel
+    public class CreateServoceModel : PageModel
     {
         private readonly ApplicationDbContext _db;
 
@@ -22,7 +22,7 @@ namespace GrupoESINuevo
 
         [TempData]
         public string StatusMessage { get; set; }
-        public CreateServiceModel(ApplicationDbContext db)
+        public CreateServoceModel(ApplicationDbContext db)
         {
             _db = db;
         }
@@ -49,7 +49,7 @@ namespace GrupoESINuevo
             _db.ServiceModel.Add(Service);
             await _db.SaveChangesAsync();
             StatusMessage = "El servicio fue creado correctamente";
-            return RedirectToPage("Index", new { userId = Service.UserId });
+            return RedirectToPage("IndexService", new { userId = Service.UserId });
         }
     }
 }

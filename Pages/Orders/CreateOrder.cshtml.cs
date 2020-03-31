@@ -7,26 +7,32 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using GrupoESINuevo.Data;
 using GrupoESINuevo.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace GrupoESINuevo
 {
-    public class CreateServiceModel : PageModel
+    public class CreateOrderModel : PageModel
     {
         private readonly GrupoESINuevo.Data.ApplicationDbContext _context;
 
-        public CreateServiceModel(GrupoESINuevo.Data.ApplicationDbContext context)
+        public CreateOrderModel(GrupoESINuevo.Data.ApplicationDbContext context)
         {
             _context = context;
         }
 
-        public IActionResult OnGet()
-        {
-        ViewData["ServiceId"] = new SelectList(_context.ServiceModel, "ID", "Nombre");
-            return Page();
-        }
-
+       
         [BindProperty]
         public Order Order { get; set; }
+        public async Task<IActionResult> OnGet(string serviceId = null)
+        {
+           if(serviceId == null)
+            {
+                return Page();
+            }
+            Order = new Order();
+            Order.ServiceId = Int32.Parse(serviceId);
+            return Page();
+        }
 
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
@@ -40,7 +46,7 @@ namespace GrupoESINuevo
             _context.Order.Add(Order);
             await _context.SaveChangesAsync();
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./IndexOrder", new { serviceId = Order.ServiceId });
         }
     }
 }

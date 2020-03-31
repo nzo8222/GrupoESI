@@ -10,11 +10,11 @@ using GrupoESINuevo.Models;
 
 namespace GrupoESINuevo
 {
-    public class DetailsServiceModel : PageModel
+    public class DetailsOrderModel : PageModel
     {
         private readonly GrupoESINuevo.Data.ApplicationDbContext _context;
 
-        public DetailsServiceModel(GrupoESINuevo.Data.ApplicationDbContext context)
+        public DetailsOrderModel(GrupoESINuevo.Data.ApplicationDbContext context)
         {
             _context = context;
         }

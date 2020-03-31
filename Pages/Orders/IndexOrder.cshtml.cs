@@ -10,23 +10,24 @@ using GrupoESINuevo.Models;
 
 namespace GrupoESINuevo
 {
-    public class IndexServiceModel : PageModel
+    public class IndexOrderModel : PageModel
     {
         private readonly GrupoESINuevo.Data.ApplicationDbContext _context;
 
-        public IndexServiceModel(GrupoESINuevo.Data.ApplicationDbContext context)
+        public IndexOrderModel(GrupoESINuevo.Data.ApplicationDbContext context)
         {
             _context = context;
         }
 
         public IList<Order> Order { get;set; }
         public string ServiceId { get; set; }
-
         public async Task<IActionResult> OnGetAsync(string serviceId = null)
         {
-            Order = await _context.Order
-                                         .Include(o => o.Service)
-                                         .Where(s => s.Id == Int32.Parse(serviceId)).ToListAsync();
+            if(serviceId == null)
+            {
+                return Page();
+            }
+            Order = await _context.Order.Where(s => s.ServiceId == Int32.Parse(serviceId)).ToListAsync();
             ServiceId = serviceId;
             return Page();
         }
