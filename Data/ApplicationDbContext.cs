@@ -15,5 +15,6 @@ namespace GrupoESINuevo.Data
         }
         public DbSet<ApplicationUser> ApplicationUser { get; set; }
         public DbSet<ServiceModel> ServiceModel { get; set; }
+        public DbSet<Order> Order { get; set; }
     }
 }
