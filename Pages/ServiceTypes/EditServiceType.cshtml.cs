@@ -8,20 +8,23 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GrupoESINuevo.Data;
 using GrupoESINuevo.Models;
+using Microsoft.AspNetCore.Authorization;
+using GrupoESINuevo.Uitility;
 
 namespace GrupoESINuevo
 {
-    public class EditOrderModel : PageModel
+    [Authorize(Roles = SD.AdminEndUser)]
+    public class EditServiceTypeModel : PageModel
     {
         private readonly GrupoESINuevo.Data.ApplicationDbContext _context;
 
-        public EditOrderModel(GrupoESINuevo.Data.ApplicationDbContext context)
+        public EditServiceTypeModel(GrupoESINuevo.Data.ApplicationDbContext context)
         {
             _context = context;
         }
 
         [BindProperty]
-        public Order Order { get; set; }
+        public ServiceType ServiceType { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -30,14 +33,12 @@ namespace GrupoESINuevo
                 return NotFound();
             }
 
-            //Order = await _context.Order
-            //    .Include(o => o.Service).FirstOrDefaultAsync(m => m.Id == id);
+            ServiceType = await _context.ServiceType.FirstOrDefaultAsync(m => m.Id == id);
 
-            if (Order == null)
+            if (ServiceType == null)
             {
                 return NotFound();
             }
-           ViewData["ServiceId"] = new SelectList(_context.ServiceModel, "ID", "Nombre");
             return Page();
         }
 
@@ -50,7 +51,7 @@ namespace GrupoESINuevo
                 return Page();
             }
 
-            _context.Attach(Order).State = EntityState.Modified;
+            _context.Attach(ServiceType).State = EntityState.Modified;
 
             try
             {
@@ -58,7 +59,7 @@ namespace GrupoESINuevo
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!OrderExists(Order.Id))
+                if (!ServiceTypeExists(ServiceType.Id))
                 {
                     return NotFound();
                 }
@@ -68,12 +69,12 @@ namespace GrupoESINuevo
                 }
             }
 
-            return RedirectToPage("./IndexOrder");
+            return RedirectToPage("./IndexServiceType");
         }
 
-        private bool OrderExists(int id)
+        private bool ServiceTypeExists(int id)
         {
-            return _context.Order.Any(e => e.Id == id);
+            return _context.ServiceType.Any(e => e.Id == id);
         }
     }
 }

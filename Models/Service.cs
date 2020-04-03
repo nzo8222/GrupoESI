@@ -12,8 +12,8 @@ namespace GrupoESINuevo.Models
         [Key]
         public int ID { get; set; }
         [Required]
-        public string Nombre { get; set; }
-        public string Descripcion { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
         public ServiceType serviceType { get; set; }
 
         public string UserId { get; set; }

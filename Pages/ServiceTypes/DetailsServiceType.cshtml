@@ -1,0 +1,31 @@
+﻿@page
+@model GrupoESINuevo.DetailsServiceTypeModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>ServiceType</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ServiceType.Category)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ServiceType.Category)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ServiceType.Descripcion)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ServiceType.Descripcion)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./EditServiceType" asp-route-id="@Model.ServiceType.Id">Edit</a> |
+    <a asp-page="./IndexServiceType">Back to List</a>
+</div>

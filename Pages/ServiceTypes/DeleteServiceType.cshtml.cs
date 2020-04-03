@@ -7,20 +7,23 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using GrupoESINuevo.Data;
 using GrupoESINuevo.Models;
+using Microsoft.AspNetCore.Authorization;
+using GrupoESINuevo.Uitility;
 
 namespace GrupoESINuevo
 {
-    public class DeleteOrderModel : PageModel
+    [Authorize(Roles = SD.AdminEndUser)]
+    public class DeleteServiceTypeModel : PageModel
     {
         private readonly GrupoESINuevo.Data.ApplicationDbContext _context;
 
-        public DeleteOrderModel(GrupoESINuevo.Data.ApplicationDbContext context)
+        public DeleteServiceTypeModel(GrupoESINuevo.Data.ApplicationDbContext context)
         {
             _context = context;
         }
 
         [BindProperty]
-        public Order Order { get; set; }
+        public ServiceType ServiceType { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -29,10 +32,9 @@ namespace GrupoESINuevo
                 return NotFound();
             }
 
-            //Order = await _context.Order
-            //    .Include(o => o.Service).FirstOrDefaultAsync(m => m.Id == id);
+            ServiceType = await _context.ServiceType.FirstOrDefaultAsync(m => m.Id == id);
 
-            if (Order == null)
+            if (ServiceType == null)
             {
                 return NotFound();
             }
@@ -46,15 +48,15 @@ namespace GrupoESINuevo
                 return NotFound();
             }
 
-            Order = await _context.Order.FindAsync(id);
+            ServiceType = await _context.ServiceType.FindAsync(id);
 
-            if (Order != null)
+            if (ServiceType != null)
             {
-                _context.Order.Remove(Order);
+                _context.ServiceType.Remove(ServiceType);
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToPage("./IndexOrder");
+            return RedirectToPage("./IndexServiceType");
         }
     }
 }

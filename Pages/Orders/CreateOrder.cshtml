@@ -12,22 +12,22 @@
 <div class="row">
     <div class="col-md-4">
         <form method="post">
-            <input hidden asp-for="Order.ServiceId" />
+            @*<input hidden asp-for="@Model._service" />*@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Order.OrderDate" class="control-label"></label>
-                <input asp-for="Order.OrderDate" class="form-control" />
-                <span asp-validation-for="Order.OrderDate" class="text-danger"></span>
+                <label asp-for="_OrderAndOrderDetailsVM.OrderModel.OrderDate" class="control-label"></label>
+                <input asp-for="_OrderAndOrderDetailsVM.OrderModel.OrderDate" class="form-control" />
+                <span asp-validation-for="_OrderAndOrderDetailsVM.OrderModel.OrderDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Order.Direccion" class="control-label"></label>
-                <input asp-for="Order.Direccion" class="form-control" />
-                <span asp-validation-for="Order.Direccion" class="text-danger"></span>
+                <label asp-for="_OrderAndOrderDetailsVM.OrderModel.Direccion" class="control-label"></label>
+                <input asp-for="_OrderAndOrderDetailsVM.OrderModel.Direccion" class="form-control" />
+                <span asp-validation-for="_OrderAndOrderDetailsVM.OrderModel.Direccion" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Order.Concepto" class="control-label"></label>
-                <input asp-for="Order.Concepto" class="form-control" />
-                <span asp-validation-for="Order.Concepto" class="text-danger"></span>
+                <label asp-for="_OrderAndOrderDetailsVM.OrderModel.Concepto" class="control-label"></label>
+                <input asp-for="_OrderAndOrderDetailsVM.OrderModel.Concepto" class="form-control" />
+                <span asp-validation-for="_OrderAndOrderDetailsVM.OrderModel.Concepto" class="text-danger"></span>
             </div>
             
             <div class="form-group">
@@ -38,7 +38,7 @@
 </div>
 
 <div>
-    <a asp-page="Index">Back to List</a>
+    <a asp-page="IndexOrder">Back to List</a>
 </div>
 
 @section Scripts {

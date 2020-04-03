@@ -19,16 +19,18 @@ namespace GrupoESINuevo
             _context = context;
         }
 
-        public IList<Order> Order { get;set; }
+        public IList<OrderDetails> Order { get;set; }
         public string ServiceId { get; set; }
+        //public OrderDetails OrderDetailsModel { get; set; }
         public async Task<IActionResult> OnGetAsync(string serviceId = null)
         {
             if(serviceId == null)
             {
                 return Page();
             }
-            Order = await _context.Order.Include(s => s.Service).Where(s => s.ServiceId == Int32.Parse(serviceId)).ToListAsync();
-            ServiceId = serviceId;
+            //OrderDetailsModel.Service = _context.ServiceModel.FirstOrDefault(s => s.ID == Int32.Parse(serviceId));
+            Order = await _context.OrderDetails.Include(o => o.Order).Where( s =>s.Service.ID == Int32.Parse(serviceId)).ToListAsync();
+            //ServiceId = serviceId;
             return Page();
         }
     }

@@ -227,3 +227,8 @@ C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\obj\Debug\netcoreapp3.1\
 C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\obj\Debug\netcoreapp3.1\Razor\Pages\Quotations\DetailsQuotation.cshtml.g.cs
 C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\obj\Debug\netcoreapp3.1\Razor\Pages\Quotations\EditQuotation.cshtml.g.cs
 C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\obj\Debug\netcoreapp3.1\Razor\Pages\Quotations\IndexQuotation.cshtml.g.cs
+C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\obj\Debug\netcoreapp3.1\Razor\Pages\ServiceTypes\CreateServiceType.cshtml.g.cs
+C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\obj\Debug\netcoreapp3.1\Razor\Pages\ServiceTypes\DeleteServiceType.cshtml.g.cs
+C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\obj\Debug\netcoreapp3.1\Razor\Pages\ServiceTypes\DetailsServiceType.cshtml.g.cs
+C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\obj\Debug\netcoreapp3.1\Razor\Pages\ServiceTypes\EditServiceType.cshtml.g.cs
+C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\obj\Debug\netcoreapp3.1\Razor\Pages\ServiceTypes\IndexServiceType.cshtml.g.cs

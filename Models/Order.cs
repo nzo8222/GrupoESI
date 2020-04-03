@@ -19,11 +19,5 @@ namespace GrupoESINuevo.Models
         public string Concepto { get; set; }
         public string EstadoDelPedido { get; set; }
 
-        [ForeignKey("Service")]
-        public int ServiceId { get; set; }
-
-        public virtual Service Service { get; set; }
-        public virtual List<Quotation> Quotations{ get; set; }
-
     }
 }

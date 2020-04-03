@@ -17,6 +17,7 @@ namespace GrupoESINuevo
     {
         private readonly ApplicationDbContext _db;
 
+        public List<ServiceType> ServiceTypesList { get; set; }
         [BindProperty]
         public Service Service { get; set; }
 
@@ -36,6 +37,7 @@ namespace GrupoESINuevo
                 userId = claim.Value;
             }
             Service.UserId = userId;
+            ServiceTypesList = _db.ServiceType.ToList();
             return Page();
         }
 

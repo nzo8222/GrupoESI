@@ -1,0 +1,42 @@
+﻿@page
+@model GrupoESINuevo.IndexServiceTypeModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="CreateServiceType">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ServiceType[0].Category)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ServiceType[0].Descripcion)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.ServiceType) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descripcion)
+            </td>
+            <td>
+                <a asp-page="./EditServiceType" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./DetailsServiceType" asp-route-id="@item.Id">Details</a> |
+                <a asp-page="./DeleteServiceType" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

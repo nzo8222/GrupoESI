@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace GrupoESINuevo.Models
 {
-    public class TaskModel
+    public class OrderDetails
     {
         [Key]
         public int Id { get; set; }
-        public int Duration { get; set; }
-        public int Cost { get; set; }
-        public virtual List<Material> ListMaterial { get; set; }
+        public Service Service { get; set; }
+        public Order Order { get; set; }
+        public double Cost { get; set; }
     }
 }

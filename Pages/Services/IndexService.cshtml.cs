@@ -42,7 +42,7 @@ namespace GrupoESINuevo
 
             ServiceAndProviderVM = new ServiceAndProviderVM()
             {
-                Services = await _db.ServiceModel.Where(c => c.ApplicationUser.Id == userId).ToListAsync(),
+                Services = await _db.ServiceModel.Include(s=>s.serviceType).Where(c => c.ApplicationUser.Id == userId).ToListAsync(),
                 UserObj = await _db.ApplicationUser.FirstOrDefaultAsync(u => u.Id == userId)
             };
 

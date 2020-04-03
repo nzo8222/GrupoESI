@@ -7,19 +7,22 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using GrupoESINuevo.Data;
 using GrupoESINuevo.Models;
+using Microsoft.AspNetCore.Authorization;
+using GrupoESINuevo.Uitility;
 
 namespace GrupoESINuevo
 {
-    public class DetailsOrderModel : PageModel
+    [Authorize(Roles = SD.AdminEndUser)]
+    public class DetailsServiceTypeModel : PageModel
     {
         private readonly GrupoESINuevo.Data.ApplicationDbContext _context;
 
-        public DetailsOrderModel(GrupoESINuevo.Data.ApplicationDbContext context)
+        public DetailsServiceTypeModel(GrupoESINuevo.Data.ApplicationDbContext context)
         {
             _context = context;
         }
 
-        public Order Order { get; set; }
+        public ServiceType ServiceType { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -28,10 +31,9 @@ namespace GrupoESINuevo
                 return NotFound();
             }
 
-            //Order = await _context.Order
-            //    .Include(o => o.Service).FirstOrDefaultAsync(m => m.Id == id);
+            ServiceType = await _context.ServiceType.FirstOrDefaultAsync(m => m.Id == id);
 
-            if (Order == null)
+            if (ServiceType == null)
             {
                 return NotFound();
             }
