@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using GrupoESINuevo.Data;
 using GrupoESINuevo.Models;
 using Microsoft.EntityFrameworkCore;
+using GrupoESINuevo.Uitility;
 
 namespace GrupoESINuevo
 {
@@ -42,7 +43,7 @@ namespace GrupoESINuevo
             {
                 return Page();
             }
-
+            Order.EstadoDelPedido = SD.EstadoSinAceptar;
             _context.Order.Add(Order);
             await _context.SaveChangesAsync();
 

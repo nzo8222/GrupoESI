@@ -4,46 +4,22 @@ using GrupoESINuevo.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GrupoESINuevo.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200331104326_EstadoDelPedido")]
+    partial class EstadoDelPedido
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("GrupoESINuevo.Models.Material", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("Price")
-                        .HasColumnType("float");
-
-                    b.Property<int?>("TaskModelId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TaskModelId");
-
-                    b.ToTable("Material");
-                });
 
             modelBuilder.Entity("GrupoESINuevo.Models.Order", b =>
                 {
@@ -76,26 +52,6 @@ namespace GrupoESINuevo.Data.Migrations
                     b.ToTable("Order");
                 });
 
-            modelBuilder.Entity("GrupoESINuevo.Models.Quotation", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("OrderId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OrderId");
-
-                    b.ToTable("Quotation");
-                });
-
             modelBuilder.Entity("GrupoESINuevo.Models.ServiceModel", b =>
                 {
                     b.Property<int>("ID")
@@ -121,29 +77,6 @@ namespace GrupoESINuevo.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("ServiceModel");
-                });
-
-            modelBuilder.Entity("GrupoESINuevo.Models.TaskModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("Cost")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Duration")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("QuotationId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("QuotationId");
-
-                    b.ToTable("Task");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -376,13 +309,6 @@ namespace GrupoESINuevo.Data.Migrations
                     b.HasDiscriminator().HasValue("ApplicationUser");
                 });
 
-            modelBuilder.Entity("GrupoESINuevo.Models.Material", b =>
-                {
-                    b.HasOne("GrupoESINuevo.Models.TaskModel", null)
-                        .WithMany("ListMaterial")
-                        .HasForeignKey("TaskModelId");
-                });
-
             modelBuilder.Entity("GrupoESINuevo.Models.Order", b =>
                 {
                     b.HasOne("GrupoESINuevo.Models.ServiceModel", "Service")
@@ -392,25 +318,11 @@ namespace GrupoESINuevo.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("GrupoESINuevo.Models.Quotation", b =>
-                {
-                    b.HasOne("GrupoESINuevo.Models.Order", null)
-                        .WithMany("Quotations")
-                        .HasForeignKey("OrderId");
-                });
-
             modelBuilder.Entity("GrupoESINuevo.Models.ServiceModel", b =>
                 {
                     b.HasOne("GrupoESINuevo.Models.ApplicationUser", "ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("GrupoESINuevo.Models.TaskModel", b =>
-                {
-                    b.HasOne("GrupoESINuevo.Models.Quotation", null)
-                        .WithMany("Tasks")
-                        .HasForeignKey("QuotationId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

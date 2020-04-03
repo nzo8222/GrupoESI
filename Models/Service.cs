@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace GrupoESINuevo.Models
 {
-    public class ServiceModel
+    public class Service
     {
         [Key]
         public int ID { get; set; }
         [Required]
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
-        public string Categoria { get; set; }
+        public ServiceType serviceType { get; set; }
 
         public string UserId { get; set; }
 

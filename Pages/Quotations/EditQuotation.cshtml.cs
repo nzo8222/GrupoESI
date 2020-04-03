@@ -11,17 +11,17 @@ using GrupoESINuevo.Models;
 
 namespace GrupoESINuevo
 {
-    public class EditeServiceModel : PageModel
+    public class EditQuotationModel : PageModel
     {
         private readonly GrupoESINuevo.Data.ApplicationDbContext _context;
 
-        public EditeServiceModel(GrupoESINuevo.Data.ApplicationDbContext context)
+        public EditQuotationModel(GrupoESINuevo.Data.ApplicationDbContext context)
         {
             _context = context;
         }
 
         [BindProperty]
-        public Service ServiceModel { get; set; }
+        public Quotation Quotation { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -30,14 +30,12 @@ namespace GrupoESINuevo
                 return NotFound();
             }
 
-            ServiceModel = await _context.ServiceModel
-                .Include(s => s.ApplicationUser).FirstOrDefaultAsync(m => m.ID == id);
+            Quotation = await _context.Quotation.FirstOrDefaultAsync(m => m.Id == id);
 
-            if (ServiceModel == null)
+            if (Quotation == null)
             {
                 return NotFound();
             }
-           ViewData["UserId"] = new SelectList(_context.ApplicationUser, "Id", "Id");
             return Page();
         }
 
@@ -50,7 +48,7 @@ namespace GrupoESINuevo
                 return Page();
             }
 
-            _context.Attach(ServiceModel).State = EntityState.Modified;
+            _context.Attach(Quotation).State = EntityState.Modified;
 
             try
             {
@@ -58,7 +56,7 @@ namespace GrupoESINuevo
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ServiceModelExists(ServiceModel.ID))
+                if (!QuotationExists(Quotation.Id))
                 {
                     return NotFound();
                 }
@@ -71,9 +69,9 @@ namespace GrupoESINuevo
             return RedirectToPage("./Index");
         }
 
-        private bool ServiceModelExists(int id)
+        private bool QuotationExists(int id)
         {
-            return _context.ServiceModel.Any(e => e.ID == id);
+            return _context.Quotation.Any(e => e.Id == id);
         }
     }
 }

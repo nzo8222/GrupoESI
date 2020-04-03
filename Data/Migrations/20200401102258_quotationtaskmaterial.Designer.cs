@@ -4,14 +4,16 @@ using GrupoESINuevo.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GrupoESINuevo.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200401102258_quotationtaskmaterial")]
+    partial class quotationtaskmaterial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -86,12 +88,7 @@ namespace GrupoESINuevo.Data.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("OrderId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("OrderId");
 
                     b.ToTable("Quotation");
                 });
@@ -390,13 +387,6 @@ namespace GrupoESINuevo.Data.Migrations
                         .HasForeignKey("ServiceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("GrupoESINuevo.Models.Quotation", b =>
-                {
-                    b.HasOne("GrupoESINuevo.Models.Order", null)
-                        .WithMany("Quotations")
-                        .HasForeignKey("OrderId");
                 });
 
             modelBuilder.Entity("GrupoESINuevo.Models.ServiceModel", b =>

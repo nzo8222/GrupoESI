@@ -18,7 +18,7 @@ namespace GrupoESINuevo
         private readonly ApplicationDbContext _db;
 
         [BindProperty]
-        public ServiceModel Service { get; set; }
+        public Service Service { get; set; }
 
         [TempData]
         public string StatusMessage { get; set; }
@@ -28,7 +28,7 @@ namespace GrupoESINuevo
         }
         public IActionResult OnGet(string userId = null)
         {
-            Service = new ServiceModel();
+            Service = new Service();
             if (userId == null)
             {
                 var claimsIdentity = (ClaimsIdentity)User.Identity;

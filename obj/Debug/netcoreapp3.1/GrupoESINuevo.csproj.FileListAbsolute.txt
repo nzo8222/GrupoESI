@@ -222,3 +222,8 @@ C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\obj\Debug\netcoreapp3.1\
 C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\obj\Debug\netcoreapp3.1\Razor\Pages\Orders\CreateOrder.cshtml.g.cs
 C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\obj\Debug\netcoreapp3.1\Razor\Pages\Orders\DeleteOrder.cshtml.g.cs
 C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\obj\Debug\netcoreapp3.1\Razor\Pages\Orders\DetailsOrder.cshtml.g.cs
+C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\obj\Debug\netcoreapp3.1\Razor\Pages\Quotations\CreateQuotation.cshtml.g.cs
+C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\obj\Debug\netcoreapp3.1\Razor\Pages\Quotations\DeleteQuotation.cshtml.g.cs
+C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\obj\Debug\netcoreapp3.1\Razor\Pages\Quotations\DetailsQuotation.cshtml.g.cs
+C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\obj\Debug\netcoreapp3.1\Razor\Pages\Quotations\EditQuotation.cshtml.g.cs
+C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\obj\Debug\netcoreapp3.1\Razor\Pages\Quotations\IndexQuotation.cshtml.g.cs

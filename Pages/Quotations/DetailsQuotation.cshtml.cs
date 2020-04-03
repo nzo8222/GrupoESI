@@ -10,16 +10,16 @@ using GrupoESINuevo.Models;
 
 namespace GrupoESINuevo
 {
-    public class DetailsServiceModel : PageModel
+    public class DetailsQuotationModel : PageModel
     {
         private readonly GrupoESINuevo.Data.ApplicationDbContext _context;
 
-        public DetailsServiceModel(GrupoESINuevo.Data.ApplicationDbContext context)
+        public DetailsQuotationModel(GrupoESINuevo.Data.ApplicationDbContext context)
         {
             _context = context;
         }
 
-        public Service ServiceModel { get; set; }
+        public Quotation Quotation { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -28,10 +28,9 @@ namespace GrupoESINuevo
                 return NotFound();
             }
 
-            ServiceModel = await _context.ServiceModel
-                .Include(s => s.ApplicationUser).FirstOrDefaultAsync(m => m.ID == id);
+            Quotation = await _context.Quotation.FirstOrDefaultAsync(m => m.Id == id);
 
-            if (ServiceModel == null)
+            if (Quotation == null)
             {
                 return NotFound();
             }

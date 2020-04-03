@@ -27,7 +27,7 @@ namespace GrupoESINuevo
             {
                 return Page();
             }
-            Order = await _context.Order.Where(s => s.ServiceId == Int32.Parse(serviceId)).ToListAsync();
+            Order = await _context.Order.Include(s => s.Service).Where(s => s.ServiceId == Int32.Parse(serviceId)).ToListAsync();
             ServiceId = serviceId;
             return Page();
         }

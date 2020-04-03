@@ -25,6 +25,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Order[0].Service)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Order[0].EstadoDelPedido)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -44,9 +47,19 @@
                 @Html.DisplayFor(modelItem => item.Service.Nombre)
             </td>
             <td>
-                <a asp-page="./EditOrder" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./DetailsOrder" asp-route-id="@item.Id">Details</a> |
-                <a asp-page="./DeleteOrder" asp-route-id="@item.Id">Delete</a>
+                @Html.DisplayFor(modelItem => item.EstadoDelPedido)
+            </td>
+            <td>
+                @if (User.IsInRole("Admin"))
+                {
+                    <a asp-page="./EditOrder" asp-route-id="@item.Id">Edit</a>
+                    <a asp-page="./DetailsOrder" asp-route-id="@item.Id">Details</a>
+                    <a asp-page="./DeleteOrder" asp-route-id="@item.Id">Delete</a>
+                }
+                @if (User.IsInRole("Provider"))
+                {
+                <a asp-page="../Quotations/CreateQuotation" asp-route-orderId="@item.Id">Edit</a>
+                }
             </td>
         </tr>
 }

@@ -10,17 +10,17 @@ using GrupoESINuevo.Models;
 
 namespace GrupoESINuevo
 {
-    public class DeleteServiceModel : PageModel
+    public class DeleteQuotationModel : PageModel
     {
         private readonly GrupoESINuevo.Data.ApplicationDbContext _context;
 
-        public DeleteServiceModel(GrupoESINuevo.Data.ApplicationDbContext context)
+        public DeleteQuotationModel(GrupoESINuevo.Data.ApplicationDbContext context)
         {
             _context = context;
         }
 
         [BindProperty]
-        public Service ServiceModel { get; set; }
+        public Quotation Quotation { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -29,10 +29,9 @@ namespace GrupoESINuevo
                 return NotFound();
             }
 
-            ServiceModel = await _context.ServiceModel
-                .Include(s => s.ApplicationUser).FirstOrDefaultAsync(m => m.ID == id);
+            Quotation = await _context.Quotation.FirstOrDefaultAsync(m => m.Id == id);
 
-            if (ServiceModel == null)
+            if (Quotation == null)
             {
                 return NotFound();
             }
@@ -46,11 +45,11 @@ namespace GrupoESINuevo
                 return NotFound();
             }
 
-            ServiceModel = await _context.ServiceModel.FindAsync(id);
+            Quotation = await _context.Quotation.FindAsync(id);
 
-            if (ServiceModel != null)
+            if (Quotation != null)
             {
-                _context.ServiceModel.Remove(ServiceModel);
+                _context.Quotation.Remove(Quotation);
                 await _context.SaveChangesAsync();
             }
 
