@@ -12,7 +12,9 @@
 <div class="row">
     <div class="col-md-4">
         <form method="post">
-            @*<input hidden asp-for="@Model._service" />*@
+            <input hidden asp-for="_OrderAndOrderDetailsVM.serviceIdVM" />
+            <input hidden asp-for="_OrderAndOrderDetailsVM.OrderDetailsModel.Order" />
+            @*<input hidden asp-for="_OrderAndOrderDetailsVM.OrderDetailsModel.Service" />*@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="_OrderAndOrderDetailsVM.OrderModel.OrderDate" class="control-label"></label>
@@ -29,7 +31,7 @@
                 <input asp-for="_OrderAndOrderDetailsVM.OrderModel.Concepto" class="form-control" />
                 <span asp-validation-for="_OrderAndOrderDetailsVM.OrderModel.Concepto" class="text-danger"></span>
             </div>
-            
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

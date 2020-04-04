@@ -24,14 +24,21 @@ namespace GrupoESINuevo
       
 
         [BindProperty]
-        public OrderQuotationTaskMaterialUserVM _OrderQuotationTaskMaterialUserVM { get; set; }
+        public QuotationTaskMaterialVM _OrderQuotationTaskMaterialUserVM { get; set; }
         public Order OrderModel { get; set; }
-        public IActionResult OnGet(string orderId = null)
+        public IActionResult OnGet(string orderDetailsId = null)
         {
-            if(orderId == null)
+            if(orderDetailsId == null)
             {
                 return Page();
             }
+            _OrderQuotationTaskMaterialUserVM = new QuotationTaskMaterialVM()
+            {
+                QuotationModel = new Quotation(),
+                MaterialModel = new Material(),
+                taskModel = new TaskModel()
+            };
+            _OrderQuotationTaskMaterialUserVM.QuotationModel.OrderDetails = _context.OrderDetails.FirstOrDefault(od => od.Id == Int32.Parse(orderDetailsId));
             //_OrderQuotationTaskMaterialUserVM = new OrderQuotationTaskMaterialUserVM
             //{
             //    OrderModel = _context.Order.Include(o => o.Service).ThenInclude(s => s.ApplicationUser).FirstOrDefault(o => o.Id == int.Parse(orderId)),

@@ -14,25 +14,25 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Order[0].Order.OrderDate)
+                @Html.DisplayNameFor(model => model.OrderDetailsList[0].Order.OrderDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Order[0].Order.Direccion)
+                @Html.DisplayNameFor(model => model.OrderDetailsList[0].Order.Direccion)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Order[0].Order.Concepto)
+                @Html.DisplayNameFor(model => model.OrderDetailsList[0].Order.Concepto)
             </th>
             <th>
                 @*@Html.DisplayNameFor(model => model.Order[0].Service)*@
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Order[0].Order.EstadoDelPedido)
+                @Html.DisplayNameFor(model => model.OrderDetailsList[0].Order.EstadoDelPedido)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Order) {
+@foreach (var item in Model.OrderDetailsList) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Order.OrderDate)
@@ -58,7 +58,7 @@
                 }
                 @if (User.IsInRole("Provider"))
                 {
-                <a asp-page="../Quotations/CreateQuotation" asp-route-orderId="@item.Service.ID">Edit</a>
+                <a asp-page="../Quotations/CreateQuotation" asp-route-orderDetailsId="@item.Id">Cotizar</a>
                 }
             </td>
         </tr>

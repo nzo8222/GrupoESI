@@ -19,7 +19,7 @@ namespace GrupoESINuevo
             _context = context;
         }
 
-        public IList<OrderDetails> Order { get;set; }
+        public IList<OrderDetails> OrderDetailsList { get;set; }
         public string ServiceId { get; set; }
         //public OrderDetails OrderDetailsModel { get; set; }
         public async Task<IActionResult> OnGetAsync(string serviceId = null)
@@ -29,7 +29,7 @@ namespace GrupoESINuevo
                 return Page();
             }
             //OrderDetailsModel.Service = _context.ServiceModel.FirstOrDefault(s => s.ID == Int32.Parse(serviceId));
-            Order = await _context.OrderDetails.Include(o => o.Order).Where( s =>s.Service.ID == Int32.Parse(serviceId)).ToListAsync();
+            OrderDetailsList = await _context.OrderDetails.Include(o => o.Order).Where( s =>s.Service.ID == Int32.Parse(serviceId)).ToListAsync();
             //ServiceId = serviceId;
             return Page();
         }
