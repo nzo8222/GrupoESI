@@ -58,7 +58,7 @@
                 }
                 @if (User.IsInRole("Provider"))
                 {
-                <a asp-page="../Quotations/CreateQuotation" asp-route-orderDetailsId="@item.Id">Cotizar</a>
+                <a asp-page="../Quotations/CreateQuotation" asp-route-orderDetailsId="@item.Id" class="btn-success">Cotizar</a>
                 }
             </td>
         </tr>

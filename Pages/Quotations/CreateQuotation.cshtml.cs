@@ -20,36 +20,65 @@ namespace GrupoESINuevo
         {
             _context = context;
         }
-
-      
-
         [BindProperty]
-        public QuotationTaskMaterialVM _OrderQuotationTaskMaterialUserVM { get; set; }
-        public Order OrderModel { get; set; }
+        public QuotationTaskMaterialVM _QuotationTaskMaterialVM { get; set; }
         public IActionResult OnGet(string orderDetailsId = null)
         {
             if(orderDetailsId == null)
             {
                 return Page();
             }
-            _OrderQuotationTaskMaterialUserVM = new QuotationTaskMaterialVM()
-            {
-                QuotationModel = new Quotation(),
-                MaterialModel = new Material(),
-                taskModel = new TaskModel()
-            };
-            _OrderQuotationTaskMaterialUserVM.QuotationModel.OrderDetails = _context.OrderDetails.FirstOrDefault(od => od.Id == Int32.Parse(orderDetailsId));
-            //_OrderQuotationTaskMaterialUserVM = new OrderQuotationTaskMaterialUserVM
-            //{
-            //    OrderModel = _context.Order.Include(o => o.Service).ThenInclude(s => s.ApplicationUser).FirstOrDefault(o => o.Id == int.Parse(orderId)),
-            //    User = _context.ApplicationUser.FirstOrDefault(u => u.Id == OrderModel.Service.ApplicationUser.Id),
-            //    TaskList = new List<System.Threading.Tasks.Task>(),
-            //    MaterialList = new List<Material>(),
-            //    QuotationModel = new Quotation()
-            //};
-            //_OrderQuotationTaskMaterialUserVM.OrderModel.Quotations.Add(_OrderQuotationTaskMaterialUserVM.QuotationModel);
             
-            //OrderModel.Quotations.Add(QuotationModel); _context.Quotation.Include(q => q.Tasks).Where(t => t.)
+            var quotationlocal = _context.Quotation
+                                                    .Include(q =>q.Tasks)
+                                                        .ThenInclude(t => t.ListMaterial)
+                                                        .FirstOrDefault(q => q.OrderDetailsModel.Id == Int32.Parse(orderDetailsId));
+            
+            if (quotationlocal == null)
+            {
+                _QuotationTaskMaterialVM = new QuotationTaskMaterialVM()
+                {
+                    QuotationModel = new Quotation(),
+                    MaterialModel = new Material(),
+                    taskModel = new TaskModel(),
+                    lstMaterial = new List<Material>(),
+                    lstTaskModel = new List<TaskModel>(),
+                    orderDetailsId = orderDetailsId
+                };
+            }
+            else
+            {
+                var listaTareaslocal = quotationlocal.Tasks;
+                if (listaTareaslocal == null)
+                {
+                    _QuotationTaskMaterialVM = new QuotationTaskMaterialVM()
+                    {
+                        QuotationModel = quotationlocal,
+                        MaterialModel = new Material(),
+                        taskModel = new TaskModel(),
+                        lstMaterial = new List<Material>(),
+                        lstTaskModel = new List<TaskModel>(),
+                        orderDetailsId = orderDetailsId
+                    };
+                }
+                else
+                {
+
+                    _QuotationTaskMaterialVM = new QuotationTaskMaterialVM()
+                    {
+                        QuotationModel = quotationlocal,
+                        MaterialModel = new Material(),
+                        taskModel = new TaskModel(),
+                        lstMaterial = new List<Material>(),
+                        lstTaskModel = listaTareaslocal,
+                        orderDetailsId = orderDetailsId
+                    };
+                }
+                  
+            }
+            
+            
+
             return Page();
         }
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
@@ -63,7 +92,42 @@ namespace GrupoESINuevo
 
             await _context.SaveChangesAsync();
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./IndexQuotation");
+        }
+        public async Task<IActionResult> OnPostAddMaterial()
+        {
+           
+            _context.Material.Add(_QuotationTaskMaterialVM.MaterialModel);
+            return Page();
+        }
+        public async Task<IActionResult> OnPostDeleteMaterial()
+        {
+            _QuotationTaskMaterialVM.lstMaterial.Remove(_QuotationTaskMaterialVM.MaterialModel);
+            return Page();
+        }
+       
+        public async Task<IActionResult> OnPostAddTaskModel()
+        {
+            var quotation = new Quotation();
+            quotation.OrderDetailsModel = _context.OrderDetails.FirstOrDefault(od => od.Id == Int32.Parse(_QuotationTaskMaterialVM.orderDetailsId));
+            if(_QuotationTaskMaterialVM.QuotationModel.Tasks == null)
+            {
+                quotation.Tasks = new List<TaskModel>();
+            }
+            else
+            {
+                quotation.Tasks = _QuotationTaskMaterialVM.QuotationModel.Tasks.ToList();
+            }
+            quotation.Tasks.Add(_QuotationTaskMaterialVM.taskModel);
+            _context.Quotation.Add(quotation);
+            await _context.SaveChangesAsync();
+
+            return RedirectToPage("CreateQuotation", new { orderDetailsId = _QuotationTaskMaterialVM.orderDetailsId });
+        }
+        public async Task<IActionResult> OnPostDeleteTaskModel()
+        {
+            _QuotationTaskMaterialVM.lstTaskModel.Remove(_QuotationTaskMaterialVM.taskModel);
+            return Page();
         }
     }
 }

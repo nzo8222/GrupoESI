@@ -11,7 +11,7 @@ namespace GrupoESINuevo.Models
         [Key]
         public int Id { get; set; }
         public string Description { get; set; }
-        public OrderDetails OrderDetails { get; set; }
+        public OrderDetails OrderDetailsModel { get; set; }
         public virtual List<TaskModel> Tasks { get; set; }
     }
 }

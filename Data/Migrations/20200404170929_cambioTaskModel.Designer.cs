@@ -4,14 +4,16 @@ using GrupoESINuevo.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GrupoESINuevo.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200404170929_cambioTaskModel")]
+    partial class cambioTaskModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -106,12 +108,12 @@ namespace GrupoESINuevo.Data.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("OrderDetailsModelId")
+                    b.Property<int?>("OrderDetailsId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OrderDetailsModelId");
+                    b.HasIndex("OrderDetailsId");
 
                     b.ToTable("Quotation");
                 });
@@ -442,9 +444,9 @@ namespace GrupoESINuevo.Data.Migrations
 
             modelBuilder.Entity("GrupoESINuevo.Models.Quotation", b =>
                 {
-                    b.HasOne("GrupoESINuevo.Models.OrderDetails", "OrderDetailsModel")
+                    b.HasOne("GrupoESINuevo.Models.OrderDetails", "OrderDetails")
                         .WithMany()
-                        .HasForeignKey("OrderDetailsModelId");
+                        .HasForeignKey("OrderDetailsId");
                 });
 
             modelBuilder.Entity("GrupoESINuevo.Models.Service", b =>
