@@ -8,8 +8,11 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-page="CreateOrder" asp-route-ServiceId="@Model.ServiceId">Create New Order</a>
-</p>
+    @if (User.IsInRole("Admin"))
+    {
+        <a asp-page="CreateOrder" asp-route-ServiceId="@Model.ServiceId">Create New Order</a>
+    }
+    </p>
 <table class="table">
     <thead>
         <tr>

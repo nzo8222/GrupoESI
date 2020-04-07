@@ -63,16 +63,41 @@ namespace GrupoESINuevo
                 }
                 else
                 {
-
-                    _QuotationTaskMaterialVM = new QuotationTaskMaterialVM()
+                    var listaMaterialesLocal = new List<Material>();
+                    
+                    foreach (var item in listaTareaslocal)
                     {
-                        QuotationModel = quotationlocal,
-                        MaterialModel = new Material(),
-                        taskModel = new TaskModel(),
-                        lstMaterial = new List<Material>(),
-                        lstTaskModel = listaTareaslocal,
-                        orderDetailsId = orderDetailsId
+                        var listaMaterialesDentroDelForEach = item.ListMaterial.ToList();
+                        foreach (var objetoMaterial in listaMaterialesDentroDelForEach)
+                        {
+                            listaMaterialesLocal.Add(objetoMaterial);
+                        }
                     };
+                    if(listaMaterialesLocal.Count() > 0)
+                    {
+                        _QuotationTaskMaterialVM = new QuotationTaskMaterialVM()
+                        {
+                            QuotationModel = quotationlocal,
+                            MaterialModel = new Material(),
+                            taskModel = new TaskModel(),
+                            lstMaterial = listaMaterialesLocal,
+                            lstTaskModel = listaTareaslocal,
+                            orderDetailsId = orderDetailsId
+                        };
+                    }
+                    else
+                    {
+                        _QuotationTaskMaterialVM = new QuotationTaskMaterialVM()
+                        {
+                            QuotationModel = quotationlocal,
+                            MaterialModel = new Material(),
+                            taskModel = new TaskModel(),
+                            lstMaterial = new List<Material>(),
+                            lstTaskModel = listaTareaslocal,
+                            orderDetailsId = orderDetailsId
+                        };
+                    }
+                   
                 }
                   
             }
@@ -108,16 +133,14 @@ namespace GrupoESINuevo
        
         public async Task<IActionResult> OnPostAddTaskModel()
         {
-            var quotation = new Quotation();
-            quotation.OrderDetailsModel = _context.OrderDetails.FirstOrDefault(od => od.Id == Int32.Parse(_QuotationTaskMaterialVM.orderDetailsId));
-            if(_QuotationTaskMaterialVM.QuotationModel.Tasks == null)
+            var quotation = _context.Quotation.Include(q => q.OrderDetailsModel).FirstOrDefault(q => q.OrderDetailsModel.Id == Int32.Parse(_QuotationTaskMaterialVM.orderDetailsId)); 
+            if(quotation == null)
             {
+                quotation = new Quotation();
+                quotation.OrderDetailsModel = _context.OrderDetails.FirstOrDefault(od => od.Id == Int32.Parse(_QuotationTaskMaterialVM.orderDetailsId));
                 quotation.Tasks = new List<TaskModel>();
-            }
-            else
-            {
-                quotation.Tasks = _QuotationTaskMaterialVM.QuotationModel.Tasks.ToList();
-            }
+                _QuotationTaskMaterialVM.taskModel.QuotationModel = quotation;
+            } 
             quotation.Tasks.Add(_QuotationTaskMaterialVM.taskModel);
             _context.Quotation.Add(quotation);
             await _context.SaveChangesAsync();
