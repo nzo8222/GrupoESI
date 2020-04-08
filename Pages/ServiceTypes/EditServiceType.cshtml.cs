@@ -26,7 +26,7 @@ namespace GrupoESINuevo
         [BindProperty]
         public ServiceType ServiceType { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(Guid id)
         {
             if (id == null)
             {
@@ -59,20 +59,20 @@ namespace GrupoESINuevo
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ServiceTypeExists(ServiceType.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                //if (!ServiceTypeExists(ServiceType.Id))
+                //{
+                //    return NotFound();
+                //}
+                //else
+                //{
+                //    throw;
+                //}
             }
 
             return RedirectToPage("./IndexServiceType");
         }
 
-        private bool ServiceTypeExists(int id)
+        private bool ServiceTypeExists(Guid id)
         {
             return _context.ServiceType.Any(e => e.Id == id);
         }

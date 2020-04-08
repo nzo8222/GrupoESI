@@ -9,7 +9,7 @@ namespace GrupoESINuevo.Models
     public class OrderDetails
     {
         [Key]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public Service Service { get; set; }
         public Order Order { get; set; }
         public double Cost { get; set; }

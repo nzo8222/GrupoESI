@@ -23,7 +23,7 @@ namespace GrupoESINuevo
         [BindProperty]
         public Service ServiceModel { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(Guid id)
         {
             if (id == null)
             {
@@ -58,20 +58,20 @@ namespace GrupoESINuevo
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ServiceModelExists(ServiceModel.ID))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                //if (!ServiceModelExists(ServiceModel.ID))
+                //{
+                //    return NotFound();
+                //}
+                //else
+                //{
+                //    throw;
+                //}
             }
 
             return RedirectToPage("./Index");
         }
 
-        private bool ServiceModelExists(int id)
+        private bool ServiceModelExists(Guid id)
         {
             return _context.ServiceModel.Any(e => e.ID == id);
         }

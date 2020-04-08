@@ -58,20 +58,20 @@ namespace GrupoESINuevo
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!OrderExists(Order.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                //if (!OrderExists(Order.Id))
+                //{
+                //    return NotFound();
+                //}
+                //else
+                //{
+                //    throw;
+                //}
             }
 
             return RedirectToPage("./IndexOrder");
         }
 
-        private bool OrderExists(int id)
+        private bool OrderExists(Guid id)
         {
             return _context.Order.Any(e => e.Id == id);
         }

@@ -10,7 +10,7 @@ namespace GrupoESINuevo.Models
     public class Order
     {
         [Key]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         [Required]
         public DateTime OrderDate { get; set; }
         [Required]

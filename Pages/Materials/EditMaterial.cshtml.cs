@@ -23,7 +23,7 @@ namespace GrupoESINuevo
         [BindProperty]
         public Material Material { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(Guid id)
         {
             if (id == null)
             {
@@ -56,20 +56,20 @@ namespace GrupoESINuevo
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!MaterialExists(Material.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                //if (!MaterialExists(Material.Id))
+                //{
+                //    return NotFound();
+                //}
+                //else
+                //{
+                //    throw;
+                //}
             }
 
             return RedirectToPage("./Index");
         }
 
-        private bool MaterialExists(int id)
+        private bool MaterialExists(Guid id)
         {
             return _context.Material.Any(e => e.Id == id);
         }

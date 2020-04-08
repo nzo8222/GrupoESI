@@ -10,6 +10,7 @@ namespace GrupoESINuevo.Uitility
         public const string AdminEndUser = "Admin";
         public const string ProviderEndUser = "Provider";
         public const int PaginationUsersPageSize = 5;
-        public const string EstadoSinAceptar = "Sin Aceptar";
+        public const string EstadoSinCotizar = "Sin Cotizar";
+        public const string EstadoCotizado = "Cotizado";
     }
 }

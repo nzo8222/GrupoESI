@@ -10,7 +10,7 @@ namespace GrupoESINuevo.Models.ViewModels
         public Quotation QuotationModel { get; set; }
         public TaskModel taskModel { get; set; }
         public Material MaterialModel { get; set; }
-        public string orderDetailsId { get; set; }
+        public Guid orderDetailsId { get; set; }
         public List<Material> lstMaterial { get; set; }
         public List<TaskModel> lstTaskModel { get; set; }
     }

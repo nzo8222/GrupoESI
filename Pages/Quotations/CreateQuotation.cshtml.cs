@@ -9,6 +9,7 @@ using GrupoESINuevo.Data;
 using GrupoESINuevo.Models;
 using Microsoft.EntityFrameworkCore;
 using GrupoESINuevo.Models.ViewModels;
+using GrupoESINuevo.Uitility;
 
 namespace GrupoESINuevo
 {
@@ -22,7 +23,7 @@ namespace GrupoESINuevo
         }
         [BindProperty]
         public QuotationTaskMaterialVM _QuotationTaskMaterialVM { get; set; }
-        public IActionResult OnGet(string orderDetailsId = null)
+        public IActionResult OnGet(Guid orderDetailsId)
         {
             if(orderDetailsId == null)
             {
@@ -32,7 +33,7 @@ namespace GrupoESINuevo
             var quotationlocal = _context.Quotation
                                                     .Include(q =>q.Tasks)
                                                         .ThenInclude(t => t.ListMaterial)
-                                                        .FirstOrDefault(q => q.OrderDetailsModel.Id == Int32.Parse(orderDetailsId));
+                                                        .FirstOrDefault(q => q.OrderDetailsModel.Id == orderDetailsId);
             
             if (quotationlocal == null)
             {
@@ -45,6 +46,9 @@ namespace GrupoESINuevo
                     lstTaskModel = new List<TaskModel>(),
                     orderDetailsId = orderDetailsId
                 };
+                _QuotationTaskMaterialVM.QuotationModel.Id = new Guid();
+                _QuotationTaskMaterialVM.MaterialModel.Id = new Guid();
+                _QuotationTaskMaterialVM.taskModel.Id = new Guid();
             }
             else
             {
@@ -60,6 +64,8 @@ namespace GrupoESINuevo
                         lstTaskModel = new List<TaskModel>(),
                         orderDetailsId = orderDetailsId
                     };
+                    _QuotationTaskMaterialVM.MaterialModel.Id = new Guid();
+                    _QuotationTaskMaterialVM.taskModel.Id = new Guid();
                 }
                 else
                 {
@@ -84,6 +90,8 @@ namespace GrupoESINuevo
                             lstTaskModel = listaTareaslocal,
                             orderDetailsId = orderDetailsId
                         };
+                        _QuotationTaskMaterialVM.MaterialModel.Id = new Guid();
+                        _QuotationTaskMaterialVM.taskModel.Id = new Guid();
                     }
                     else
                     {
@@ -96,12 +104,14 @@ namespace GrupoESINuevo
                             lstTaskModel = listaTareaslocal,
                             orderDetailsId = orderDetailsId
                         };
+                        _QuotationTaskMaterialVM.MaterialModel.Id = new Guid();
+                        _QuotationTaskMaterialVM.taskModel.Id = new Guid();
                     }
                    
                 }
                   
             }
-            
+
             
 
             return Page();
@@ -110,11 +120,26 @@ namespace GrupoESINuevo
         // more details see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
+            //if (!ModelState.IsValid)
+            //{
+            //    return RedirectToPage("CreateQuotation", new { orderDetailsId = _QuotationTaskMaterialVM.orderDetailsId });
+            //}
+            var quotation = _context.Quotation
+                                                .Include(q => q.Tasks)
+                                                .Include(q => q.OrderDetailsModel)
+                                                .ThenInclude(od => od.Order)
+                                                .FirstOrDefault(q => q.Id == _QuotationTaskMaterialVM.QuotationModel.Id);
 
+            if(quotation.Tasks.Count == 0)
+            {
+                return RedirectToPage("CreateQuotation", new { orderDetailsId = _QuotationTaskMaterialVM.orderDetailsId });
+            }
+            quotation.Description = _QuotationTaskMaterialVM.QuotationModel.Description;
+
+            _context.Quotation.Update(quotation);
+            var order = _context.Order.FirstOrDefault(o => o.Id == quotation.OrderDetailsModel.Order.Id);
+            order.EstadoDelPedido = SD.EstadoCotizado;
+             _context.Order.Update(order);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./IndexQuotation");
@@ -133,14 +158,15 @@ namespace GrupoESINuevo
        
         public async Task<IActionResult> OnPostAddTaskModel()
         {
-            var quotation = _context.Quotation.Include(q => q.OrderDetailsModel).FirstOrDefault(q => q.OrderDetailsModel.Id == Int32.Parse(_QuotationTaskMaterialVM.orderDetailsId)); 
+            var quotation = _context.Quotation.Include(q => q.OrderDetailsModel).FirstOrDefault(q => q.OrderDetailsModel.Id == _QuotationTaskMaterialVM.orderDetailsId); 
+
             if(quotation == null)
             {
                 quotation = new Quotation();
-                quotation.OrderDetailsModel = _context.OrderDetails.FirstOrDefault(od => od.Id == Int32.Parse(_QuotationTaskMaterialVM.orderDetailsId));
-                quotation.Tasks = new List<TaskModel>();
-                _QuotationTaskMaterialVM.taskModel.QuotationModel = quotation;
-            } 
+            }
+            quotation.OrderDetailsModel = _context.OrderDetails.FirstOrDefault(od => od.Id == _QuotationTaskMaterialVM.orderDetailsId);
+            quotation.Tasks = new List<TaskModel>();
+            _QuotationTaskMaterialVM.taskModel.QuotationModel = quotation;
             quotation.Tasks.Add(_QuotationTaskMaterialVM.taskModel);
             _context.Quotation.Add(quotation);
             await _context.SaveChangesAsync();

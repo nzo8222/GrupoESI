@@ -22,7 +22,7 @@ namespace GrupoESINuevo
         }
         [BindProperty]
         public TaskMaterialVM _TaskMaterialVM { get; set; }
-        public IActionResult OnGet(string taskId = null)
+        public IActionResult OnGet(Guid taskId )
         {
             if(taskId == null)
             {
@@ -31,7 +31,7 @@ namespace GrupoESINuevo
             _TaskMaterialVM = new TaskMaterialVM()
             {
                 MaterialModel = new Material(),
-                TareaModel = _context.Task.FirstOrDefault(t => t.Id == Int32.Parse(taskId)),
+                TareaModel = _context.Task.FirstOrDefault(t => t.Id == taskId),
                 taskId = taskId
             };
             return Page();
@@ -52,7 +52,7 @@ namespace GrupoESINuevo
                                                         .Include(t => t.ListMaterial)
                                                         .Include(t => t.QuotationModel)
                                                         .ThenInclude(q => q.OrderDetailsModel)
-                                                        .FirstOrDefault(t => t.Id == Int32.Parse(_TaskMaterialVM.taskId));
+                                                        .FirstOrDefault(t => t.Id == _TaskMaterialVM.taskId);
             _TaskMaterialVM.TareaModel.ListMaterial.Add(_TaskMaterialVM.MaterialModel);
             _context.Task.Update(_TaskMaterialVM.TareaModel);
           

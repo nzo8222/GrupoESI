@@ -27,7 +27,7 @@ namespace GrupoESINuevo
         [BindProperty]
         public OrderAndOrderDetailsVM _OrderAndOrderDetailsVM { get; set; }
         public string _service { get; set; }
-        public async Task<IActionResult> OnGet(string serviceId = null)
+        public async Task<IActionResult> OnGet(Guid serviceId)
         {
            if(serviceId == null)
             {
@@ -39,7 +39,7 @@ namespace GrupoESINuevo
                 OrderDetailsModel = new OrderDetails()
             };
             _OrderAndOrderDetailsVM.OrderDetailsModel.Order = _OrderAndOrderDetailsVM.OrderModel;
-            _OrderAndOrderDetailsVM.OrderDetailsModel.Service = _context.ServiceModel.FirstOrDefault(s => s.ID == Int32.Parse(serviceId));
+            _OrderAndOrderDetailsVM.OrderDetailsModel.Service = _context.ServiceModel.FirstOrDefault(s => s.ID == serviceId);
             
             _OrderAndOrderDetailsVM.serviceIdVM = serviceId;
 
@@ -58,28 +58,18 @@ namespace GrupoESINuevo
             {
                 return Page();
             }
-            //_OrderAndOrderDetailsVM = new OrderAndOrderDetailsVM()
-            //{
-            //    OrderModel = new Order(),
-            //};
-            //_OrderAndOrderDetailsVM.OrderDetailsModel.Order = _OrderAndOrderDetailsVM.OrderModel;
+          
             _OrderAndOrderDetailsVM.OrderDetailsModel.Service = _context.ServiceModel
                                                                                     .Include(s =>s.ApplicationUser)
                                                                                     .Include(s=>s.serviceType)
-                                                                                    .FirstOrDefault(s => s.ID == Int32.Parse(_OrderAndOrderDetailsVM.serviceIdVM));
+                                                                                    .FirstOrDefault(s => s.ID == _OrderAndOrderDetailsVM.serviceIdVM);
             _OrderAndOrderDetailsVM.OrderDetailsModel.Order = _OrderAndOrderDetailsVM.OrderModel;
-            _OrderAndOrderDetailsVM.OrderModel.EstadoDelPedido = SD.EstadoSinAceptar;
+            _OrderAndOrderDetailsVM.OrderModel.EstadoDelPedido = SD.EstadoSinCotizar;
             _OrderAndOrderDetailsVM.OrderDetailsModel.Cost = 0.0;
             _context.OrderDetails.Add(_OrderAndOrderDetailsVM.OrderDetailsModel);
             
             _context.Order.Add(_OrderAndOrderDetailsVM.OrderModel);
-            //OrderDetailsModel = new OrderDetails();
-            //Order.EstadoDelPedido = 
-            //OrderDetailsModel.Service = _context.ServiceModel.FirstOrDefault(s => s.ID == Int32.Parse(_service));
-            //OrderDetailsModel.Order = Order;
-            //OrderDetailsModel.Cost = 0.0;
-            //_context.OrderDetails.Add(OrderDetailsModel);
-            //_context.Order.Add(Order);
+            
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./IndexOrder", new { serviceId = _OrderAndOrderDetailsVM.serviceIdVM });

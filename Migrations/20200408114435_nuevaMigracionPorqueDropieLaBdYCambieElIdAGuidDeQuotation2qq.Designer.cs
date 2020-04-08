@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace GrupoESINuevo.Data.Migrations
+namespace GrupoESINuevo.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200331022419_ServiceModel")]
-    partial class ServiceModel
+    [Migration("20200408114435_nuevaMigracionPorqueDropieLaBdYCambieElIdAGuidDeQuotation2qq")]
+    partial class nuevaMigracionPorqueDropieLaBdYCambieElIdAGuidDeQuotation2qq
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,31 +21,170 @@ namespace GrupoESINuevo.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("GrupoESINuevo.Models.ServiceModel", b =>
+            modelBuilder.Entity("GrupoESINuevo.Models.Material", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Categoria")
+                    b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Descripcion")
+                    b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Nombre")
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
+                    b.Property<Guid?>("TaskModelId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TaskModelId");
+
+                    b.ToTable("Material");
+                });
+
+            modelBuilder.Entity("GrupoESINuevo.Models.Order", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Concepto")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Direccion")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EstadoDelPedido")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Order");
+                });
+
+            modelBuilder.Entity("GrupoESINuevo.Models.OrderDetails", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<double>("Cost")
+                        .HasColumnType("float");
+
+                    b.Property<Guid?>("OrderId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("ServiceID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("ServiceID");
+
+                    b.ToTable("OrderDetails");
+                });
+
+            modelBuilder.Entity("GrupoESINuevo.Models.Quotation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("OrderDetailsModelId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderDetailsModelId");
+
+                    b.ToTable("Quotation");
+                });
+
+            modelBuilder.Entity("GrupoESINuevo.Models.Service", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<Guid?>("serviceTypeId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("ID");
 
                     b.HasIndex("UserId");
 
+                    b.HasIndex("serviceTypeId");
+
                     b.ToTable("ServiceModel");
+                });
+
+            modelBuilder.Entity("GrupoESINuevo.Models.ServiceType", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Category")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Descripcion")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ServiceType");
+                });
+
+            modelBuilder.Entity("GrupoESINuevo.Models.TaskModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Cost")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Duration")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("QuotationModelId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("QuotationModelId");
+
+                    b.ToTable("Task");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -278,11 +417,47 @@ namespace GrupoESINuevo.Data.Migrations
                     b.HasDiscriminator().HasValue("ApplicationUser");
                 });
 
-            modelBuilder.Entity("GrupoESINuevo.Models.ServiceModel", b =>
+            modelBuilder.Entity("GrupoESINuevo.Models.Material", b =>
+                {
+                    b.HasOne("GrupoESINuevo.Models.TaskModel", null)
+                        .WithMany("ListMaterial")
+                        .HasForeignKey("TaskModelId");
+                });
+
+            modelBuilder.Entity("GrupoESINuevo.Models.OrderDetails", b =>
+                {
+                    b.HasOne("GrupoESINuevo.Models.Order", "Order")
+                        .WithMany()
+                        .HasForeignKey("OrderId");
+
+                    b.HasOne("GrupoESINuevo.Models.Service", "Service")
+                        .WithMany()
+                        .HasForeignKey("ServiceID");
+                });
+
+            modelBuilder.Entity("GrupoESINuevo.Models.Quotation", b =>
+                {
+                    b.HasOne("GrupoESINuevo.Models.OrderDetails", "OrderDetailsModel")
+                        .WithMany()
+                        .HasForeignKey("OrderDetailsModelId");
+                });
+
+            modelBuilder.Entity("GrupoESINuevo.Models.Service", b =>
                 {
                     b.HasOne("GrupoESINuevo.Models.ApplicationUser", "ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId");
+
+                    b.HasOne("GrupoESINuevo.Models.ServiceType", "serviceType")
+                        .WithMany()
+                        .HasForeignKey("serviceTypeId");
+                });
+
+            modelBuilder.Entity("GrupoESINuevo.Models.TaskModel", b =>
+                {
+                    b.HasOne("GrupoESINuevo.Models.Quotation", "QuotationModel")
+                        .WithMany("Tasks")
+                        .HasForeignKey("QuotationModelId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
