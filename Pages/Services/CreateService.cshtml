@@ -35,7 +35,7 @@
                 <label asp-for="Service.serviceType"></label>
             </div>
             <div class="col-5">
-                    <select asp-for="ServiceTypesList"
+                    <select asp-for="Service.serviceType.Id"
                             asp-items="@(new SelectList(Model.ServiceTypesList,"Id","Category"))"
                             class="form-control"></select>
             </div>

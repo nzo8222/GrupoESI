@@ -55,13 +55,17 @@
             <td>
                 @if (User.IsInRole("Admin"))
                 {
+                    @if (item.Order.EstadoDelPedido == "Cotizado")
+                    {
+                        <a asp-page="../ManageOrders/ManageOrdersIndex" asp-route-orderId="@item.Order.Id" class="btn btn-success">Manejar Cotizaciones</a>
+                    }
                     <a asp-page="./EditOrder" asp-route-id="@item.Order.Id">Edit</a>
                     <a asp-page="./DetailsOrder" asp-route-id="@item.Order.Id">Details</a>
                     <a asp-page="./DeleteOrder" asp-route-id="@item.Order.Id">Delete</a>
                 }
                 @if (User.IsInRole("Provider"))
                 {
-                <a asp-page="../Quotations/CreateQuotation" asp-route-orderDetailsId="@item.Id" class="btn-success">Cotizar</a>
+                    <a asp-page="../Quotations/CreateQuotation" asp-route-orderDetailsId="@item.Id" class="btn-success">Cotizar</a>
                 }
             </td>
         </tr>

@@ -1,0 +1,148 @@
+﻿@page
+@model GrupoESINuevo.ManageOrdersIndexModel
+
+@{
+    ViewData["Title"] = "ManageOrdersIndex";
+}
+
+<h1>ManageOrdersIndex</h1>
+
+<h4>Order</h4>
+<hr />
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model._manageOrdersVM.OrderModel.OrderDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model._manageOrdersVM.OrderModel.Direccion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model._manageOrdersVM.OrderModel.Concepto)
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Order[0].Service)*@
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model._manageOrdersVM.OrderModel.EstadoDelPedido)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+       
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => Model._manageOrdersVM.OrderModel.OrderDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model._manageOrdersVM.OrderModel.Direccion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model._manageOrdersVM.OrderModel.Concepto)
+                </td>
+                <td>
+                    @*@Html.DisplayFor(modelItem => item.Service.Nombre)*@
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model._manageOrdersVM.OrderModel.EstadoDelPedido)
+                </td>
+                <td>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        @*<a asp-page="./EditOrder" asp-route-id="@item.Order.Id">Edit</a>
+                        <a asp-page="./DetailsOrder" asp-route-id="@item.Order.Id">Details</a>
+                        <a asp-page="./DeleteOrder" asp-route-id="@item.Order.Id">Delete</a>*@
+                    }
+                    @if (User.IsInRole("Provider"))
+                    {
+                        @*<a asp-page="../Quotations/CreateQuotation" asp-route-orderDetailsId="@item.Id" class="btn-success">Cotizar</a>*@
+                    }
+                </td>
+            </tr>
+           
+               
+
+            
+    </tbody>
+</table>
+<div class="row">
+    <div class="col-md-12">
+        @foreach (var item in Model._manageOrdersVM.ListQuotations)
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model._manageOrdersVM.ListQuotations[0].Description)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model._manageOrdersVM.ListQuotations[0].OrderDetailsModel.Cost)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model._manageOrdersVM.ListQuotations[0].OrderDetailsModel.Order.OrderDate)
+                        </th>
+                        <th>
+
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                   
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Description)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.OrderDetailsModel.Cost)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.OrderDetailsModel.Order.OrderDate)
+                            </td>
+                            <td>
+                                @*<a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>*@
+                            </td>
+                        </tr>
+                    
+                </tbody>
+            </table>
+        }
+        @*<form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Order.OrderDate" class="control-label"></label>
+                <input asp-for="Order.OrderDate" class="form-control" />
+                <span asp-validation-for="Order.OrderDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Order.Direccion" class="control-label"></label>
+                <input asp-for="Order.Direccion" class="form-control" />
+                <span asp-validation-for="Order.Direccion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Order.Concepto" class="control-label"></label>
+                <input asp-for="Order.Concepto" class="form-control" />
+                <span asp-validation-for="Order.Concepto" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Order.EstadoDelPedido" class="control-label"></label>
+                <input asp-for="Order.EstadoDelPedido" class="form-control" />
+                <span asp-validation-for="Order.EstadoDelPedido" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>*@
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

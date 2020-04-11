@@ -47,7 +47,7 @@ namespace GrupoESINuevo
             {
                 return Page();
             }
-
+            Service.serviceType = _db.ServiceType.FirstOrDefault(s => s.Id == Service.serviceType.Id);
             _db.ServiceModel.Add(Service);
             await _db.SaveChangesAsync();
             StatusMessage = "El servicio fue creado correctamente";
