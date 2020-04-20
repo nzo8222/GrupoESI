@@ -126,6 +126,7 @@ namespace GrupoESINuevo
             //}
             var quotation = _context.Quotation
                                                 .Include(q => q.Tasks)
+                                                    .ThenInclude(t => t.ListMaterial)
                                                 .Include(q => q.OrderDetailsModel)
                                                 .ThenInclude(od => od.Order)
                                                 .FirstOrDefault(q => q.Id == _QuotationTaskMaterialVM.QuotationModel.Id);
@@ -135,6 +136,17 @@ namespace GrupoESINuevo
                 return RedirectToPage("CreateQuotation", new { orderDetailsId = _QuotationTaskMaterialVM.orderDetailsId });
             }
             quotation.Description = _QuotationTaskMaterialVM.QuotationModel.Description;
+
+            foreach (var item in quotation.Tasks)
+            {
+                quotation.OrderDetailsModel.Cost =+ item.Cost;
+                foreach (var item2 in item.ListMaterial)
+                {
+                    quotation.OrderDetailsModel.Cost = +item2.Price;
+                }
+            }
+            
+
 
             _context.Quotation.Update(quotation);
             var order = _context.Order.FirstOrDefault(o => o.Id == quotation.OrderDetailsModel.Order.Id);
@@ -167,8 +179,18 @@ namespace GrupoESINuevo
             quotation.OrderDetailsModel = _context.OrderDetails.FirstOrDefault(od => od.Id == _QuotationTaskMaterialVM.orderDetailsId);
             quotation.Tasks = new List<TaskModel>();
             _QuotationTaskMaterialVM.taskModel.QuotationModel = quotation;
+           
             quotation.Tasks.Add(_QuotationTaskMaterialVM.taskModel);
-            _context.Quotation.Add(quotation);
+            var boolQuotation = _context.Quotation.FirstOrDefault(q => q.Id == quotation.Id);
+            if (boolQuotation == null)
+            {
+                _context.Quotation.Add(quotation);
+            }
+            else
+            {
+                _context.Quotation.Update(quotation);
+            }
+            
             await _context.SaveChangesAsync();
 
             return RedirectToPage("CreateQuotation", new { orderDetailsId = _QuotationTaskMaterialVM.orderDetailsId });

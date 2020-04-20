@@ -34,6 +34,7 @@ namespace GrupoESINuevo
             services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddControllersWithViews();
             services.AddRazorPages();
         }
 
@@ -62,6 +63,7 @@ namespace GrupoESINuevo
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllers();
                 endpoints.MapRazorPages();
             });
         }

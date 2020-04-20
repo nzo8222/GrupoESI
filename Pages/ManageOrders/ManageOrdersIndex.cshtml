@@ -1,6 +1,6 @@
 ﻿@page
 @model GrupoESINuevo.ManageOrdersIndexModel
-
+@Html.AntiForgeryToken()
 @{
     ViewData["Title"] = "ManageOrdersIndex";
 }
@@ -9,6 +9,8 @@
 
 <h4>Order</h4>
 <hr />
+@* ID que se manda en el script donde se guardan los nuevos detalles de orden  *@
+<label hidden id="labelOrderId">@Model._manageOrdersVM.OrderModel.Id</label>
 <table class="table">
     <thead>
         <tr>
@@ -27,44 +29,47 @@
             <th>
                 @Html.DisplayNameFor(model => model._manageOrdersVM.OrderModel.EstadoDelPedido)
             </th>
-            <th></th>
+            <th>
+
+            </th>
         </tr>
     </thead>
     <tbody>
-       
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => Model._manageOrdersVM.OrderModel.OrderDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => Model._manageOrdersVM.OrderModel.Direccion)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => Model._manageOrdersVM.OrderModel.Concepto)
-                </td>
-                <td>
-                    @*@Html.DisplayFor(modelItem => item.Service.Nombre)*@
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => Model._manageOrdersVM.OrderModel.EstadoDelPedido)
-                </td>
-                <td>
-                    @if (User.IsInRole("Admin"))
-                    {
-                        @*<a asp-page="./EditOrder" asp-route-id="@item.Order.Id">Edit</a>
+
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => Model._manageOrdersVM.OrderModel.OrderDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model._manageOrdersVM.OrderModel.Direccion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model._manageOrdersVM.OrderModel.Concepto)
+            </td>
+            <td>
+                @*@Html.DisplayFor(modelItem => item.Service.Nombre)*@
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model._manageOrdersVM.OrderModel.EstadoDelPedido)
+            </td>
+            <td>
+                @if (User.IsInRole("Admin"))
+                {
+
+                    @*<a asp-page="./EditOrder" asp-route-id="@item.Order.Id">Edit</a>
                         <a asp-page="./DetailsOrder" asp-route-id="@item.Order.Id">Details</a>
                         <a asp-page="./DeleteOrder" asp-route-id="@item.Order.Id">Delete</a>*@
-                    }
-                    @if (User.IsInRole("Provider"))
-                    {
-                        @*<a asp-page="../Quotations/CreateQuotation" asp-route-orderDetailsId="@item.Id" class="btn-success">Cotizar</a>*@
-                    }
-                </td>
-            </tr>
-           
-               
+                }
+                @if (User.IsInRole("Provider"))
+                {
+                    @*<a asp-page="../Quotations/CreateQuotation" asp-route-orderDetailsId="@item.Id" class="btn-success">Cotizar</a>*@
+                }
+            </td>
+        </tr>
 
-            
+
+
+
     </tbody>
 </table>
 <div class="row">
@@ -89,60 +94,181 @@
                     </tr>
                 </thead>
                 <tbody>
-                   
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Description)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.OrderDetailsModel.Cost)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.OrderDetailsModel.Order.OrderDate)
-                            </td>
-                            <td>
-                                @*<a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>*@
-                            </td>
-                        </tr>
-                    
+
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OrderDetailsModel.Cost)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OrderDetailsModel.Order.OrderDate)
+                        </td>
+                        <td>
+                            <a asp-page="../Quotations/CreateQuotation" asp-route-orderDetailsId="@item.OrderDetailsModel.Id" class="btn btn-success">Ver cotizacion</a>
+                            @*<a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+        <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+        <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>*@
+                        </td>
+                    </tr>
+
                 </tbody>
             </table>
         }
         @*<form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Order.OrderDate" class="control-label"></label>
-                <input asp-for="Order.OrderDate" class="form-control" />
-                <span asp-validation-for="Order.OrderDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Order.Direccion" class="control-label"></label>
-                <input asp-for="Order.Direccion" class="form-control" />
-                <span asp-validation-for="Order.Direccion" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Order.Concepto" class="control-label"></label>
-                <input asp-for="Order.Concepto" class="form-control" />
-                <span asp-validation-for="Order.Concepto" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Order.EstadoDelPedido" class="control-label"></label>
-                <input asp-for="Order.EstadoDelPedido" class="form-control" />
-                <span asp-validation-for="Order.EstadoDelPedido" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>*@
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Order.OrderDate" class="control-label"></label>
+                    <input asp-for="Order.OrderDate" class="form-control" />
+                    <span asp-validation-for="Order.OrderDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Order.Direccion" class="control-label"></label>
+                    <input asp-for="Order.Direccion" class="form-control" />
+                    <span asp-validation-for="Order.Direccion" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Order.Concepto" class="control-label"></label>
+                    <input asp-for="Order.Concepto" class="form-control" />
+                    <span asp-validation-for="Order.Concepto" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Order.EstadoDelPedido" class="control-label"></label>
+                    <input asp-for="Order.EstadoDelPedido" class="form-control" />
+                    <span asp-validation-for="Order.EstadoDelPedido" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>*@
     </div>
 </div>
+<div class="row">
+    <div class="col-md-12">
 
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model._manageOrdersVM.ListServices[0].ServiceModel.Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model._manageOrdersVM.ListServices[0].ServiceModel.Description)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model._manageOrdersVM.ListServices[0].ServiceModel.ApplicationUser.CompanyName)
+                    </th>
+                    <th>
+                        <label class="sendQuotation" asp-for="_manageOrdersVM.ListServices[0].sendQuotation"></label>
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @for (int i = 0; i < Model._manageOrdersVM.ListServices.Count; i++)
+                {
+
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => Model._manageOrdersVM.ListServices[i].ServiceModel.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => Model._manageOrdersVM.ListServices[i].ServiceModel.Description)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => Model._manageOrdersVM.ListServices[i].ServiceModel.ApplicationUser.CompanyName)
+                        </td>
+                        <td>
+
+
+                            <label class="IdService" hidden>@Model._manageOrdersVM.ListServices[i].ServiceModel.ID</label>
+
+
+
+                            <input asp-for="_manageOrdersVM.ListServices[i].sendQuotation" class="form-control _checkbox" />
+
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+
+
+        </table>
+
+        <div class="col-sm-7 offset-sm-3">
+            <button class="btn btn-primary" id="submit">Mandar Cotizaciones</button>
+        </div>
+    </div>
+</div>
 <div>
     <a asp-page="Index">Back to List</a>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(function () {
+            $('#submit').on('click', function (evt) {
+                evt.preventDefault();
+                var checkBoxes = document.getElementsByClassName('_checkbox');
+                var result = document.getElementsByClassName('IdService');
+                var listaIds = {
+                    listaIds: ""
+                };
+                for (var i = 0; i < checkBoxes.length; i++) {
+                    if (checkBoxes[i].checked == true) {
+                        listaIds.listaIds += result[i].innerText;
+                        listaIds.listaIds += ",";
+                    }
+                }
+                listaIds.listaIds = listaIds.listaIds.substring(0, listaIds.listaIds.length - 1);
+                console.log(listaIds);
+                console.log(checkBoxes);
+                console.log(result);
+                var _orderId = document.getElementById("labelOrderId");
+                console.log(_orderId.innerText);
+                var json = {
+                    name: listaIds.listaIds,
+                    orderId: _orderId.innerText
+                };
+                $.ajax({
+                    type: "POST",
+                    url: "/api/ManageOrders/PostManageOrders",
+                    contentType: "application/json", 
+                    datatype: "json",
+                    data: JSON.stringify(json)
+                });
+
+
+
+
+            });
+        });
+    </script>
 }
+@*
+    $.ajax('/api/ManageOrders/PostManageOrders', {
+
+                    type = 'POST',
+                    contentType = 'application/json; charset=utf-8',
+                    headers = {
+                        RequestVerificationToken:
+                            $('input:hidden[name="__RequestVerificationToken"]').val()
+                    },
+                    data: JSON.stringify(json)
+                })
+
+    $.ajax('/api/ManageOrders/PostManageOrders', {
+
+        type = 'POST',
+        contentType = 'application/json; charset=utf-8',
+        headers = {
+            RequestVerificationToken:
+                $('input:hidden[name="__RequestVerificationToken"]').val()
+        },
+        data: JSON.stringify(json)
+    })*@

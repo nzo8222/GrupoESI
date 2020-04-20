@@ -10,6 +10,8 @@ namespace GrupoESINuevo.Models.ViewModels
         public Order OrderModel { get; set; }
         public List<OrderDetails> OrderDetailsList { get; set; }
         public List<Quotation> ListQuotations { get; set; }
-        public List<Service> ListServices { get; set; }
+        public List<ManageServiceQuotationVM> ListServices { get; set; }
+        public List<Guid> ServiceModelIdList { get; set; }
+        public string stringIds { get; set; }
     }
 }
