@@ -1,8 +1,6 @@
 C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\obj\Debug\netcoreapp3.1\GrupoESINuevo.csprojAssemblyReference.cache
 C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\obj\Debug\netcoreapp3.1\staticwebassets\GrupoESINuevo.StaticWebAssets.Manifest.cache
 C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\obj\Debug\netcoreapp3.1\staticwebassets\GrupoESINuevo.StaticWebAssets.xml
-C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\obj\Debug\netcoreapp3.1\GrupoESINuevo.MvcApplicationPartsAssemblyInfo.cs
-C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\obj\Debug\netcoreapp3.1\GrupoESINuevo.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\obj\Debug\netcoreapp3.1\GrupoESINuevo.RazorAssemblyInfo.cache
 C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\obj\Debug\netcoreapp3.1\GrupoESINuevo.RazorAssemblyInfo.cs
 C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\obj\Debug\netcoreapp3.1\GrupoESINuevo.AssemblyInfoInputs.cache
@@ -238,3 +236,16 @@ C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\obj\Debug\netcoreapp3.1\
 C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\obj\Debug\netcoreapp3.1\Razor\Pages\Materials\EditMaterial.cshtml.g.cs
 C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\obj\Debug\netcoreapp3.1\Razor\Pages\Materials\IndexMaterial.cshtml.g.cs
 C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\obj\Debug\netcoreapp3.1\Razor\Pages\ManageOrders\ManageOrdersIndex.cshtml.g.cs
+C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\obj\Debug\netcoreapp3.1\Razor\Pages\Tasks\CreateTask.cshtml.g.cs
+C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\obj\Debug\netcoreapp3.1\Razor\Pages\Tasks\DeleteTask.cshtml.g.cs
+C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\obj\Debug\netcoreapp3.1\Razor\Pages\Tasks\DetailsTask.cshtml.g.cs
+C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\obj\Debug\netcoreapp3.1\Razor\Pages\Tasks\EditTask.cshtml.g.cs
+C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\obj\Debug\netcoreapp3.1\Razor\Pages\Tasks\IndexTask.cshtml.g.cs
+C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\bin\Debug\netcoreapp3.1\Microsoft.Win32.SystemEvents.dll
+C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\bin\Debug\netcoreapp3.1\System.Drawing.Common.dll
+C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.0\Microsoft.Win32.SystemEvents.dll
+C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp3.0\System.Drawing.Common.dll
+C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.0\System.Drawing.Common.dll
+C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\obj\Debug\netcoreapp3.1\GrupoESINuevo.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\obj\Debug\netcoreapp3.1\GrupoESINuevo.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\obj\Debug\netcoreapp3.1\Razor\Pages\ManageOrders\AddServiceToOrder.cshtml.g.cs

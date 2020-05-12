@@ -13,5 +13,6 @@ namespace GrupoESINuevo.Models
         public string Description { get; set; }
         public OrderDetails OrderDetailsModel { get; set; }
         public virtual List<TaskModel> Tasks { get; set; }
+        public virtual List<Picture> Pictures { get; set; }
     }
 }

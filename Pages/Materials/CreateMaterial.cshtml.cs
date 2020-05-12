@@ -22,9 +22,9 @@ namespace GrupoESINuevo
         }
         [BindProperty]
         public TaskMaterialVM _TaskMaterialVM { get; set; }
-        public IActionResult OnGet(Guid taskId )
+        public IActionResult OnGet(Guid taskId)
         {
-            if(taskId == null)
+            if (taskId == null)
             {
                 return Page();
             }
@@ -37,29 +37,45 @@ namespace GrupoESINuevo
             return Page();
         }
 
-       
+
 
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
+
         {
             if (!ModelState.IsValid)
             {
                 return Page();
             }
-            
-            _TaskMaterialVM.TareaModel = _context.Task
+          
+            var tareaModel = await _context.Task
                                                         .Include(t => t.ListMaterial)
                                                         .Include(t => t.QuotationModel)
-                                                        .ThenInclude(q => q.OrderDetailsModel)
-                                                        .FirstOrDefault(t => t.Id == _TaskMaterialVM.taskId);
-            _TaskMaterialVM.TareaModel.ListMaterial.Add(_TaskMaterialVM.MaterialModel);
-            _context.Task.Update(_TaskMaterialVM.TareaModel);
-          
-            //_context.Material.Add();
-            await _context.SaveChangesAsync();
+                                                             .ThenInclude(q => q.OrderDetailsModel)
+                                                        .FirstOrDefaultAsync(t => t.Id == _TaskMaterialVM.taskId);
+            if (tareaModel.ListMaterial == null)
+            {
+                tareaModel.ListMaterial = new List<Material>();
+            }
 
-            return RedirectToPage("../Quotations/CreateQuotation", new { orderDetailsId = _TaskMaterialVM.TareaModel.QuotationModel.OrderDetailsModel.Id });
+            _TaskMaterialVM.MaterialModel.TaskModelId = tareaModel.Id;
+
+            tareaModel.ListMaterial.Add(_TaskMaterialVM.MaterialModel);
+
+            try
+            {
+
+                await _context.SaveChangesAsync();
+
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+                return RedirectToPage("../Quotations/CreateQuotation", new { orderDetailsId = tareaModel.QuotationModel.OrderDetailsModel.Id });
+            }
         }
     }
-}
+
+

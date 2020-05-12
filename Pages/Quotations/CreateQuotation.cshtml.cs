@@ -4,21 +4,25 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using GrupoESINuevo.Data;
+
 using GrupoESINuevo.Models;
 using Microsoft.EntityFrameworkCore;
 using GrupoESINuevo.Models.ViewModels;
 using GrupoESINuevo.Uitility;
-
+using Microsoft.AspNetCore.Hosting;
+using System.Web;
+using System.IO;
+using System.Drawing;
 namespace GrupoESINuevo
 {
     public class CreateQuotationModel : PageModel
     {
         private readonly GrupoESINuevo.Data.ApplicationDbContext _context;
+        private IWebHostEnvironment _environment;
 
-        public CreateQuotationModel(GrupoESINuevo.Data.ApplicationDbContext context)
+        public CreateQuotationModel(GrupoESINuevo.Data.ApplicationDbContext context, IWebHostEnvironment environment)
         {
+            _environment = environment;
             _context = context;
         }
         [BindProperty]
@@ -31,41 +35,22 @@ namespace GrupoESINuevo
             }
             
             var quotationlocal = _context.Quotation
+                                                    .Include(q => q.OrderDetailsModel)
+                                                        .ThenInclude(q => q.Order)
                                                     .Include(q =>q.Tasks)
                                                         .ThenInclude(t => t.ListMaterial)
                                                         .FirstOrDefault(q => q.OrderDetailsModel.Id == orderDetailsId);
             
             if (quotationlocal == null)
             {
-                _QuotationTaskMaterialVM = new QuotationTaskMaterialVM()
-                {
-                    QuotationModel = new Quotation(),
-                    MaterialModel = new Material(),
-                    taskModel = new TaskModel(),
-                    lstMaterial = new List<Material>(),
-                    lstTaskModel = new List<TaskModel>(),
-                    orderDetailsId = orderDetailsId
-                };
-                _QuotationTaskMaterialVM.QuotationModel.Id = new Guid();
-                _QuotationTaskMaterialVM.MaterialModel.Id = new Guid();
-                _QuotationTaskMaterialVM.taskModel.Id = new Guid();
+                _QuotationTaskMaterialVM = new QuotationTaskMaterialVM(orderDetailsId);
             }
             else
             {
                 var listaTareaslocal = quotationlocal.Tasks;
                 if (listaTareaslocal == null)
                 {
-                    _QuotationTaskMaterialVM = new QuotationTaskMaterialVM()
-                    {
-                        QuotationModel = quotationlocal,
-                        MaterialModel = new Material(),
-                        taskModel = new TaskModel(),
-                        lstMaterial = new List<Material>(),
-                        lstTaskModel = new List<TaskModel>(),
-                        orderDetailsId = orderDetailsId
-                    };
-                    _QuotationTaskMaterialVM.MaterialModel.Id = new Guid();
-                    _QuotationTaskMaterialVM.taskModel.Id = new Guid();
+                    _QuotationTaskMaterialVM = new QuotationTaskMaterialVM(orderDetailsId, quotationlocal);
                 }
                 else
                 {
@@ -81,31 +66,11 @@ namespace GrupoESINuevo
                     };
                     if(listaMaterialesLocal.Count() > 0)
                     {
-                        _QuotationTaskMaterialVM = new QuotationTaskMaterialVM()
-                        {
-                            QuotationModel = quotationlocal,
-                            MaterialModel = new Material(),
-                            taskModel = new TaskModel(),
-                            lstMaterial = listaMaterialesLocal,
-                            lstTaskModel = listaTareaslocal,
-                            orderDetailsId = orderDetailsId
-                        };
-                        _QuotationTaskMaterialVM.MaterialModel.Id = new Guid();
-                        _QuotationTaskMaterialVM.taskModel.Id = new Guid();
+                        _QuotationTaskMaterialVM = new QuotationTaskMaterialVM(orderDetailsId, quotationlocal, listaTareaslocal, listaMaterialesLocal);
                     }
                     else
                     {
-                        _QuotationTaskMaterialVM = new QuotationTaskMaterialVM()
-                        {
-                            QuotationModel = quotationlocal,
-                            MaterialModel = new Material(),
-                            taskModel = new TaskModel(),
-                            lstMaterial = new List<Material>(),
-                            lstTaskModel = listaTareaslocal,
-                            orderDetailsId = orderDetailsId
-                        };
-                        _QuotationTaskMaterialVM.MaterialModel.Id = new Guid();
-                        _QuotationTaskMaterialVM.taskModel.Id = new Guid();
+                        _QuotationTaskMaterialVM = new QuotationTaskMaterialVM(orderDetailsId, quotationlocal, listaTareaslocal);
                     }
                    
                 }
@@ -142,10 +107,21 @@ namespace GrupoESINuevo
                 quotation.OrderDetailsModel.Cost =+ item.Cost;
                 foreach (var item2 in item.ListMaterial)
                 {
-                    quotation.OrderDetailsModel.Cost = +item2.Price;
+                    quotation.OrderDetailsModel.Cost =+ item2.Price;
                 }
             }
-            
+
+            var file = Path.Combine(_environment.ContentRootPath, "uploads", _QuotationTaskMaterialVM.Upload.FileName);
+
+            if (file != null)
+            {
+                var filePath = Path.GetTempFileName();
+                using (var fileStream = System.IO.File.Create(filePath))
+                {
+                    await _QuotationTaskMaterialVM.Upload.CopyToAsync(fileStream);
+                }
+
+            }
 
 
             _context.Quotation.Update(quotation);
@@ -156,21 +132,13 @@ namespace GrupoESINuevo
 
             return RedirectToPage("./IndexQuotation");
         }
-        public async Task<IActionResult> OnPostAddMaterial()
-        {
-           
-            _context.Material.Add(_QuotationTaskMaterialVM.MaterialModel);
-            return Page();
-        }
-        public async Task<IActionResult> OnPostDeleteMaterial()
-        {
-            _QuotationTaskMaterialVM.lstMaterial.Remove(_QuotationTaskMaterialVM.MaterialModel);
-            return Page();
-        }
-       
+
+
         public async Task<IActionResult> OnPostAddTaskModel()
         {
-            var quotation = _context.Quotation.Include(q => q.OrderDetailsModel).FirstOrDefault(q => q.OrderDetailsModel.Id == _QuotationTaskMaterialVM.orderDetailsId); 
+            var quotation = _context.Quotation
+                                              .Include(q => q.OrderDetailsModel)
+                                              .FirstOrDefault(q => q.OrderDetailsModel.Id == _QuotationTaskMaterialVM.orderDetailsId); 
 
             if(quotation == null)
             {
@@ -182,6 +150,10 @@ namespace GrupoESINuevo
            
             quotation.Tasks.Add(_QuotationTaskMaterialVM.taskModel);
             var boolQuotation = _context.Quotation.FirstOrDefault(q => q.Id == quotation.Id);
+
+            
+
+
             if (boolQuotation == null)
             {
                 _context.Quotation.Add(quotation);
@@ -195,10 +167,6 @@ namespace GrupoESINuevo
 
             return RedirectToPage("CreateQuotation", new { orderDetailsId = _QuotationTaskMaterialVM.orderDetailsId });
         }
-        public async Task<IActionResult> OnPostDeleteTaskModel()
-        {
-            _QuotationTaskMaterialVM.lstTaskModel.Remove(_QuotationTaskMaterialVM.taskModel);
-            return Page();
-        }
+      
     }
 }

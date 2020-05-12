@@ -34,7 +34,7 @@ namespace GrupoESINuevo.Migrations
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
-                    b.Property<Guid?>("TaskModelId")
+                    b.Property<Guid>("TaskModelId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -91,6 +91,26 @@ namespace GrupoESINuevo.Migrations
                     b.HasIndex("ServiceID");
 
                     b.ToTable("OrderDetails");
+                });
+
+            modelBuilder.Entity("GrupoESINuevo.Models.Picture", b =>
+                {
+                    b.Property<int>("PictureId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<byte[]>("PictureBytes")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<Guid?>("QuotationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("PictureId");
+
+                    b.HasIndex("QuotationId");
+
+                    b.ToTable("Picture");
                 });
 
             modelBuilder.Entity("GrupoESINuevo.Models.Quotation", b =>
@@ -419,7 +439,9 @@ namespace GrupoESINuevo.Migrations
                 {
                     b.HasOne("GrupoESINuevo.Models.TaskModel", null)
                         .WithMany("ListMaterial")
-                        .HasForeignKey("TaskModelId");
+                        .HasForeignKey("TaskModelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("GrupoESINuevo.Models.OrderDetails", b =>
@@ -431,6 +453,13 @@ namespace GrupoESINuevo.Migrations
                     b.HasOne("GrupoESINuevo.Models.Service", "Service")
                         .WithMany()
                         .HasForeignKey("ServiceID");
+                });
+
+            modelBuilder.Entity("GrupoESINuevo.Models.Picture", b =>
+                {
+                    b.HasOne("GrupoESINuevo.Models.Quotation", null)
+                        .WithMany("Pictures")
+                        .HasForeignKey("QuotationId");
                 });
 
             modelBuilder.Entity("GrupoESINuevo.Models.Quotation", b =>

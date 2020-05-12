@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using GrupoESINuevo.Data;
 using GrupoESINuevo.Models;
+using GrupoESINuevo.Models.ViewModels;
 
 namespace GrupoESINuevo
 {
@@ -20,7 +21,7 @@ namespace GrupoESINuevo
         }
 
         [BindProperty]
-        public Material Material { get; set; }
+        public DeleteMaterialVM Material { get; set; }
 
         public async Task<IActionResult> OnGetAsync(Guid? id)
         {
@@ -28,8 +29,9 @@ namespace GrupoESINuevo
             {
                 return NotFound();
             }
-
-            Material = await _context.Material.FirstOrDefaultAsync(m => m.Id == id);
+            Material = new DeleteMaterialVM();
+            Material.material = await _context.Material.FirstOrDefaultAsync(m => m.Id == id);
+            Material.taskId = Material.material.TaskModelId;
 
             if (Material == null)
             {
@@ -44,16 +46,15 @@ namespace GrupoESINuevo
             {
                 return NotFound();
             }
-
-            Material = await _context.Material.FindAsync(id);
+            Material.material = await _context.Material.FindAsync(id);
 
             if (Material != null)
             {
-                _context.Material.Remove(Material);
+                _context.Material.Remove(Material.material);
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./IndexMaterial", new { orderDetailsId = Material.taskId });
         }
     }
 }

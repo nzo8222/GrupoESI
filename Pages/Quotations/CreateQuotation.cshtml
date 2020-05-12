@@ -6,81 +6,15 @@
 }
 
 <h1>Crear Cotizacion</h1>
-
-
-@if (Model._QuotationTaskMaterialVM.lstMaterial.Count > 0)
-{
-    @*<div class="card-body">
-            <form method="post" style="100%">
-                <div class="container">
-                    <div class="border rounded p-2">
-                        <div class="row">
-                            <div class="col-6">
-                                <h4 class="text-info pl-3 pt-2 pb-1">Agregar Material</h4>
-                                <input hidden asp-for="_QuotationTaskMaterialVM.lstMaterial" />
-                                <input hidden asp-for="_OrderAndOrderDetailsVM.OrderDetailsModel.Order" />
-                                <div class="form-group">
-                                    <label asp-for="_QuotationTaskMaterialVM.MaterialModel.Name" class="control-label"></label>
-                                    <input asp-for="_QuotationTaskMaterialVM.MaterialModel.Name" class="form-control" />
-                                    <span asp-validation-for="_QuotationTaskMaterialVM.MaterialModel.Name" class="text-danger"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label asp-for="_QuotationTaskMaterialVM.MaterialModel.Description" class="control-label"></label>
-                                    <input asp-for="_QuotationTaskMaterialVM.MaterialModel.Description" class="form-control" />
-                                    <span asp-validation-for="_QuotationTaskMaterialVM.MaterialModel.Description" class="text-danger"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label asp-for="_QuotationTaskMaterialVM.MaterialModel.Price" class="control-label"></label>
-                                    <input asp-for="_QuotationTaskMaterialVM.MaterialModel.Price" class="form-control" />
-                                    <span asp-validation-for="_QuotationTaskMaterialVM.MaterialModel.Price" class="text-danger"></span>
-                                </div>
-                                <button type="submit" asp-page-handler="AddMaterial" class="form-control btn btn-primary">
-                                    Agregar
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>*@
-}
-
-<div class="card-body">
-    <form method="post" style="100%">
-        <div class="container">
-            <div class="border rounded p-2">
-                <div class="row">
-                    <div class="col-6">
-                        <h4 class="text-info pl-3 pt-2 pb-1">Agregar Tarea</h4>
-                        <input hidden asp-for="_QuotationTaskMaterialVM.orderDetailsId" />
-                        <input hidden asp-for="_QuotationTaskMaterialVM.QuotationModel.Id" />
-                        <input hidden asp-for="_QuotationTaskMaterialVM.taskModel.ListMaterial" />
-                        <div class="form-group">
-                            <label asp-for="_QuotationTaskMaterialVM.taskModel.Name" class="control-label"></label>
-                            <input asp-for="_QuotationTaskMaterialVM.taskModel.Name" class="form-control" />
-                            <span asp-validation-for="_QuotationTaskMaterialVM.taskModel.Name" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="_QuotationTaskMaterialVM.taskModel.Description" class="control-label"></label>
-                            <input asp-for="_QuotationTaskMaterialVM.taskModel.Description" class="form-control" />
-                            <span asp-validation-for="_QuotationTaskMaterialVM.taskModel.Description" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="_QuotationTaskMaterialVM.taskModel.Cost" class="control-label"></label>
-                            <input asp-for="_QuotationTaskMaterialVM.taskModel.Cost" class="form-control" />
-                            <span asp-validation-for="_QuotationTaskMaterialVM.taskModel.Cost" class="text-danger"></span>
-                        </div>
-                        <button type="submit" asp-page-handler="AddTaskModel" class="form-control btn btn-primary">
-                            Agregar
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </form>
+<div>
+    <p>
+        <a asp-page="../ManageOrders/AddServiceToOrder" asp-route-orderId="@Model._QuotationTaskMaterialVM.QuotationModel.OrderDetailsModel.Order.Id">Agregar servicio a la orden</a>
+    </p>
 </div>
 <div>
-
+    <p>
+        <a asp-page="../Tasks/CreateTask" asp-route-orderDetailsId="@Model._QuotationTaskMaterialVM.orderDetailsId">Crear nueva tarea</a>
+    </p>
 </div>
 @if (Model._QuotationTaskMaterialVM.lstTaskModel.Count > 0)
 {
@@ -118,10 +52,13 @@
                             @Html.DisplayFor(m => item.Cost)
                         </td>
                         <td>
-                            @Html.DisplayFor(m => item.ListMaterial)
+                            <a asp-page="../Materials/IndexMaterial" asp-route-taskId="@item.Id" style="text-decoration:none;">
+                                @*<img src="~/images/car.png" width="40" />*@
+                                &nbsp; Ver materiales
+                            </a>
                         </td>
                         <td>
-                            <a class="btn btn-success" asp-page="../Materials/CreateMaterial" asp-route-TaskId="@item.Id">
+                            <a class="btn btn-success" asp-page="../Materials/CreateMaterial" asp-route-taskId="@item.Id">
                                 <i class="fas fa-plus"></i> &nbsp; Agregar Material
                             </a>
                             <button type="submit" asp-page-handler="DeleteTaskModel" asp-route-materialId="@item.Id" class="btn btn-danger form-control">
@@ -137,61 +74,10 @@
         </div>
     </div>
 }
-<div class="border container rounded p-2">
-    <h3 class="text-info pb-2">Lista de materiales</h3>
-    @if (Model._QuotationTaskMaterialVM.lstMaterial.Count == 0)
-    {
-        <p>
-            No se a agregado un material
-        </p>
-    }
-    else
-    {
-        <div class="row mt-3">
-            <div class="col-7">
-                <table class="table table-striped border">
-                    <tr class="table-secondary">
-                        <th>
-                            @Html.DisplayNameFor(m => Model._QuotationTaskMaterialVM.lstMaterial.FirstOrDefault().Name)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(m => Model._QuotationTaskMaterialVM.lstMaterial.FirstOrDefault().Price)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(m => Model._QuotationTaskMaterialVM.lstMaterial.FirstOrDefault().Description)
-                        </th>
-                        <th>
 
-                        </th>
-                    </tr>
-                    @foreach (var item in Model._QuotationTaskMaterialVM.lstMaterial)
-                    {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(m => item.Name)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(m => item.Description)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(m => item.Price)
-                            </td>
-                            <td>
-                                <button type="submit" asp-page-handler="RemoveFromCart" asp-route-materialId="@item.Id" class="btn btn-danger form-control">
-                                    <i class="far fa-trash-alt"></i>
-                                </button>
-                            </td>
-                        </tr>
-                    }
-
-
-                </table>
-            </div>
-        </div>
-    }
     <div class="row">
         <div class="col-lg-12">
-            <form method="post">
+            <form method="post" enctype="multipart/form-data">
                 <input hidden asp-for="_QuotationTaskMaterialVM.lstTaskModel" />
                 @*<input hidden asp-for="_QuotationTaskMaterialVM.serviceIdVM" /> @Html.TextAreaFor(m => m._QuotationTaskMaterialVM.QuotationModel.Description)*@
                 <input hidden asp-for="_QuotationTaskMaterialVM.QuotationModel.OrderDetailsModel.Id" />
@@ -203,6 +89,8 @@
 
                     <input asp-for="_QuotationTaskMaterialVM.QuotationModel.Description" class="form-control span3" />
                     <span asp-validation-for="_QuotationTaskMaterialVM.QuotationModel.Description" class="text-danger"></span>
+                    <p>Subir foto </p>
+                    <input type="file" asp-for="_QuotationTaskMaterialVM.Upload" />
                 </div>
                 <div class="form-group">
                     <input type="submit" value="Crear Cotizacion" class="btn btn-primary" />
@@ -212,7 +100,7 @@
     </div>
 
     <a asp-page="Index">Back to List</a>
-</div>
+
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

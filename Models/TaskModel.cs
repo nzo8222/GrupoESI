@@ -14,7 +14,10 @@ namespace GrupoESINuevo.Models
         public string Description { get; set; }
         public int Duration { get; set; }
         public int Cost { get; set; }
+        
         public virtual List<Material> ListMaterial { get; set; }
         public  Quotation QuotationModel { get; set; }
+        
+       
     }
 }

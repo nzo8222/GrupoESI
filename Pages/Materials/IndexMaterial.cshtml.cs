@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using GrupoESINuevo.Data;
 using GrupoESINuevo.Models;
+using GrupoESINuevo.Models.ViewModels;
 
 namespace GrupoESINuevo
 {
@@ -18,12 +19,16 @@ namespace GrupoESINuevo
         {
             _context = context;
         }
+        [BindProperty]
+        public MaterialVM _materialVM { get;set; }
 
-        public IList<Material> Material { get;set; }
-
-        public async Task OnGetAsync()
+        public async Task OnGetAsync(Guid taskId )
         {
-            Material = await _context.Material.ToListAsync();
+            _materialVM = new MaterialVM();
+            _materialVM.taskId = taskId;
+            var tareas = await _context.Task.Include(t => t.ListMaterial).FirstOrDefaultAsync(t => t.Id == taskId);
+            _materialVM.Material = tareas.ListMaterial;
+
         }
     }
 }

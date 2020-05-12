@@ -10,5 +10,9 @@ namespace GrupoESINuevo.Models.ViewModels
         public TaskModel TareaModel { get; set; }
         public Material MaterialModel { get; set; }
         public Guid taskId { get; set; }
+        public TaskMaterialVM()
+        {
+
+        }
     }
 }

@@ -56,17 +56,17 @@ namespace GrupoESINuevo
             }
             catch (DbUpdateConcurrencyException)
             {
-                //if (!MaterialExists(Material.Id))
-                //{
-                //    return NotFound();
-                //}
-                //else
-                //{
-                //    throw;
-                //}
+                if (!MaterialExists(Material.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./IndexMaterial");
         }
 
         private bool MaterialExists(Guid id)
