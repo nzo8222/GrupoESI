@@ -23,14 +23,13 @@ namespace GrupoESINuevo
         [BindProperty]
         public TaskModel TaskModel { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(Guid? id)
+        public async Task<IActionResult> OnGetAsync(Guid? taskId)
         {
-            if (id == null)
+            if (taskId == null)
             {
                 return NotFound();
             }
-
-            TaskModel = await _context.Task.FirstOrDefaultAsync(m => m.Id == id);
+            TaskModel = await _context.Task.FirstOrDefaultAsync(m => m.Id == taskId);
 
             if (TaskModel == null)
             {
@@ -47,9 +46,15 @@ namespace GrupoESINuevo
             {
                 return Page();
             }
-
-            _context.Attach(TaskModel).State = EntityState.Modified;
-
+            var task = _context.Task
+                                   .Include(t => t.QuotationModel)
+                                       .ThenInclude(q => q.OrderDetailsModel)
+                                   .FirstOrDefault(t => t.Id == TaskModel.Id);
+            task.Name = TaskModel.Name;
+            task.Description = TaskModel.Description;
+            task.Duration = TaskModel.Duration;
+            task.CostHandLabor = TaskModel.CostHandLabor;
+            task.Cost = task.Cost - task.CostHandLabor + TaskModel.CostHandLabor;
             try
             {
                 await _context.SaveChangesAsync();
@@ -66,7 +71,7 @@ namespace GrupoESINuevo
                 }
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("../Quotations/CreateQuotation", new { orderDetailsId = task.QuotationModel.OrderDetailsModel.Id });
         }
 
         private bool TaskModelExists(Guid id)

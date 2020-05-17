@@ -58,11 +58,11 @@ namespace GrupoESINuevo
             {
                 tareaModel.ListMaterial = new List<Material>();
             }
-
+            
             _TaskMaterialVM.MaterialModel.TaskModelId = tareaModel.Id;
 
             tareaModel.ListMaterial.Add(_TaskMaterialVM.MaterialModel);
-
+            tareaModel.Cost = tareaModel.Cost + (int)_TaskMaterialVM.MaterialModel.Price;
             try
             {
 

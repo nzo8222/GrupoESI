@@ -10,11 +10,13 @@ namespace GrupoESINuevo.Models.ViewModels
         public Guid orderId { get; set; }
         public Guid serviceId { get; set; }
         public List<Service> lstServicios { get; set; }
+        public List<OrderDetails> OrderDetailsList { get; set; }
+
         public AddServiceVM(Guid orderIdlocal)
         {
             orderId = orderIdlocal;
             lstServicios = new List<Service>();
-            serviceId = Guid.NewGuid();
+            OrderDetailsList = new List<OrderDetails>();
         }
         public AddServiceVM()
         {

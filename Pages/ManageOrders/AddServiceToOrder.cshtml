@@ -36,7 +36,7 @@
                     @Html.DisplayFor(modelItem => item.Description)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.ApplicationUser.Id)
+                    @Html.DisplayFor(modelItem => item.ApplicationUser.CompanyName)
                 </td>
                 <td>
                     <label class="orderId" hidden>@Model._AddServiceVM.orderId</label>
@@ -58,6 +58,7 @@
                 var orderId = document.getElementsByClassName('orderId');
                 var serviceId = document.getElementsByClassName('serviceId');
                 var checkBoxes = document.getElementsByClassName('checkboxService');
+
                 var listaIds = {
                     listaIds: ""
                 };
@@ -72,8 +73,8 @@
                 console.log(serviceId[0].innerText);
                 console.log(listaIds.listaIds);
                 var json = {
-                    serviceId: orderId[0].innerText,
-                    orderId: serviceId[0].innerText
+                    serviceId: listaIds.listaIds,
+                    orderId: orderId[0].innerText
                 };
                 $.ajax({
                     type: "POST",

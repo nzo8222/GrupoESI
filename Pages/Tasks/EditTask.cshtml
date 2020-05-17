@@ -30,9 +30,14 @@
                 <span asp-validation-for="TaskModel.Duration" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="TaskModel.Cost" class="control-label"></label>
-                <input asp-for="TaskModel.Cost" class="form-control" />
-                <span asp-validation-for="TaskModel.Cost" class="text-danger"></span>
+                <label asp-for="TaskModel.CostHandLabor" class="control-label"></label>
+                <input asp-for="TaskModel.CostHandLabor" class="form-control" />
+                <span asp-validation-for="TaskModel.CostHandLabor" class="text-danger"></span>
+            </div>
+            <div>
+                <a asp-page="../Materials/IndexMaterial" asp-route-taskId="@Model.TaskModel.Id" style="text-decoration:none;">
+                    &nbsp; Ver materiales
+                </a>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

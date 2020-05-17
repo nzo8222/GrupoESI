@@ -39,6 +39,7 @@ namespace GrupoESINuevo
             {
                 return Page();
             }
+            _TaskQuotationVM.TaskLocal.Cost = _TaskQuotationVM.TaskLocal.CostHandLabor;
             var quotation = _context.Quotation
                                             .Include(q => q.Tasks)
                                             .Include(q => q.OrderDetailsModel)
@@ -47,9 +48,9 @@ namespace GrupoESINuevo
             {
                 quotation = new List<Quotation>();
                 quotation.Add(new Quotation());
-                quotation[0].Id = new Guid();
                 quotation[0].OrderDetailsModel = _context.OrderDetails.FirstOrDefault(od => od.Id == _TaskQuotationVM.orderDetailsId);
                 quotation[0].Tasks = new List<TaskModel>();
+                
                 quotation[0].Tasks.Add(_TaskQuotationVM.TaskLocal);
                 _context.Quotation.Add(quotation[0]);
             }

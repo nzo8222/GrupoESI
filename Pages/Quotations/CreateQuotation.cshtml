@@ -13,6 +13,7 @@
 </div>
 <div>
     <p>
+
         <a asp-page="../Tasks/CreateTask" asp-route-orderDetailsId="@Model._QuotationTaskMaterialVM.orderDetailsId">Crear nueva tarea</a>
     </p>
 </div>
@@ -53,13 +54,15 @@
                         </td>
                         <td>
                             <a asp-page="../Materials/IndexMaterial" asp-route-taskId="@item.Id" style="text-decoration:none;">
-                                @*<img src="~/images/car.png" width="40" />*@
                                 &nbsp; Ver materiales
                             </a>
                         </td>
                         <td>
                             <a class="btn btn-success" asp-page="../Materials/CreateMaterial" asp-route-taskId="@item.Id">
                                 <i class="fas fa-plus"></i> &nbsp; Agregar Material
+                            </a>
+                            <a class="btn btn-primary" asp-page="../Tasks/EditTask" asp-route-taskId="@item.Id">
+                                <i class="fas fa-wrench"></i> &nbsp; Editar Tarea
                             </a>
                             <button type="submit" asp-page-handler="DeleteTaskModel" asp-route-materialId="@item.Id" class="btn btn-danger form-control">
                                 <i class="far fa-trash-alt"></i>

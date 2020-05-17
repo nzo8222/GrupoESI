@@ -13,5 +13,10 @@ namespace GrupoESINuevo.Models
         public Service Service { get; set; }
         public Order Order { get; set; }
         public double Cost { get; set; }
+        public OrderDetails()
+        {
+            Service = new Service();
+            Order = new Order();
+        }
     }
 }

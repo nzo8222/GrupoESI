@@ -50,11 +50,13 @@ namespace GrupoESINuevo
 
             if (Material != null)
             {
+                var tarea = _context.Task.FirstOrDefault(t => t.Id == Material.taskId);
+                tarea.Cost = tarea.Cost - (int)Material.material.Price;
                 _context.Material.Remove(Material.material);
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToPage("./IndexMaterial", new { orderDetailsId = Material.taskId });
+            return RedirectToPage("./IndexMaterial", new { taskId = Material.taskId });
         }
     }
 }

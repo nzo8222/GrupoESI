@@ -40,10 +40,11 @@ namespace GrupoESINuevo
                                                     .Include(q =>q.Tasks)
                                                         .ThenInclude(t => t.ListMaterial)
                                                         .FirstOrDefault(q => q.OrderDetailsModel.Id == orderDetailsId);
-            
+
             if (quotationlocal == null)
             {
                 _QuotationTaskMaterialVM = new QuotationTaskMaterialVM(orderDetailsId);
+                _QuotationTaskMaterialVM.QuotationModel.OrderDetailsModel = _context.OrderDetails.Include(od => od.Order).FirstOrDefault(od => od.Id == orderDetailsId);
             }
             else
             {

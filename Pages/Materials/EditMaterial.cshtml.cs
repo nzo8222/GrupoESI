@@ -29,7 +29,7 @@ namespace GrupoESINuevo
             {
                 return NotFound();
             }
-
+           
             Material = await _context.Material.FirstOrDefaultAsync(m => m.Id == id);
 
             if (Material == null)
@@ -47,8 +47,14 @@ namespace GrupoESINuevo
             {
                 return Page();
             }
-
-            _context.Attach(Material).State = EntityState.Modified;
+            var mat = _context.Material.FirstOrDefault(m => m.Id == Material.Id);
+            var task = _context.Task.FirstOrDefault(t => t.Id == mat.TaskModelId);
+            task.Cost = task.Cost - (int)mat.Price + (int)Material.Price;
+            mat.Name = Material.Name;
+            mat.Price = Material.Price;
+            mat.Description = Material.Description;
+            
+            //_context.Attach(Material).State = EntityState.Modified;
 
             try
             {
@@ -66,7 +72,7 @@ namespace GrupoESINuevo
                 }
             }
 
-            return RedirectToPage("./IndexMaterial");
+            return RedirectToPage("./IndexMaterial", new { taskId = mat.TaskModelId });
         }
 
         private bool MaterialExists(Guid id)
