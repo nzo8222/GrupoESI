@@ -11,6 +11,39 @@
         <a asp-page="../ManageOrders/AddServiceToOrder" asp-route-orderId="@Model._QuotationTaskMaterialVM.QuotationModel.OrderDetailsModel.Order.Id">Agregar servicio a la orden</a>
     </p>
 </div>
+<div class="row">
+    <div class="col-8">
+        <table class="table table-striped border">
+            <tr class="table-secondary">
+                <th>
+                    @Html.DisplayNameFor(m => Model._QuotationTaskMaterialVM.lstOrderDetailsSameUserServices.FirstOrDefault().Service.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => Model._QuotationTaskMaterialVM.lstOrderDetailsSameUserServices.FirstOrDefault().Cost)
+                </th>
+                <th>
+
+                </th>
+            </tr>
+            @foreach (var item in Model._QuotationTaskMaterialVM.lstOrderDetailsSameUserServices)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(m => item.Service.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.Cost)
+                    </td>
+                <td>
+                    <a class="btn btn-success" asp-page="/CreateQuotation" asp-route-orderDetailsId="@item.Id" style="text-decoration:none;">
+                        &nbsp; Ver cotizacion
+                    </a>
+                </td>
+                </tr>
+            }
+        </table> 
+    </div>
+</div>
 <div>
     <p>
 

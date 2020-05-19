@@ -41,6 +41,18 @@ namespace GrupoESINuevo
                                                         .ThenInclude(t => t.ListMaterial)
                                                         .FirstOrDefault(q => q.OrderDetailsModel.Id == orderDetailsId);
 
+            var userOD = _context.OrderDetails
+                                              .Include(od => od.Order)
+                                              .Include(od => od.Service)
+                                                 .ThenInclude(s => s.ApplicationUser)
+                                                 .FirstOrDefault(od => od.Id == orderDetailsId);
+
+            var orderDetailsServicesSameUser = _context.OrderDetails
+                                                                    .Include(od => od.Order)
+                                                                    .Include(od => od.Service)
+                                                                         .ThenInclude(s => s.ApplicationUser)
+                                                                         .Where(od => od.Service.ApplicationUser.Id == userOD.Service.ApplicationUser.Id && od.Order.Id == userOD.Order.Id).ToList();
+           
             if (quotationlocal == null)
             {
                 _QuotationTaskMaterialVM = new QuotationTaskMaterialVM(orderDetailsId);
@@ -75,7 +87,10 @@ namespace GrupoESINuevo
                     }
                    
                 }
-                  
+                foreach (var item in orderDetailsServicesSameUser)
+                {
+                    _QuotationTaskMaterialVM.lstOrderDetailsSameUserServices.Add(item);
+                }
             }
 
             
@@ -112,17 +127,17 @@ namespace GrupoESINuevo
                 }
             }
 
-            var file = Path.Combine(_environment.ContentRootPath, "uploads", _QuotationTaskMaterialVM.Upload.FileName);
+            //var file = Path.Combine(_environment.ContentRootPath, "uploads", _QuotationTaskMaterialVM.Upload.FileName);
 
-            if (file != null)
-            {
-                var filePath = Path.GetTempFileName();
-                using (var fileStream = System.IO.File.Create(filePath))
-                {
-                    await _QuotationTaskMaterialVM.Upload.CopyToAsync(fileStream);
-                }
+            //if (file != null)
+            //{
+            //    var filePath = Path.GetTempFileName();
+            //    using (var fileStream = System.IO.File.Create(filePath))
+            //    {
+            //        await _QuotationTaskMaterialVM.Upload.CopyToAsync(fileStream);
+            //    }
 
-            }
+            //}
 
 
             _context.Quotation.Update(quotation);

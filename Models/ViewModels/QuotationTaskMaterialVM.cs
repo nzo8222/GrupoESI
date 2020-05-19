@@ -12,6 +12,7 @@ namespace GrupoESINuevo.Models.ViewModels
         public TaskModel taskModel { get; set; }
         public Material MaterialModel { get; set; }
         public Guid orderDetailsId { get; set; }
+        public List<OrderDetails> lstOrderDetailsSameUserServices { get; set; }
         public List<Material> lstMaterial { get; set; }
         public List<TaskModel> lstTaskModel { get; set; }
         public IFormFile Upload { get; set; }
@@ -27,7 +28,7 @@ namespace GrupoESINuevo.Models.ViewModels
             orderDetailsId = id;
             lstMaterial = new List<Material>();
             lstTaskModel = new List<TaskModel>();
-            
+            lstOrderDetailsSameUserServices = new List<OrderDetails>();
         }
         public QuotationTaskMaterialVM(Guid id, Quotation quotation)
         {
@@ -37,6 +38,7 @@ namespace GrupoESINuevo.Models.ViewModels
             orderDetailsId = id;
             lstMaterial = new List<Material>();
             lstTaskModel = new List<TaskModel>();
+            lstOrderDetailsSameUserServices = new List<OrderDetails>();
         }
         public QuotationTaskMaterialVM(Guid id, Quotation quotation, List<TaskModel> tasks, List<Material> materials)
         {
@@ -46,6 +48,7 @@ namespace GrupoESINuevo.Models.ViewModels
             orderDetailsId = id;
             lstMaterial = materials;
             lstTaskModel = tasks;
+            lstOrderDetailsSameUserServices = new List<OrderDetails>();
         }
         public QuotationTaskMaterialVM(Guid id, Quotation quotation, List<TaskModel> tasks)
         {
@@ -54,6 +57,7 @@ namespace GrupoESINuevo.Models.ViewModels
             MaterialModel = new Material();
             orderDetailsId = id;
             lstTaskModel = tasks;
+            lstOrderDetailsSameUserServices = new List<OrderDetails>();
         }
     }
 }
