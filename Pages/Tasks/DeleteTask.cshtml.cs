@@ -22,14 +22,14 @@ namespace GrupoESINuevo
         [BindProperty]
         public TaskModel TaskModel { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(Guid? id)
+        public async Task<IActionResult> OnGetAsync(Guid? taskId)
         {
-            if (id == null)
+            if (taskId == null)
             {
                 return NotFound();
             }
 
-            TaskModel = await _context.Task.FirstOrDefaultAsync(m => m.Id == id);
+            TaskModel = await _context.Task.FirstOrDefaultAsync(m => m.Id == taskId);
 
             if (TaskModel == null)
             {
@@ -38,14 +38,16 @@ namespace GrupoESINuevo
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(Guid? id)
+        public async Task<IActionResult> OnPostAsync(Guid? taskId)
         {
-            if (id == null)
+            if (taskId == null)
             {
                 return NotFound();
             }
 
-            TaskModel = await _context.Task.FindAsync(id);
+            TaskModel = await _context.Task.Include(t => t.QuotationModel)
+                                                .ThenInclude(q => q.OrderDetailsModel)
+                                                .FirstOrDefaultAsync(t => t.Id == taskId);
 
             if (TaskModel != null)
             {
@@ -53,7 +55,7 @@ namespace GrupoESINuevo
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("../Quotations/CreateQuotation", new { orderDetailsId = TaskModel.QuotationModel.OrderDetailsModel.Id });
         }
     }
 }

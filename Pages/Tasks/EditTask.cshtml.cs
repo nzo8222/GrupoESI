@@ -53,8 +53,8 @@ namespace GrupoESINuevo
             task.Name = TaskModel.Name;
             task.Description = TaskModel.Description;
             task.Duration = TaskModel.Duration;
-            task.CostHandLabor = TaskModel.CostHandLabor;
             task.Cost = task.Cost - task.CostHandLabor + TaskModel.CostHandLabor;
+            task.CostHandLabor = TaskModel.CostHandLabor;
             try
             {
                 await _context.SaveChangesAsync();
