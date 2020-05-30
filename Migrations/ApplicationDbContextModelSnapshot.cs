@@ -84,6 +84,9 @@ namespace GrupoESINuevo.Migrations
                     b.Property<Guid?>("ServiceID")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("OrderId");
@@ -103,12 +106,12 @@ namespace GrupoESINuevo.Migrations
                     b.Property<byte[]>("PictureBytes")
                         .HasColumnType("varbinary(max)");
 
-                    b.Property<Guid?>("QuotationId")
+                    b.Property<Guid?>("TaskModelId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("PictureId");
 
-                    b.HasIndex("QuotationId");
+                    b.HasIndex("TaskModelId");
 
                     b.ToTable("Picture");
                 });
@@ -124,6 +127,9 @@ namespace GrupoESINuevo.Migrations
 
                     b.Property<Guid?>("OrderDetailsModelId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -460,9 +466,9 @@ namespace GrupoESINuevo.Migrations
 
             modelBuilder.Entity("GrupoESINuevo.Models.Picture", b =>
                 {
-                    b.HasOne("GrupoESINuevo.Models.Quotation", null)
+                    b.HasOne("GrupoESINuevo.Models.TaskModel", null)
                         .WithMany("Pictures")
-                        .HasForeignKey("QuotationId");
+                        .HasForeignKey("TaskModelId");
                 });
 
             modelBuilder.Entity("GrupoESINuevo.Models.Quotation", b =>

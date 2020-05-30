@@ -26,10 +26,11 @@ namespace GrupoESINuevo
         {
             _AddServiceVM = new AddServiceVM(orderId);
 
-            _AddServiceVM.OrderDetailsList = _context.OrderDetails.Include(od => od.Order)
-                                                       .Include(od => od.Service)
-                                                           .ThenInclude(s => s.ApplicationUser)
-                                                           .Where(od => od.Order.Id == orderId).ToList();
+            _AddServiceVM.OrderDetailsList = _context.OrderDetails
+                                                                  .Include(od => od.Order)
+                                                                  .Include(od => od.Service)
+                                                                       .ThenInclude(s => s.ApplicationUser)
+                                                                  .Where(od => od.Order.Id == orderId).ToList();
 
             //_AddServiceVM.lstServicios = _context.ServiceModel
             //                                                 .Include(s => s.ApplicationUser)

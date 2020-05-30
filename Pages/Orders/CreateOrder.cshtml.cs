@@ -26,7 +26,6 @@ namespace GrupoESINuevo
        
         [BindProperty]
         public OrderAndOrderDetailsVM _OrderAndOrderDetailsVM { get; set; }
-        public string _service { get; set; }
         public async Task<IActionResult> OnGet(Guid serviceId)
         {
            if(serviceId == null)
@@ -56,10 +55,10 @@ namespace GrupoESINuevo
         // more details see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
+            //if (!ModelState.IsValid)
+            //{
+            //    return Page();
+            //}
           
             _OrderAndOrderDetailsVM.OrderDetailsModel.Service = _context.ServiceModel
                                                                                     .Include(s =>s.ApplicationUser)

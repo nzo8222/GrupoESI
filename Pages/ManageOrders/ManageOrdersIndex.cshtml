@@ -74,8 +74,7 @@
 </table>
 <div class="row">
     <div class="col-md-12">
-        @foreach (var item in Model._manageOrdersVM.ListQuotations)
-        {
+      
             <table class="table">
                 <thead>
                     <tr>
@@ -86,7 +85,11 @@
                             @Html.DisplayNameFor(model => model._manageOrdersVM.ListQuotations[0].OrderDetailsModel.Cost)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model._manageOrdersVM.ListQuotations[0].OrderDetailsModel.Order.OrderDate)
+                            @Html.DisplayNameFor(model => model._manageOrdersVM.ListQuotations[0].OrderDetailsModel.Status)
+                        </th>
+
+                        <th>
+
                         </th>
                         <th>
 
@@ -94,25 +97,38 @@
                     </tr>
                 </thead>
                 <tbody>
-
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Description)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.OrderDetailsModel.Cost)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.OrderDetailsModel.Order.OrderDate)
-                        </td>
-                        <td>
-                            <a asp-page="../Quotations/CreateQuotation" asp-route-orderDetailsId="@item.OrderDetailsModel.Id" class="btn btn-success">Ver cotizacion</a>
-                        </td>
-                    </tr>
-
+                    @foreach (var item in Model._manageOrdersVM.ListQuotations)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Description)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.OrderDetailsModel.Cost)
+                            </td>
+                            <td>
+                                @if (@item.OrderDetailsModel.Status == 2)
+                                {
+                                    <p>Asignado</p>
+                                }
+                                @if (@item.OrderDetailsModel.Status == 1)
+                                {
+                                    <p>Rechazado</p>
+                                }
+                            </td>
+                            <td>
+                                <a asp-page="../Quotations/CreateQuotation" asp-route-orderDetailsId="@item.OrderDetailsModel.Id" class="btn btn-primary">Ver cotizacion</a>
+                            </td>
+                            <th>
+                                <label class="idQuotation" hidden>@item.Id</label>
+                                <label class="idOrderDetails" hidden>@item.OrderDetailsModel.Id</label>
+                                <button class="btn btn-success" onclick="assignQuotation('@item.Id', '@item.OrderDetailsModel.Id')">Asignar Cotizacion</button>
+                            </th>
+                        </tr>
+                    }
                 </tbody>
             </table>
-        }
+      
        
     </div>
 </div>
@@ -183,6 +199,20 @@
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
     <script>
+        function assignQuotation(idQuotation, idOrderDetails) {
+            var json = {
+                idQuotation: idQuotation,
+                idOrderDetails: idOrderDetails
+            };
+            console.log(json.idQuottion);
+            $.ajax({
+                type: "POST",
+                url: "/api/ManageOrders/PostAssignQuotation",
+                contentType: "application/json",
+                datatype: "json",
+                data: JSON.stringify(json)
+            });
+        };
         $(function () {
             $('#submit').on('click', function (evt) {
                 evt.preventDefault();
@@ -214,33 +244,7 @@
                     datatype: "json",
                     data: JSON.stringify(json)
                 });
-
-
-
-
             });
         });
     </script>
 }
-@*
-    $.ajax('/api/ManageOrders/PostManageOrders', {
-
-                    type = 'POST',
-                    contentType = 'application/json; charset=utf-8',
-                    headers = {
-                        RequestVerificationToken:
-                            $('input:hidden[name="__RequestVerificationToken"]').val()
-                    },
-                    data: JSON.stringify(json)
-                })
-
-    $.ajax('/api/ManageOrders/PostManageOrders', {
-
-        type = 'POST',
-        contentType = 'application/json; charset=utf-8',
-        headers = {
-            RequestVerificationToken:
-                $('input:hidden[name="__RequestVerificationToken"]').val()
-        },
-        data: JSON.stringify(json)
-    })*@

@@ -12,6 +12,7 @@ namespace GrupoESINuevo.Models
         public Guid Id { get; set; }
         public Service Service { get; set; }
         public Order Order { get; set; }
+        public int Status { get; set; }
         public double Cost { get; set; }
         public OrderDetails()
         {

@@ -4,15 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-
 using GrupoESINuevo.Models;
 using Microsoft.EntityFrameworkCore;
 using GrupoESINuevo.Models.ViewModels;
 using GrupoESINuevo.Uitility;
 using Microsoft.AspNetCore.Hosting;
-using System.Web;
 using System.IO;
-using System.Drawing;
+
 namespace GrupoESINuevo
 {
     public class CreateQuotationModel : PageModel
@@ -127,19 +125,9 @@ namespace GrupoESINuevo
                 }
             }
 
-            //var file = Path.Combine(_environment.ContentRootPath, "uploads", _QuotationTaskMaterialVM.Upload.FileName);
-
-            //if (file != null)
-            //{
-            //    var filePath = Path.GetTempFileName();
-            //    using (var fileStream = System.IO.File.Create(filePath))
-            //    {
-            //        await _QuotationTaskMaterialVM.Upload.CopyToAsync(fileStream);
-            //    }
-
-            //}
 
 
+            
             _context.Quotation.Update(quotation);
             var order = _context.Order.FirstOrDefault(o => o.Id == quotation.OrderDetailsModel.Order.Id);
             order.EstadoDelPedido = SD.EstadoCotizado;
@@ -150,39 +138,26 @@ namespace GrupoESINuevo
         }
 
 
-        public async Task<IActionResult> OnPostAddTaskModel()
-        {
-            var quotation = _context.Quotation
-                                              .Include(q => q.OrderDetailsModel)
-                                              .FirstOrDefault(q => q.OrderDetailsModel.Id == _QuotationTaskMaterialVM.orderDetailsId); 
+        
 
-            if(quotation == null)
-            {
-                quotation = new Quotation();
-            }
-            quotation.OrderDetailsModel = _context.OrderDetails.FirstOrDefault(od => od.Id == _QuotationTaskMaterialVM.orderDetailsId);
-            quotation.Tasks = new List<TaskModel>();
-            _QuotationTaskMaterialVM.taskModel.QuotationModel = quotation;
-           
-            quotation.Tasks.Add(_QuotationTaskMaterialVM.taskModel);
-            var boolQuotation = _context.Quotation.FirstOrDefault(q => q.Id == quotation.Id);
+        //public async Task<IActionResult> OnPostDeletePicture()
+        //{
+        //    var quotationWithPictures = await _context.Quotation
+        //                                           .Include(q => q.Pictures)
+        //                                           .FirstOrDefaultAsync(q => q.Id == _QuotationTaskMaterialVM.QuotationModel.Id);
+        //    if(quotationWithPictures != null)
+        //    {
+        //        if(quotationWithPictures.Pictures.Count > 0)
+        //        {
+        //            try
+        //            {
+        //                var picture = quotationWithPictures.Pictures.Find(p => p.PictureId == _QuotationTaskMaterialVM.QuotationModel.Picture)
+        //                quotationWithPictures.Pictures.Remove()
+        //            }
+        //        }
+        //    }
+        //    return RedirectToPage("CreateQuotation", new { orderDetailsId = _QuotationTaskMaterialVM.QuotationModel.OrderDetailsModel.Id });
+        //}
 
-            
-
-
-            if (boolQuotation == null)
-            {
-                _context.Quotation.Add(quotation);
-            }
-            else
-            {
-                _context.Quotation.Update(quotation);
-            }
-            
-            await _context.SaveChangesAsync();
-
-            return RedirectToPage("CreateQuotation", new { orderDetailsId = _QuotationTaskMaterialVM.orderDetailsId });
-        }
-      
     }
 }

@@ -15,7 +15,7 @@ namespace GrupoESINuevo.Models.ViewModels
         public List<OrderDetails> lstOrderDetailsSameUserServices { get; set; }
         public List<Material> lstMaterial { get; set; }
         public List<TaskModel> lstTaskModel { get; set; }
-        public IFormFile Upload { get; set; }
+        
         public QuotationTaskMaterialVM()
         {
 

@@ -9,6 +9,7 @@ using GrupoESINuevo.Data;
 using GrupoESINuevo.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using Microsoft.EntityFrameworkCore;
 
 namespace GrupoESINuevo
 {
@@ -29,6 +30,7 @@ namespace GrupoESINuevo
         }
         public IActionResult OnGet(string userId = null)
         {
+            ServiceTypesList = new List<ServiceType>();
             Service = new Service();
             if (userId == null)
             {
@@ -37,7 +39,45 @@ namespace GrupoESINuevo
                 userId = claim.Value;
             }
             Service.UserId = userId;
-            ServiceTypesList = _db.ServiceType.ToList();
+            //lista de tipos de servicios que ya tienen un servicio registrado
+            var servicios = _db.ServiceModel
+                                            .Include(s => s.ApplicationUser)
+                                            .Include(s => s.serviceType)
+                                            .Where(au => au.ApplicationUser.Id == userId).ToList();
+            List<Guid> lstTiposDeServiciosConServicioRegistrado = new List<Guid>();
+
+                //_db.ServiceModel
+                //                                                 .Include(c => c.serviceType)
+                //                                                 .Where(c => c.serviceType == servicios[0].serviceType)
+                //                                                 .Select(c => c.ID)
+                //                                                 .ToList();
+
+            foreach (var item in servicios)
+                {
+                lstTiposDeServiciosConServicioRegistrado.Add(item.serviceType.Id);
+                }
+                
+          
+
+            List<Guid> lstDeTiposDeServicios = new List<Guid>();
+
+            var lstTiposDeServicios = _db.ServiceType.ToList();
+
+            foreach (var item in lstTiposDeServicios)
+            {
+                lstDeTiposDeServicios.Add(item.Id);
+            }
+
+
+            lstDeTiposDeServicios = lstDeTiposDeServicios.FindAll(x => !lstTiposDeServiciosConServicioRegistrado.Contains(x));
+
+            foreach (var item in lstDeTiposDeServicios)
+            {
+                var _serviceType = _db.ServiceType.FirstOrDefault(s => s.Id == item);
+                ServiceTypesList.Add(_serviceType);
+            }
+
+            //ServiceTypesList = _db.ServiceType.ToList();
             return Page();
         }
 

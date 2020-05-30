@@ -55,7 +55,7 @@
             <td>
                 @if (User.IsInRole("Admin"))
                 {
-                    @if (item.Order.EstadoDelPedido == "Cotizado")
+                    @if (item.Order.EstadoDelPedido == "Cotizado" || item.Order.EstadoDelPedido == "Asignado")
                     {
                         <a asp-page="../ManageOrders/ManageOrdersIndex" asp-route-orderId="@item.Order.Id" class="btn btn-success">Manejar Cotizaciones</a>
                     }

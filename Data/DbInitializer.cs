@@ -51,7 +51,7 @@ namespace GrupoESINuevo.Data
                 PhoneNumber = "1112223333"
             }, "Admin123*").GetAwaiter().GetResult();
             _userManager.AddToRoleAsync(_db.Users.FirstOrDefaultAsync(u => u.Email == "admin@gmail.com").GetAwaiter().GetResult(), SD.AdminEndUser).GetAwaiter().GetResult();
-
+            
 
 
 

@@ -18,7 +18,8 @@ namespace GrupoESINuevo.Models
 
         public virtual List<Material> ListMaterial { get; set; }
         public  Quotation QuotationModel { get; set; }
-        
-       
+
+        public virtual List<Picture> Pictures { get; set; }
+
     }
 }
