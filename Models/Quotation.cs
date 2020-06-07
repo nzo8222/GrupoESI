@@ -16,5 +16,6 @@ namespace GrupoESINuevo.Models
         public virtual List<TaskModel> Tasks { get; set; }
 
         public int Status { get; set; }
+       
     }
 }

@@ -59,9 +59,9 @@
                     {
                         <a asp-page="../ManageOrders/ManageOrdersIndex" asp-route-orderId="@item.Order.Id" class="btn btn-success">Manejar Cotizaciones</a>
                     }
-                    <a asp-page="./EditOrder" asp-route-id="@item.Order.Id">Edit</a>
-                    <a asp-page="./DetailsOrder" asp-route-id="@item.Order.Id">Details</a>
-                    <a asp-page="./DeleteOrder" asp-route-id="@item.Order.Id">Delete</a>
+                    <a asp-page="./EditOrder" asp-route-orderId="@item.Order.Id">Edit</a>
+                    <a asp-page="./DetailsOrder" asp-route-orderId="@item.Order.Id">Details</a>
+                    <a asp-page="./DeleteOrder" asp-route-orderId="@item.Order.Id">Delete</a>
                 }
                 @if (User.IsInRole("Provider"))
                 {

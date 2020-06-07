@@ -20,40 +20,55 @@ namespace GrupoESINuevo
         }
 
         [BindProperty]
-        public Quotation Quotation { get; set; }
+        public OrderDetails OrderDetails { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(Guid? id)
+        public async Task<IActionResult> OnGetAsync(Guid? orderDetailsId)
         {
-            if (id == null)
+            if (orderDetailsId == null)
             {
                 return NotFound();
             }
 
-            Quotation = await _context.Quotation.FirstOrDefaultAsync(m => m.Id == id);
+            OrderDetails = await _context.OrderDetails.FirstOrDefaultAsync(m => m.Id == orderDetailsId);
 
-            if (Quotation == null)
+            if (OrderDetails == null)
             {
                 return NotFound();
             }
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(int? id)
+        public async Task<IActionResult> OnPostAsync()
         {
-            if (id == null)
+            if (OrderDetails.Id == null)
             {
                 return NotFound();
             }
 
-            Quotation = await _context.Quotation.FindAsync(id);
+            OrderDetails = await _context.OrderDetails
+                                                    .Include(o => o.Order)
+                                                    .FirstOrDefaultAsync(od => od.Id == OrderDetails.Id);
 
-            if (Quotation != null)
+            var quotationLocal = _context.Quotation.Include(q => q.OrderDetailsModel)
+                                                   .Include(q => q.Tasks)
+                                                        .ThenInclude(t => t.ListMaterial)
+                                                   .FirstOrDefault(q => q.OrderDetailsModel.Id == OrderDetails.Id);
+
+            if (OrderDetails != null && quotationLocal != null)
             {
-                _context.Quotation.Remove(Quotation);
+                var orderDetailFromSameOrder = _context.OrderDetails
+                                                                .Include(od => od.Order)
+                                                                .Where(od => od.Order == OrderDetails.Order).ToList();
+                if(orderDetailFromSameOrder.Count == 1 )
+                {
+                    _context.Order.Remove(orderDetailFromSameOrder[0].Order);
+                }
+                _context.OrderDetails.Remove(OrderDetails);
+                _context.Quotation.Remove(quotationLocal);
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("Index");
         }
     }
 }

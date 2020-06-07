@@ -21,15 +21,17 @@ namespace GrupoESINuevo
 
         public Service ServiceModel { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(Guid id)
+        public async Task<IActionResult> OnGetAsync(Guid serviceId)
         {
-            if (id == null)
+            if (serviceId == null)
             {
                 return NotFound();
             }
 
             ServiceModel = await _context.ServiceModel
-                .Include(s => s.ApplicationUser).FirstOrDefaultAsync(m => m.ID == id);
+                                                     .Include(s => s.ApplicationUser)
+                                                     .Include(s => s.serviceType)
+                                                     .FirstOrDefaultAsync(m => m.ID == serviceId);
 
             if (ServiceModel == null)
             {

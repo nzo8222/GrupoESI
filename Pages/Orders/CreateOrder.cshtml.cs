@@ -37,8 +37,8 @@ namespace GrupoESINuevo
                 OrderModel = new Order(),
                 OrderDetailsModel = new OrderDetails()
             };
-            _OrderAndOrderDetailsVM.OrderModel.Id = new Guid();
-            _OrderAndOrderDetailsVM.OrderDetailsModel.Id = new Guid();
+            //_OrderAndOrderDetailsVM.OrderModel.Id = new Guid();
+            //_OrderAndOrderDetailsVM.OrderDetailsModel.Id = new Guid();
             _OrderAndOrderDetailsVM.OrderDetailsModel.Order = _OrderAndOrderDetailsVM.OrderModel;
             _OrderAndOrderDetailsVM.OrderDetailsModel.Service = _context.ServiceModel.FirstOrDefault(s => s.ID == serviceId);
             

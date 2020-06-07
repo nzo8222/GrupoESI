@@ -103,11 +103,11 @@ namespace GrupoESINuevo
             //{
             //    return RedirectToPage("CreateQuotation", new { orderDetailsId = _QuotationTaskMaterialVM.orderDetailsId });
             //}
-            var quotation = _context.Quotation
+            var quotation = _context.Quotation  
                                                 .Include(q => q.Tasks)
                                                     .ThenInclude(t => t.ListMaterial)
                                                 .Include(q => q.OrderDetailsModel)
-                                                .ThenInclude(od => od.Order)
+                                                     .ThenInclude(od => od.Order)
                                                 .FirstOrDefault(q => q.Id == _QuotationTaskMaterialVM.QuotationModel.Id);
 
             if(quotation.Tasks.Count == 0)
@@ -118,7 +118,7 @@ namespace GrupoESINuevo
 
             foreach (var item in quotation.Tasks)
             {
-                quotation.OrderDetailsModel.Cost =+ item.Cost;
+                quotation.OrderDetailsModel.Cost =+ item.Cost + item.CostHandLabor;
                 foreach (var item2 in item.ListMaterial)
                 {
                     quotation.OrderDetailsModel.Cost =+ item2.Price;

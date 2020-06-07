@@ -50,8 +50,12 @@ namespace GrupoESINuevo
 
             if (Material != null)
             {
-                var tarea = _context.Task.FirstOrDefault(t => t.Id == Material.taskId);
-                tarea.Cost = tarea.Cost - (int)Material.material.Price;
+                var tarea = _context.Task
+                                        .Include(t => t.QuotationModel)
+                                            .ThenInclude(q => q.OrderDetailsModel)
+                                        .FirstOrDefault(t => t.Id == Material.taskId);
+                tarea.QuotationModel.OrderDetailsModel.Cost = tarea.QuotationModel.OrderDetailsModel.Cost - Material.material.Price;
+                tarea.Cost = tarea.Cost - Material.material.Price;
                 _context.Material.Remove(Material.material);
                 await _context.SaveChangesAsync();
             }

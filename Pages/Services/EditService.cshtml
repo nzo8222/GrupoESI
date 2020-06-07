@@ -14,26 +14,22 @@
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="ServiceModel.ID" />
-            @*<div class="form-group">
-                <label asp-for="ServiceModel.Nombre" class="control-label"></label>
-                <input asp-for="ServiceModel.Nombre" class="form-control" />
-                <span asp-validation-for="ServiceModel.Nombre" class="text-danger"></span>
+            <div class="form-group">
+                <label asp-for="ServiceModel.Name" class="control-label"></label>
+                <input asp-for="ServiceModel.Name" class="form-control" />
+                <span asp-validation-for="ServiceModel.Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ServiceModel.Descripcion" class="control-label"></label>
-                <input asp-for="ServiceModel.Descripcion" class="form-control" />
-                <span asp-validation-for="ServiceModel.Descripcion" class="text-danger"></span>
+                <label asp-for="ServiceModel.Description" class="control-label"></label>
+                <input asp-for="ServiceModel.Description" class="form-control" />
+                <span asp-validation-for="ServiceModel.Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ServiceModel.Categoria" class="control-label"></label>
-                <input asp-for="ServiceModel.Categoria" class="form-control" />
-                <span asp-validation-for="ServiceModel.Categoria" class="text-danger"></span>
+                <label asp-for="ServiceModel.serviceType.Category" class="control-label"></label>
+                <input  disabled asp-for="ServiceModel.serviceType.Category" class="form-control" />
+                <span asp-validation-for="ServiceModel.serviceType.Category" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="ServiceModel.UserId" class="control-label"></label>
-                <select asp-for="ServiceModel.UserId" class="form-control" asp-items="ViewBag.UserId"></select>
-                <span asp-validation-for="ServiceModel.UserId" class="text-danger"></span>
-            </div>*@
+           
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>

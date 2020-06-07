@@ -25,34 +25,76 @@ namespace GrupoESINuevo.Controllers
         [Route("PostManageOrders")]
         public IActionResult PostNewOrders([FromBody] PostManageOrdersVM _pmovm)
         {
-            List<string> result = _pmovm.name.Split(',').ToList();
+            List<string> result = _pmovm.idService.Split(',').ToList();
             
             foreach (var item in result)
             {
-                var od = new OrderDetails();
-                od.Id = Guid.NewGuid();
-                od.Order = _context.Order.FirstOrDefault(o => o.Id == _pmovm.orderId);
-                od.Service = _context.ServiceModel.FirstOrDefault(s => s.ID.ToString() == item);
-                od.Cost = 0;
+                var _OrderDetailsNueva = new OrderDetails();
+                var quotationLocal = new Quotation();
+
+                quotationLocal.Tasks = new List<TaskModel>();
+                //_OrderDetailsNueva.Id = Guid.NewGuid();
+                _OrderDetailsNueva.Order = _context.Order.FirstOrDefault(o => o.Id == _pmovm.orderId);
+                _OrderDetailsNueva.Service = _context.ServiceModel.FirstOrDefault(s => s.ID.ToString() == item);
+
                 var quotation = _context.Quotation
+                                                 .AsNoTracking()
                                                  .Include(q => q.OrderDetailsModel)
                                                     .ThenInclude(q => q.Order)
                                                  .Include(q => q.Tasks)
                                                     .ThenInclude(t => t.ListMaterial)
                                                  .FirstOrDefault(q => q.OrderDetailsModel.Order.Id == _pmovm.orderId);
-                foreach (var tasks in quotation.Tasks)
+                
+                var pics = _context.Quotation
+                                                .AsNoTracking()
+                                                .Include(q => q.OrderDetailsModel)
+                                                    .ThenInclude(q => q.Order)
+                                                 .Include(q => q.Tasks)
+                                                    .ThenInclude(t => t.Pictures)
+                                                 .FirstOrDefault(q => q.OrderDetailsModel.Order.Id == _pmovm.orderId);
+                
+                var piclist = new List<Picture>();
+
+                for (int i = 0; i < quotation.Tasks.Count; i++)
                 {
-                    tasks.Cost = 0;
-                    tasks.CostHandLabor = 0;
-                    foreach (var material in tasks.ListMaterial)
+                    var _taskLocal = new TaskModel();
+                    
+                    for (int f = 0; f < quotation.Tasks[i].ListMaterial.Count; f++)
                     {
-                        material.Price = 0;
+                        if(_taskLocal.ListMaterial == null)
+                        {
+                            _taskLocal.ListMaterial = new List<Material>();
+                        }
+                        var mat = new Material();
+                        mat.Description = quotation.Tasks[i].ListMaterial[f].Description;
+                        mat.Name = quotation.Tasks[i].ListMaterial[f].Name;
+                        mat.Price = 0;
+                        _taskLocal.ListMaterial.Add(mat);
                     }
+
+                    if(_taskLocal.Pictures == null)
+                    {
+                        _taskLocal.Pictures = new List<Picture>();
+                    }
+
+                        for (int e = 0; e < pics.Tasks[i].Pictures.Count; e++)
+                    {
+                        var picLocal = new Picture();
+                        picLocal.PictureBytes = pics.Tasks[i].Pictures[e].PictureBytes;
+                        _taskLocal.Pictures.Add(picLocal);
+                    }
+                    _taskLocal.Name = quotation.Tasks[i].Name;
+                    _taskLocal.Duration = quotation.Tasks[i].Duration;
+                    _taskLocal.Description = quotation.Tasks[i].Description;
+                    quotationLocal.Tasks.Add(_taskLocal);
                 }
-                quotation.OrderDetailsModel = od;
-                quotation.Id = Guid.NewGuid();
-                _context.OrderDetails.Add(od);
-                _context.Quotation.Add(quotation);
+
+                quotationLocal.Description = quotation.Description;
+                quotationLocal.Status = 0;
+                quotationLocal.OrderDetailsModel = _OrderDetailsNueva;
+               
+                _context.OrderDetails.Add(_OrderDetailsNueva);
+                _context.Quotation.Add(quotationLocal);
             }
             try
             {
@@ -70,11 +112,12 @@ namespace GrupoESINuevo.Controllers
         public IActionResult PostServiceToOrder([FromBody] PostServiceToOrderVM serviceToOrderVM)
         {
             List<string> result = serviceToOrderVM.serviceId.Split(',').ToList();
-            var localOrderDetails = _context.OrderDetails.Include(o => o.Order).Where(orderDetails => orderDetails.Order.Id == serviceToOrderVM.orderId).ToList();
+            var localOrderDetails = _context.OrderDetails.Include(o => o.Order).Where(orderDetails => orderDetails.Order.Id == serviceToOrderVM.orderDetailsId).ToList();
             foreach (var item in result)
             {
                 var od = new OrderDetails();
-                od.Order = _context.Order.FirstOrDefault(o => o.Id == serviceToOrderVM.orderId);
+                var orderLocal = _context.OrderDetails.Include(od => od.Order).FirstOrDefault(od => od.Id == serviceToOrderVM.orderDetailsId);
+                od.Order = orderLocal.Order;
                 od.Service = _context.ServiceModel.FirstOrDefault(s => s.ID.ToString() == item);
                 od.Cost = 0;
                 //var quotation = _context.Quotation
@@ -111,7 +154,7 @@ namespace GrupoESINuevo.Controllers
                                     .FirstOrDefault(q => q.Id == deletePictureVM.taskId);
             foreach (var item in result)
             {
-                var pic = task.Pictures.Find(p => p.PictureId == Int32.Parse(item));
+                var pic = task.Pictures.Find(p => p.PictureId.ToString() == item);
                 task.Pictures.Remove(pic);
             }
             try

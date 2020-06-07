@@ -62,7 +62,8 @@ namespace GrupoESINuevo
             _TaskMaterialVM.MaterialModel.TaskModelId = tareaModel.Id;
 
             tareaModel.ListMaterial.Add(_TaskMaterialVM.MaterialModel);
-            tareaModel.Cost = tareaModel.Cost + (int)_TaskMaterialVM.MaterialModel.Price;
+            tareaModel.Cost = tareaModel.Cost + _TaskMaterialVM.MaterialModel.Price;
+            tareaModel.QuotationModel.OrderDetailsModel.Cost = tareaModel.QuotationModel.OrderDetailsModel.Cost + _TaskMaterialVM.MaterialModel.Price;
             try
             {
 

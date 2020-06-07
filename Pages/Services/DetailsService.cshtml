@@ -11,30 +11,30 @@
     <h4>ServiceModel</h4>
     <hr />
     <dl class="row">
-        @*<dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ServiceModel.Nombre)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ServiceModel.Name)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ServiceModel.Nombre)
+            @Html.DisplayFor(model => model.ServiceModel.Name)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ServiceModel.Descripcion)
+            @Html.DisplayNameFor(model => model.ServiceModel.Description)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ServiceModel.Descripcion)
+            @Html.DisplayFor(model => model.ServiceModel.Description)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ServiceModel.Categoria)
+            @Html.DisplayNameFor(model => model.ServiceModel.serviceType.Category)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ServiceModel.Categoria)
+            @Html.DisplayFor(model => model.ServiceModel.serviceType.Category)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.ServiceModel.ApplicationUser)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ServiceModel.ApplicationUser.Id)
-        </dd>*@
+            @Html.DisplayFor(model => model.ServiceModel.ApplicationUser.Name)
+        </dd>
     </dl>
 </div>
 <div>

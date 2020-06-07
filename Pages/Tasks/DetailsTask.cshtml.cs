@@ -35,7 +35,6 @@ namespace GrupoESINuevo
                                                         .ThenInclude(q => q.OrderDetailsModel)
                                                     .Include(t => t.Pictures)
                                                     .FirstOrDefaultAsync(m => m.Id == taskId);
-
             if (taskPicVM == null)
             {
                 return NotFound();
@@ -50,8 +49,6 @@ namespace GrupoESINuevo
             {
                 return Page();
             }
-
-
             if (tasklocal.Pictures == null)
             {
                 tasklocal.Pictures = new List<Picture>();

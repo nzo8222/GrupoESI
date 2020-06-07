@@ -23,21 +23,23 @@ namespace GrupoESINuevo
         [BindProperty]
         public Service ServiceModel { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(Guid id)
+        public async Task<IActionResult> OnGetAsync(Guid serviceId)
         {
-            if (id == null)
+            if (serviceId == null)
             {
                 return NotFound();
             }
 
             ServiceModel = await _context.ServiceModel
-                .Include(s => s.ApplicationUser).FirstOrDefaultAsync(m => m.ID == id);
+                                                      .Include(s => s.serviceType)
+                                                      .Include(s => s.ApplicationUser)
+                                                      .FirstOrDefaultAsync(m => m.ID == serviceId);
 
             if (ServiceModel == null)
             {
                 return NotFound();
             }
-           ViewData["UserId"] = new SelectList(_context.ApplicationUser, "Id", "Id");
+          
             return Page();
         }
 
@@ -49,8 +51,10 @@ namespace GrupoESINuevo
             {
                 return Page();
             }
-
-            _context.Attach(ServiceModel).State = EntityState.Modified;
+            var service = _context.ServiceModel.FirstOrDefault(s => s.ID == ServiceModel.ID);
+            service.Name = ServiceModel.Name;
+            service.Description = ServiceModel.Description;
+            _context.ServiceModel.Update(service);
 
             try
             {

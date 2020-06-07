@@ -94,6 +94,9 @@
                         <th>
 
                         </th>
+                        <th>
+
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -123,6 +126,9 @@
                                 <label class="idQuotation" hidden>@item.Id</label>
                                 <label class="idOrderDetails" hidden>@item.OrderDetailsModel.Id</label>
                                 <button class="btn btn-success" onclick="assignQuotation('@item.Id', '@item.OrderDetailsModel.Id')">Asignar Cotizacion</button>
+                            </th>
+                            <th>
+                                <a class="btn btn-danger" href="/Quotations/DeleteQuotation?orderDetailsId=@item.OrderDetailsModel.Id"><i class="fa fa-trash" aria-hidden="true"></i></a>
                             </th>
                         </tr>
                     }
@@ -234,7 +240,7 @@
                 var _orderId = document.getElementById("labelOrderId");
                 console.log(_orderId.innerText);
                 var json = {
-                    name: listaIds.listaIds,
+                    idService: listaIds.listaIds,
                     orderId: _orderId.innerText
                 };
                 $.ajax({

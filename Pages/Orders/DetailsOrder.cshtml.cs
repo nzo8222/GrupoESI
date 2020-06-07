@@ -21,15 +21,15 @@ namespace GrupoESINuevo
 
         public Order Order { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(Guid? orderId)
         {
-            if (id == null)
+            if (orderId == null)
             {
                 return NotFound();
             }
 
-            //Order = await _context.Order
-            //    .Include(o => o.Service).FirstOrDefaultAsync(m => m.Id == id);
+            Order = await _context.Order
+                                        .FirstOrDefaultAsync(m => m.Id == orderId);
 
             if (Order == null)
             {

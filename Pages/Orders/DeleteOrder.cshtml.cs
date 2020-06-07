@@ -22,15 +22,15 @@ namespace GrupoESINuevo
         [BindProperty]
         public Order Order { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(Guid? orderId)
         {
-            if (id == null)
+            if (orderId == null)
             {
                 return NotFound();
             }
 
-            //Order = await _context.Order
-            //    .Include(o => o.Service).FirstOrDefaultAsync(m => m.Id == id);
+            Order = await _context.Order
+                                        .FirstOrDefaultAsync(m => m.Id == orderId);
 
             if (Order == null)
             {
@@ -39,17 +39,36 @@ namespace GrupoESINuevo
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(int? id)
+        public async Task<IActionResult> OnPostAsync()
         {
-            if (id == null)
+            if (Order.Id == null)
             {
                 return NotFound();
             }
 
-            Order = await _context.Order.FindAsync(id);
+            Order = await _context.Order
+                                        .FirstOrDefaultAsync(o => o.Id == Order.Id);
 
+            
             if (Order != null)
             {
+                var orderDetailsLocal = _context.OrderDetails.Include(od => od.Order).Where(od => od.Order.Id == Order.Id).ToList();
+
+                foreach (var item in orderDetailsLocal)
+                {
+                    var quotationLocal = _context.Quotation
+                                                            .Include(q => q.OrderDetailsModel)
+                                                            .Include(q => q.Tasks)
+                                                                .ThenInclude(t => t.ListMaterial)
+                                                            .FirstOrDefault(q => q.OrderDetailsModel == item);
+                    
+                    _context.OrderDetails.Remove(item);
+                    if(quotationLocal != null)
+                    {
+                        _context.Quotation.Remove(quotationLocal);
+                    }
+                    
+                }
                 _context.Order.Remove(Order);
                 await _context.SaveChangesAsync();
             }

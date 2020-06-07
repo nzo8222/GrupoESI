@@ -22,15 +22,17 @@ namespace GrupoESINuevo
         [BindProperty]
         public Service ServiceModel { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(Guid id)
+        public async Task<IActionResult> OnGetAsync(Guid serviceId)
         {
-            if (id == null)
+            if (serviceId == null)
             {
                 return NotFound();
             }
 
             ServiceModel = await _context.ServiceModel
-                .Include(s => s.ApplicationUser).FirstOrDefaultAsync(m => m.ID == id);
+                                                     .Include(s => s.ApplicationUser)
+                                                     .Include(s => s.serviceType)
+                                                     .FirstOrDefaultAsync(m => m.ID == serviceId);
 
             if (ServiceModel == null)
             {
@@ -39,15 +41,29 @@ namespace GrupoESINuevo
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(Guid id)
+        public async Task<IActionResult> OnPostAsync()
         {
-            if (id == null)
+            if (ServiceModel.ID == null)
             {
                 return NotFound();
             }
 
-            ServiceModel = await _context.ServiceModel.FindAsync(id);
+            ServiceModel = _context.ServiceModel
+                                                .FirstOrDefault(s => s.ID == ServiceModel.ID);
 
+            var orderDetailsLocal = _context.OrderDetails
+                                                         .Include(od => od.Order)
+                                                         .Include(od => od.Service)
+                                                         .Where(od => od.Service == ServiceModel).ToList();
+
+            foreach (var item in orderDetailsLocal)
+            {
+                var quotationLocal = _context.Quotation
+                                                        .Include(q => q.OrderDetailsModel)
+                                                        .FirstOrDefault(q => q.OrderDetailsModel == item);
+                _context.Quotation.Remove(quotationLocal);
+                _context.OrderDetails.Remove(item);
+            }
             if (ServiceModel != null)
             {
                 _context.ServiceModel.Remove(ServiceModel);

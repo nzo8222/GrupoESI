@@ -4,14 +4,16 @@ using GrupoESINuevo.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GrupoESINuevo.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200602200549_changePicId")]
+    partial class changePicId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -105,7 +107,7 @@ namespace GrupoESINuevo.Migrations
                     b.Property<byte[]>("PictureBytes")
                         .HasColumnType("varbinary(max)");
 
-                    b.Property<Guid>("TaskModelId")
+                    b.Property<Guid?>("TaskModelId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("PictureId");
@@ -467,9 +469,7 @@ namespace GrupoESINuevo.Migrations
                 {
                     b.HasOne("GrupoESINuevo.Models.TaskModel", null)
                         .WithMany("Pictures")
-                        .HasForeignKey("TaskModelId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("TaskModelId");
                 });
 
             modelBuilder.Entity("GrupoESINuevo.Models.Quotation", b =>

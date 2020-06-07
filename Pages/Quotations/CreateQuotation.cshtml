@@ -8,7 +8,7 @@
 <h1>Crear Cotizacion</h1>
 <div>
     <p>
-        <a asp-page="../ManageOrders/AddServiceToOrder" asp-route-orderId="@Model._QuotationTaskMaterialVM.QuotationModel.OrderDetailsModel.Order.Id">Agregar servicio a la orden</a>
+        <a asp-page="../ManageOrders/AddServiceToOrder" asp-route-orderDetailsId="@Model._QuotationTaskMaterialVM.orderDetailsId">Agregar servicio a la orden</a>
     </p>
 </div>
 <div class="row">
@@ -20,6 +20,9 @@
                 </th>
                 <th>
                     @Html.DisplayNameFor(m => Model._QuotationTaskMaterialVM.lstOrderDetailsSameUserServices.FirstOrDefault().Cost)
+                </th>
+                <th>
+
                 </th>
                 <th>
 
@@ -38,6 +41,9 @@
                         <a href="/Quotations/CreateQuotation?orderDetailsId=@item.Id">Ver cotizacion</a>
                         @*asp-page="/CreateQuotation" asp-route-orderDetailsId="@item.Id"*@
                     </td>
+                    <th>
+                        <a class="btn btn-danger" href="/Quotations/DeleteQuotation?orderDetailsId=@item.Id"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                    </th>
                 </tr>
             }
         </table>

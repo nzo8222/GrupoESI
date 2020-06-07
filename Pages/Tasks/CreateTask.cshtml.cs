@@ -42,23 +42,25 @@ namespace GrupoESINuevo
             _TaskQuotationVM.TaskLocal.Cost = _TaskQuotationVM.TaskLocal.CostHandLabor;
             var quotation = _context.Quotation
                                             .Include(q => q.Tasks)
-                                            .Include(q => q.OrderDetailsModel)
-                                            .Where(q => q.OrderDetailsModel.Id == _TaskQuotationVM.orderDetailsId).ToList();
-            if (quotation.Count == 0)
+                                                .Include(q => q.OrderDetailsModel)
+                                            .FirstOrDefault(q => q.OrderDetailsModel.Id == _TaskQuotationVM.orderDetailsId);
+            if (quotation == null)
             {
-                quotation = new List<Quotation>();
-                quotation.Add(new Quotation());
-                quotation[0].OrderDetailsModel = _context.OrderDetails.FirstOrDefault(od => od.Id == _TaskQuotationVM.orderDetailsId);
-                quotation[0].Tasks = new List<TaskModel>();
+                quotation = new Quotation();
                 
-                quotation[0].Tasks.Add(_TaskQuotationVM.TaskLocal);
-                _context.Quotation.Add(quotation[0]);
+                quotation.OrderDetailsModel = _context.OrderDetails.FirstOrDefault(od => od.Id == _TaskQuotationVM.orderDetailsId);
+                quotation.Tasks = new List<TaskModel>();
+                quotation.OrderDetailsModel.Cost = quotation.OrderDetailsModel.Cost + _TaskQuotationVM.TaskLocal.CostHandLabor;
+                quotation.Tasks.Add(_TaskQuotationVM.TaskLocal);
+                _context.Quotation.Add(quotation);
             }
             else
             {
-                quotation[0].Tasks.Add(_TaskQuotationVM.TaskLocal);
-                _context.Quotation.Update(quotation[0]);
+                quotation.OrderDetailsModel.Cost = quotation.OrderDetailsModel.Cost + _TaskQuotationVM.TaskLocal.CostHandLabor;
+                quotation.Tasks.Add(_TaskQuotationVM.TaskLocal);
+                _context.Quotation.Update(quotation);
             }
+            
             await _context.SaveChangesAsync();
             return RedirectToPage("../Quotations/CreateQuotation", new { orderDetailsId = _TaskQuotationVM.orderDetailsId });
             //return RedirectToPage("./Index");

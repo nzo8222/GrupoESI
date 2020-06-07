@@ -25,14 +25,26 @@ namespace GrupoESINuevo
         [BindProperty]
         public ServiceType ServiceType { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(Guid id)
+        public async Task<IActionResult> OnGetAsync()
         {
-            if (id == null)
+            if (ServiceType.Id == null)
             {
                 return NotFound();
             }
+            //Categoria de servicio
+            ServiceType = await _context.ServiceType
+                                                    .FirstOrDefaultAsync(m => m.Id == ServiceType.Id);
 
-            ServiceType = await _context.ServiceType.FirstOrDefaultAsync(m => m.Id == id);
+            //Lista de servicios de esta categoria
+            var lstServiciosServiceType = _context.ServiceModel
+                                                                .Include(s => s.serviceType)
+                                                                .Where(s => s.serviceType == ServiceType)
+                                                                .ToList();
+            //iterar la lista y obtener todos los orderDetails
+            foreach (var item in lstServiciosServiceType)
+            {
+
+            }
 
             if (ServiceType == null)
             {

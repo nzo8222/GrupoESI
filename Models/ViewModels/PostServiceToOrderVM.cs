@@ -7,7 +7,7 @@ namespace GrupoESINuevo.Models.ViewModels
 {
     public class PostServiceToOrderVM
     {
-        public Guid orderId { get; set; }
+        public Guid orderDetailsId { get; set; }
         public string serviceId { get; set; }
     }
 }

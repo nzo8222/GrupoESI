@@ -22,15 +22,15 @@ namespace GrupoESINuevo
         [BindProperty]
         public AddServiceVM _AddServiceVM { get;set; }
 
-        public async Task OnGetAsync(Guid orderId)
+        public async Task OnGetAsync(Guid orderDetailsId)
         {
-            _AddServiceVM = new AddServiceVM(orderId);
+            _AddServiceVM = new AddServiceVM(orderDetailsId);
 
             _AddServiceVM.OrderDetailsList = _context.OrderDetails
                                                                   .Include(od => od.Order)
                                                                   .Include(od => od.Service)
                                                                        .ThenInclude(s => s.ApplicationUser)
-                                                                  .Where(od => od.Order.Id == orderId).ToList();
+                                                                  .Where(od => od.Id == orderDetailsId).ToList();
 
             //_AddServiceVM.lstServicios = _context.ServiceModel
             //                                                 .Include(s => s.ApplicationUser)
@@ -58,10 +58,5 @@ namespace GrupoESINuevo
             }
         }
 
-        public async Task<IActionResult> OnPostAsync()
-        {
-            var orderDetails = _context.OrderDetails.FirstOrDefault(od => od.Id == _AddServiceVM.orderId);
-            return RedirectToPage("", new { });
-        }
     }
 }
