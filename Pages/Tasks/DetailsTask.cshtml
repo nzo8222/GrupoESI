@@ -51,18 +51,21 @@
     }
 }
     <div>
-            <form method="post" enctype="multipart/form-data">
-                <input hidden asp-for="taskPicVM.taskModel.Id" />
-                <p>Subir foto </p>
-                <input type="file" asp-for="taskPicVM.Upload" />
-                <input type="submit" asp-page-handler="Picture" value="Agregar foto" class="btn btn-success" />
-            </form>
+        <form method="post" enctype="multipart/form-data">
+            <input hidden asp-for="taskPicVM.taskModel.Id" />
+            <p>Subir foto </p>
+            <input type="file" asp-for="taskPicVM.Upload" />
+           
+            <input type="submit" asp-page-handler="Picture" value="Agregar foto" class="btn btn-success" />
+      
+
+        </form>
             <button id="submit" value="Borrar foto" class="btn btn-danger">Borrar fotos</button>
         </div>
 
     <div>
-        <a asp-page="./Edit" asp-route-id="@Model.taskPicVM.taskModel.Id">Edit</a> |
-        <a asp-page="./Index">Back to List</a>
+        <a asp-page="./EditTask" asp-route-taskId="@Model.taskPicVM.taskModel.Id">Edit</a> |
+        <a asp-page="/../Quotations/CreateQuotation" asp-route-orderDetailsId="@Model.taskPicVM.taskModel.QuotationModel.OrderDetailsModel.Id">Back to List</a>
     </div>
     @section Scripts {
         @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
@@ -70,7 +73,7 @@
         <script>
         $(function () {
             $('#submit').on('click', function (evt) {
-                evt.preventDefault();
+                //evt.preventDefault();
                 var checkBoxes = document.getElementsByClassName('_checkbox');
                 var pictureIds = document.getElementsByClassName('_deletePictureId');
                 var taskId = document.getElementsByClassName('_taskId');
@@ -95,13 +98,16 @@
                     orderDetailsId: orderDetailsId[0].innerText
                 };
                 console.log(json.deletePicturesId);
-                $.ajax({
-                    type: "POST",
-                    url: "/api/ManageOrders/PostDeletePictures",
-                    contentType: "application/json",
-                    datatype: "json",
-                    data: JSON.stringify(json)
-                });
+                if (json.deletePicturesId != "") {
+                    $.ajax({
+                        type: "POST",
+                        url: "/api/ManageOrders/PostDeletePictures",
+                        contentType: "application/json",
+                        datatype: "json",
+                        data: JSON.stringify(json)
+                    });
+                }
+               
 
 
 

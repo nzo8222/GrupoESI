@@ -241,13 +241,10 @@ C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\obj\Debug\netcoreapp3.1\
 C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\obj\Debug\netcoreapp3.1\Razor\Pages\Tasks\DetailsTask.cshtml.g.cs
 C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\obj\Debug\netcoreapp3.1\Razor\Pages\Tasks\EditTask.cshtml.g.cs
 C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\obj\Debug\netcoreapp3.1\Razor\Pages\Tasks\IndexTask.cshtml.g.cs
-C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\bin\Debug\netcoreapp3.1\Microsoft.Win32.SystemEvents.dll
-C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\bin\Debug\netcoreapp3.1\System.Drawing.Common.dll
-C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.0\Microsoft.Win32.SystemEvents.dll
-C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp3.0\System.Drawing.Common.dll
-C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.0\System.Drawing.Common.dll
 C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\obj\Debug\netcoreapp3.1\GrupoESINuevo.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\obj\Debug\netcoreapp3.1\GrupoESINuevo.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\obj\Debug\netcoreapp3.1\Razor\Pages\ManageOrders\AddServiceToOrder.cshtml.g.cs
 C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\obj\Debug\netcoreapp3.1\Razor\Pages\Users\EditUser.cshtml.g.cs
 C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\obj\Debug\netcoreapp3.1\Razor\Pages\Users\DeleteUser.cshtml.g.cs
+C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\obj\Debug\netcoreapp3.1\GrupoESINuevo.csproj.CoreCompileInputs.cache
+C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\obj\Debug\netcoreapp3.1\GrupoESINuevo.genruntimeconfig.cache

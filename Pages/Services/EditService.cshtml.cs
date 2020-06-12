@@ -72,7 +72,7 @@ namespace GrupoESINuevo
                 //}
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./IndexService");
         }
 
         private bool ServiceModelExists(Guid id)

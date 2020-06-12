@@ -13,6 +13,8 @@ namespace GrupoESINuevo.Models
         public Guid Id { get; set; }
         public string Description { get; set; }
         public OrderDetails OrderDetailsModel { get; set; }
+        [ForeignKey("OrderDetailsModelId")]
+        public Guid OrderDetailsId { get; set; }
         public virtual List<TaskModel> Tasks { get; set; }
 
         public int Status { get; set; }

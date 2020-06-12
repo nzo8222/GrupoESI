@@ -104,7 +104,7 @@ namespace GrupoESINuevo.Controllers
             {
 
             }
-            return RedirectToAction("ManageOrdersIndex", new { orderId =_pmovm.orderId  });
+            return RedirectToAction("../ManageOrders/ManageOrdersIndex", new { orderId =_pmovm.orderId  });
         }
 
         [HttpPost]
@@ -141,7 +141,7 @@ namespace GrupoESINuevo.Controllers
             _context.SaveChanges();
             //var a = _pmovm;
             ////return LocalRedirect("/Identity/Account/Login?id=")
-            return RedirectToAction("CreateQuotation", new { orderDetailsId = localOrderDetails[0].Id });
+            return RedirectToAction("../Quotations/CreateQuotation", new { orderDetailsId = localOrderDetails[0].Id });
             //return RedirectToAction();
         }
         [HttpPost]
@@ -164,7 +164,7 @@ namespace GrupoESINuevo.Controllers
             {
 
             }
-            return RedirectToAction("CreateQuotation", new { orderDetailsId = deletePictureVM.orderDetailsId });
+            return RedirectToAction("../Quotations/CreateQuotation", new { orderDetailsId = deletePictureVM.orderDetailsId });
         }
 
         [HttpPost]
@@ -197,7 +197,7 @@ namespace GrupoESINuevo.Controllers
             {
 
             }
-            return RedirectToAction("CreateQuotation", new { orderDetailsId = _PostAssignQuotationVM.idOrderDetails });
+            return RedirectToAction("../Quotations/CreateQuotation", new { orderDetailsId = _PostAssignQuotationVM.idOrderDetails });
         }
         }
 }

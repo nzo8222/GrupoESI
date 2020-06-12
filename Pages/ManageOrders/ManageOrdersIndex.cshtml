@@ -74,132 +74,144 @@
 </table>
 <div class="row">
     <div class="col-md-12">
-      
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>
-                            @Html.DisplayNameFor(model => model._manageOrdersVM.ListQuotations[0].Description)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model._manageOrdersVM.ListQuotations[0].OrderDetailsModel.Cost)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model._manageOrdersVM.ListQuotations[0].OrderDetailsModel.Status)
-                        </th>
-
-                        <th>
-
-                        </th>
-                        <th>
-
-                        </th>
-                        <th>
-
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model._manageOrdersVM.ListQuotations)
-                    {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Description)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.OrderDetailsModel.Cost)
-                            </td>
-                            <td>
-                                @if (@item.OrderDetailsModel.Status == 2)
-                                {
-                                    <p>Asignado</p>
-                                }
-                                @if (@item.OrderDetailsModel.Status == 1)
-                                {
-                                    <p>Rechazado</p>
-                                }
-                            </td>
-                            <td>
-                                <a asp-page="../Quotations/CreateQuotation" asp-route-orderDetailsId="@item.OrderDetailsModel.Id" class="btn btn-primary">Ver cotizacion</a>
-                            </td>
-                            <th>
-                                <label class="idQuotation" hidden>@item.Id</label>
-                                <label class="idOrderDetails" hidden>@item.OrderDetailsModel.Id</label>
-                                <button class="btn btn-success" onclick="assignQuotation('@item.Id', '@item.OrderDetailsModel.Id')">Asignar Cotizacion</button>
-                            </th>
-                            <th>
-                                <a class="btn btn-danger" href="/Quotations/DeleteQuotation?orderDetailsId=@item.OrderDetailsModel.Id"><i class="fa fa-trash" aria-hidden="true"></i></a>
-                            </th>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-      
-       
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-12">
 
         <table class="table">
             <thead>
                 <tr>
                     <th>
-                        @Html.DisplayNameFor(model => model._manageOrdersVM.ListServices[0].ServiceModel.Name)
+                        @Html.DisplayNameFor(model => model._manageOrdersVM.ListQuotations[0].Description)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model._manageOrdersVM.ListServices[0].ServiceModel.Description)
+                        @Html.DisplayNameFor(model => model._manageOrdersVM.ListQuotations[0].OrderDetailsModel.Cost)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model._manageOrdersVM.ListServices[0].ServiceModel.ApplicationUser.CompanyName)
+                        @Html.DisplayNameFor(model => model._manageOrdersVM.ListQuotations[0].OrderDetailsModel.Status)
+                    </th>
+
+                    <th>
+
                     </th>
                     <th>
-                        <label class="sendQuotation" asp-for="_manageOrdersVM.ListServices[0].sendQuotation"></label>
+
+                    </th>
+                    <th>
+
                     </th>
                 </tr>
             </thead>
-
             <tbody>
-
-                @for (int i = 0; i < Model._manageOrdersVM.ListServices.Count; i++)
+                @foreach (var item in Model._manageOrdersVM.ListQuotations)
                 {
-
                     <tr>
                         <td>
-                            @Html.DisplayFor(modelItem => Model._manageOrdersVM.ListServices[i].ServiceModel.Name)
+                            @Html.DisplayFor(modelItem => item.Description)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => Model._manageOrdersVM.ListServices[i].ServiceModel.Description)
+                            @Html.DisplayFor(modelItem => item.OrderDetailsModel.Cost)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => Model._manageOrdersVM.ListServices[i].ServiceModel.ApplicationUser.CompanyName)
+                            @if (@item.OrderDetailsModel.Status == 2)
+                            {
+                                <p>Asignado</p>
+                            }
+                            @if (@item.OrderDetailsModel.Status == 1)
+                            {
+                                <p>Rechazado</p>
+                            }
+                            @if (@item.OrderDetailsModel.Status == 0)
+                            {
+                                <p>Espera</p>
+                            }
                         </td>
                         <td>
-
-
-                            <label class="IdService" hidden>@Model._manageOrdersVM.ListServices[i].ServiceModel.ID</label>
-
-
-
-                            <input asp-for="_manageOrdersVM.ListServices[i].sendQuotation" class="form-control _checkbox" />
-
+                            <a asp-page="../Quotations/CreateQuotation" asp-route-orderDetailsId="@item.OrderDetailsModel.Id" class="btn btn-primary">Ver cotizacion</a>
                         </td>
+                        <th>
+                            <label class="idQuotation" hidden>@item.Id</label>
+                            <label class="idOrderDetails" hidden>@item.OrderDetailsModel.Id</label>
+                            <button class="btn btn-success" onclick="assignQuotation('@item.Id', '@item.OrderDetailsModel.Id')">Asignar Cotizacion</button>
+                        </th>
+                        <th>
+                            <a class="btn btn-danger" href="/Quotations/DeleteQuotation?orderDetailsId=@item.OrderDetailsModel.Id"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                        </th>
                     </tr>
                 }
-
             </tbody>
-
-
         </table>
 
-        <div class="col-sm-7 offset-sm-3">
-            <button class="btn btn-primary" id="submit">Mandar Cotizaciones</button>
-        </div>
+
     </div>
 </div>
-<div>
+@if (Model._manageOrdersVM.ListServices.Count > 0)
+{
+    <div class="row">
+        <div class="col-md-12">
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model._manageOrdersVM.ListServices[0].ServiceModel.Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model._manageOrdersVM.ListServices[0].ServiceModel.Description)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model._manageOrdersVM.ListServices[0].ServiceModel.ApplicationUser.CompanyName)
+                        </th>
+                        <th>
+                            <label class="sendQuotation" asp-for="_manageOrdersVM.ListServices[0].sendQuotation"></label>
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @for (int i = 0; i < Model._manageOrdersVM.ListServices.Count; i++)
+                    {
+
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => Model._manageOrdersVM.ListServices[i].ServiceModel.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => Model._manageOrdersVM.ListServices[i].ServiceModel.Description)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => Model._manageOrdersVM.ListServices[i].ServiceModel.ApplicationUser.CompanyName)
+                            </td>
+                            <td>
+
+
+                                <label class="IdService" hidden>@Model._manageOrdersVM.ListServices[i].ServiceModel.ID</label>
+
+
+
+                                <input asp-for="_manageOrdersVM.ListServices[i].sendQuotation" class="form-control _checkbox" />
+
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+
+
+            </table>
+
+            <div class="col-sm-7 offset-sm-3">
+                <button class="btn btn-primary" id="submit">Mandar Cotizaciones</button>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <p>No se encontraron servicios</p>
+}
+
+@*<div>
     <a asp-page="Index">Back to List</a>
-</div>
+</div>*@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
@@ -246,7 +258,7 @@
                 $.ajax({
                     type: "POST",
                     url: "/api/ManageOrders/PostManageOrders",
-                    contentType: "application/json", 
+                    contentType: "application/json",
                     datatype: "json",
                     data: JSON.stringify(json)
                 });

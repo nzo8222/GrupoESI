@@ -31,9 +31,14 @@ namespace GrupoESINuevo
             _TaskMaterialVM = new TaskMaterialVM()
             {
                 MaterialModel = new Material(),
-                TareaModel = _context.Task.FirstOrDefault(t => t.Id == taskId),
+                TareaModel = _context.Task
+                                          .Include(t => t.QuotationModel)
+                                               .ThenInclude(q => q.OrderDetailsModel)
+                                          .FirstOrDefault(t => t.Id == taskId),
                 taskId = taskId
+               
             };
+            _TaskMaterialVM.orderDetailsId = _TaskMaterialVM.TareaModel.QuotationModel.OrderDetailsModel.Id;
             return Page();
         }
 

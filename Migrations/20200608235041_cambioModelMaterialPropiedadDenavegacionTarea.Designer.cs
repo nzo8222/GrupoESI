@@ -4,14 +4,16 @@ using GrupoESINuevo.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GrupoESINuevo.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200608235041_cambioModelMaterialPropiedadDenavegacionTarea")]
+    partial class cambioModelMaterialPropiedadDenavegacionTarea
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -124,7 +126,7 @@ namespace GrupoESINuevo.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("OrderDetailsId")
+                    b.Property<Guid?>("OrderDetailsModelId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Status")
@@ -132,8 +134,7 @@ namespace GrupoESINuevo.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OrderDetailsId")
-                        .IsUnique();
+                    b.HasIndex("OrderDetailsModelId");
 
                     b.ToTable("Quotation");
                 });
@@ -476,10 +477,8 @@ namespace GrupoESINuevo.Migrations
             modelBuilder.Entity("GrupoESINuevo.Models.Quotation", b =>
                 {
                     b.HasOne("GrupoESINuevo.Models.OrderDetails", "OrderDetailsModel")
-                        .WithOne("Quotation")
-                        .HasForeignKey("GrupoESINuevo.Models.Quotation", "OrderDetailsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany()
+                        .HasForeignKey("OrderDetailsModelId");
                 });
 
             modelBuilder.Entity("GrupoESINuevo.Models.Service", b =>

@@ -7,14 +7,14 @@ namespace GrupoESINuevo.Models.ViewModels
 {
     public class AddServiceVM
     {
-        public Guid orderId { get; set; }
+        public Guid orderDetailsId { get; set; }
         public Guid serviceId { get; set; }
         public List<Service> lstServicios { get; set; }
         public List<OrderDetails> OrderDetailsList { get; set; }
 
-        public AddServiceVM(Guid orderIdlocal)
+        public AddServiceVM(Guid orderDetails)
         {
-            orderId = orderIdlocal;
+            orderDetailsId = orderDetails;
             lstServicios = new List<Service>();
             OrderDetailsList = new List<OrderDetails>();
         }

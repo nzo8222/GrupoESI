@@ -45,9 +45,9 @@ namespace GrupoESINuevo
         {
             var tasklocal = _context.Task.FirstOrDefault(t => t.Id == taskPicVM.taskModel.Id);
 
-            if (tasklocal == null)
+            if (taskPicVM.Upload == null)
             {
-                return Page();
+                return NotFound();
             }
             if (tasklocal.Pictures == null)
             {
@@ -74,7 +74,7 @@ namespace GrupoESINuevo
                     ModelState.AddModelError("File", "The file is too large.");
                 }
             }
-            return RedirectToPage("DetailsTask", new { id = tasklocal.Id });
+            return RedirectToPage("./DetailsTask", new { taskId = tasklocal.Id });
         }
     }
 }

@@ -34,7 +34,7 @@
             <td>
                 <a asp-page="./EditServiceType" asp-route-id="@item.Id">Edit</a> |
                 <a asp-page="./DetailsServiceType" asp-route-id="@item.Id">Details</a> |
-                <a asp-page="./DeleteServiceType" asp-route-id="@item.Id">Delete</a>
+                <a asp-page="./DeleteServiceType" asp-route-serviceTypeId="@item.Id">Delete</a>
             </td>
         </tr>
 }

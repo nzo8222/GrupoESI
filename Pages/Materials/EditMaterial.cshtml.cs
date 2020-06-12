@@ -23,14 +23,16 @@ namespace GrupoESINuevo
         [BindProperty]
         public Material Material { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(Guid id)
+        public async Task<IActionResult> OnGetAsync(Guid materialId)
         {
-            if (id == null)
+            if (materialId == null)
             {
                 return NotFound();
             }
            
-            Material = await _context.Material.FirstOrDefaultAsync(m => m.Id == id);
+            Material = await _context.Material
+                                                .Include(m => m.Task)
+                                                .FirstOrDefaultAsync(m => m.Id == materialId);
 
             if (Material == null)
             {
@@ -47,7 +49,9 @@ namespace GrupoESINuevo
             {
                 return Page();
             }
-            var mat = _context.Material.FirstOrDefault(m => m.Id == Material.Id);
+            var mat = _context.Material
+                                        .Include(m => m.Task)
+                                        .FirstOrDefault(m => m.Id == Material.Id);
             var task = _context.Task.FirstOrDefault(t => t.Id == mat.TaskModelId);
             task.Cost = task.Cost - (int)mat.Price + (int)Material.Price;
             mat.Name = Material.Name;
@@ -72,7 +76,7 @@ namespace GrupoESINuevo
                 }
             }
 
-            return RedirectToPage("./IndexMaterial", new { taskId = mat.TaskModelId });
+            return RedirectToPage("./IndexMaterial", new { taskId = mat.Task.Id });
         }
 
         private bool MaterialExists(Guid id)

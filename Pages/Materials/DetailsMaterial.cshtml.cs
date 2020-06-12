@@ -21,14 +21,16 @@ namespace GrupoESINuevo
 
         public Material Material { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(Guid id)
+        public async Task<IActionResult> OnGetAsync(Guid materialId)
         {
-            if (id == null)
+            if (materialId == null)
             {
                 return NotFound();
             }
 
-            Material = await _context.Material.FirstOrDefaultAsync(m => m.Id == id);
+            Material = await _context.Material
+                                            .Include(m => m.Task)
+                                            .FirstOrDefaultAsync(m => m.Id == materialId);
 
             if (Material == null)
             {

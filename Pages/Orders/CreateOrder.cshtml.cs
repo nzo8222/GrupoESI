@@ -55,23 +55,37 @@ namespace GrupoESINuevo
         // more details see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
-            //if (!ModelState.IsValid)
-            //{
-            //    return Page();
-            //}
-          
+            
+            //se le asigna el servicio a la entidad OrderDetails
             _OrderAndOrderDetailsVM.OrderDetailsModel.Service = _context.ServiceModel
                                                                                     .Include(s =>s.ApplicationUser)
                                                                                     .Include(s=>s.serviceType)
                                                                                     .FirstOrDefault(s => s.ID == _OrderAndOrderDetailsVM.serviceIdVM);
+            //se asigna la orden al order details
             _OrderAndOrderDetailsVM.OrderDetailsModel.Order = _OrderAndOrderDetailsVM.OrderModel;
+            //se asigna un estado al orderDetails
             _OrderAndOrderDetailsVM.OrderModel.EstadoDelPedido = SD.EstadoSinCotizar;
+            //se asigna un costo, no es necesario inicializarse en 0 porque ya lo hace el compilador automaticamente.
             _OrderAndOrderDetailsVM.OrderDetailsModel.Cost = 0.0;
+            //declarar una entidad Quotation
+            var quotationLocal = new Quotation();
+            //inicializo la lista de tareas porque si no se enoja el compilador
+            quotationLocal.Tasks = new List<TaskModel>();
+            //se asigna el orderDetails a la cotizacion que acabamos de crear
+            quotationLocal.OrderDetailsModel = _OrderAndOrderDetailsVM.OrderDetailsModel;
+            //se agregan las entidades creadas al contexto
+            _context.Quotation.Add(quotationLocal);
             _context.OrderDetails.Add(_OrderAndOrderDetailsVM.OrderDetailsModel);
             
             _context.Order.Add(_OrderAndOrderDetailsVM.OrderModel);
-            
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch(Exception ex)
+            {
+
+            }
 
             return RedirectToPage("./IndexOrder", new { serviceId = _OrderAndOrderDetailsVM.serviceIdVM });
         }

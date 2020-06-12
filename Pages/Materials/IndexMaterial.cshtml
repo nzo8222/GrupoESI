@@ -40,9 +40,9 @@
                 @Html.DisplayFor(modelItem => item.Price)
             </td>
             <td>
-                <a asp-page="./EditMaterial" asp-route-id="@item.Id">Editar</a> |
-                <a asp-page="./DetailsMaterial" asp-route-id="@item.Id">Detalles</a> |
-                <a asp-page="./DeleteMaterial" asp-route-id="@item.Id">Borrar</a>
+                <a asp-page="./EditMaterial" asp-route-materialId="@item.Id">Editar</a> |
+                <a asp-page="./DetailsMaterial" asp-route-materialId="@item.Id">Detalles</a> |
+                <a asp-page="./DeleteMaterial" asp-route-materialId="@item.Id">Borrar</a>
             </td>
         </tr>
 }

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using GrupoESINuevo.Data;
 using GrupoESINuevo.Models;
+using System.Security.Claims;
 
 namespace GrupoESINuevo
 {
@@ -19,11 +20,22 @@ namespace GrupoESINuevo
             _context = context;
         }
 
-        public IList<Quotation> Quotation { get;set; }
+        public IList<OrderDetails> OrderDetailsLocal { get;set; }
 
-        public async System.Threading.Tasks.Task OnGetAsync()
+        public async Task<IActionResult> OnGetAsync()
         {
-            Quotation = await _context.Quotation.ToListAsync();
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            var userId = claim.Value;
+
+
+            OrderDetailsLocal = _context.OrderDetails
+                                                         .Include(o => o.Order)
+                                                         .Include(o => o.Service)
+                                                            .ThenInclude(s => s.ApplicationUser)
+                                                            .Where(od => od.Service.ApplicationUser.Id == userId).ToList();
+
+            return Page();
         }
     }
 }

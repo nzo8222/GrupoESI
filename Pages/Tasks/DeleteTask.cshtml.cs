@@ -29,7 +29,10 @@ namespace GrupoESINuevo
                 return NotFound();
             }
 
-            TaskModel = await _context.Task.FirstOrDefaultAsync(m => m.Id == taskId);
+            TaskModel = await _context.Task
+                                           .Include(t => t.QuotationModel)
+                                                .ThenInclude(q => q.OrderDetailsModel)
+                                           .FirstOrDefaultAsync(m => m.Id == taskId);
 
             if (TaskModel == null)
             {

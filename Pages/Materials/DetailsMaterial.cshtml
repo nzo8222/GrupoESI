@@ -33,5 +33,5 @@
 </div>
 <div>
     <a asp-page="./EditMaterial" asp-route-id="@Model.Material.Id">Editar</a> |
-    <a asp-page="./IndexMaterial">Back to List</a>
+    <a asp-page="./IndexMaterial" asp-route-taskId="@Model.Material.Task.Id">Regresar a la vista</a>
 </div>

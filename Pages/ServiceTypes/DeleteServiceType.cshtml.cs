@@ -25,15 +25,15 @@ namespace GrupoESINuevo
         [BindProperty]
         public ServiceType ServiceType { get; set; }
 
-        public async Task<IActionResult> OnGetAsync()
+        public async Task<IActionResult> OnGetAsync(Guid serviceTypeId)
         {
-            if (ServiceType.Id == null)
+            if (serviceTypeId == null)
             {
                 return NotFound();
             }
             //Categoria de servicio
             ServiceType = await _context.ServiceType
-                                                    .FirstOrDefaultAsync(m => m.Id == ServiceType.Id);
+                                                    .FirstOrDefaultAsync(m => m.Id == serviceTypeId);
 
             //Lista de servicios de esta categoria
             var lstServiciosServiceType = _context.ServiceModel
@@ -53,17 +53,53 @@ namespace GrupoESINuevo
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(int? id)
+        public async Task<IActionResult> OnPostAsync()
         {
-            if (id == null)
+            if (ServiceType.Id == null)
             {
                 return NotFound();
             }
-
-            ServiceType = await _context.ServiceType.FindAsync(id);
-
+            //Modelo
+            ServiceType = await _context.ServiceType.FindAsync(ServiceType.Id);
+            //si el modelo es diferente a null
             if (ServiceType != null)
             {
+                //obtener todos los servicios de con este serviceType
+                var lstService = _context.ServiceModel
+                                                    .Include(s => s.serviceType)
+                                                    .Where(s => s.serviceType == ServiceType)
+                                                    .ToList();
+                //iterar cada servicio y obtener todos los order Details Quotation y materiales
+                foreach (var item in lstService)
+                {
+                    //obtener todos los order Details
+                    var orderDetailsLocal = _context.OrderDetails
+                                                         .Include(od => od.Order)
+                                                         .Include(od => od.Service)
+                                                         .Where(od => od.Service == item).ToList();
+
+                    foreach (var item2 in orderDetailsLocal)
+                    {
+                        //Obtener todas las cotizaciones tareas y materiales
+                        var quotationLocal = _context.Quotation
+                                                                .Include(q => q.OrderDetailsModel)
+                                                                .Include(q => q.Tasks)
+                                                                    .ThenInclude(t => t.ListMaterial)
+                                                                .FirstOrDefault(q => q.OrderDetailsModel == item2);
+                        if(quotationLocal != null)
+                        {
+                            _context.Quotation.Remove(quotationLocal);
+                        }
+                        
+                        _context.OrderDetails.Remove(item2);
+                    }
+                   
+                    //borrar entidades
+                    //cargar una variable con el servicio para borrarla
+                    var serviceLocal = _context.ServiceModel.FirstOrDefault(s => s == item);
+                    _context.ServiceModel.Remove(serviceLocal);
+                    await _context.SaveChangesAsync();
+                }
                 _context.ServiceType.Remove(ServiceType);
                 await _context.SaveChangesAsync();
             }

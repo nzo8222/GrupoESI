@@ -93,7 +93,9 @@ namespace GrupoESINuevo
                             _context.Order.Remove(_order);
                         }
                     }
-
+                    //borrar el servicio
+                    var servicioLocal = _context.ServiceModel.FirstOrDefault(s => s == item);
+                    _context.ServiceModel.Remove(servicioLocal);
                 }
 
                 _context.ApplicationUser.Remove(_ApplicationUser);

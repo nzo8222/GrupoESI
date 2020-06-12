@@ -28,7 +28,9 @@ namespace GrupoESINuevo
                 return NotFound();
             }
 
-            Quotation = await _context.Quotation.FirstOrDefaultAsync(m => m.Id == id);
+            Quotation = await _context.Quotation
+                                                .Include(q => q.OrderDetailsModel)
+                                                .FirstOrDefaultAsync(m => m.Id == id);
 
             if (Quotation == null)
             {

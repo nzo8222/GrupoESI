@@ -47,30 +47,39 @@ namespace GrupoESINuevo
             {
                 return NotFound();
             }
-
+            //Modelo
             ServiceModel = _context.ServiceModel
                                                 .FirstOrDefault(s => s.ID == ServiceModel.ID);
-
+            //Lista de order details con ese servicio
             var orderDetailsLocal = _context.OrderDetails
                                                          .Include(od => od.Order)
                                                          .Include(od => od.Service)
-                                                         .Where(od => od.Service == ServiceModel).ToList();
+                                                         .Where(od => od.Service == ServiceModel)
+                                                         .ToList();
 
+            //Iterar la lista
             foreach (var item in orderDetailsLocal)
             {
+                //buscar la cotizacion con la lista de tareas y materiales de el orderDetails actual
                 var quotationLocal = _context.Quotation
                                                         .Include(q => q.OrderDetailsModel)
+                                                        .Include(q => q.Tasks)
+                                                            .ThenInclude(t => t.ListMaterial)
                                                         .FirstOrDefault(q => q.OrderDetailsModel == item);
-                _context.Quotation.Remove(quotationLocal);
+                //si no es null remove
+                if(quotationLocal != null)
+                {
+                    _context.Quotation.Remove(quotationLocal);
+                }
+                //remove order details
                 _context.OrderDetails.Remove(item);
             }
-            if (ServiceModel != null)
-            {
+                
                 _context.ServiceModel.Remove(ServiceModel);
                 await _context.SaveChangesAsync();
-            }
+       
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./IndexService");
         }
     }
 }

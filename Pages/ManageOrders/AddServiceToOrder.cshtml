@@ -8,7 +8,7 @@
 <h1>AddServiceToOrder</h1>
 
 <p>
-    <a asp-page="Create">Create New</a>
+    <a asp-page="../Quotations/CreateQuotation" asp-route-id="@Model._AddServiceVM.orderDetailsId">Regresar a la cotizacion</a>
 </p>
 <table class="table">
     <thead>
@@ -39,7 +39,7 @@
                     @Html.DisplayFor(modelItem => item.ApplicationUser.CompanyName)
                 </td>
                 <td>
-                    <label class="orderId" hidden>@Model._AddServiceVM.orderId</label>
+                    <label class="orderId" hidden>@Model._AddServiceVM.orderDetailsId</label>
                     <label class="serviceId" hidden>@item.ID</label>
                     <input type="checkbox" class="checkboxService" />
                 </td>

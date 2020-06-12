@@ -29,7 +29,10 @@ namespace GrupoESINuevo
                 return Page();
             }
             //OrderDetailsModel.Service = _context.ServiceModel.FirstOrDefault(s => s.ID == Int32.Parse(serviceId));
-            OrderDetailsList = await _context.OrderDetails.Include(o => o.Order).Where( s =>s.Service.ID == serviceId).ToListAsync();
+            OrderDetailsList = await _context.OrderDetails
+                                                          .Include(o => o.Order)
+                                                          .Where( s =>s.Service.ID == serviceId)
+                                                          .ToListAsync();
             //ServiceId = serviceId;
             return Page();
         }
