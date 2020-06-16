@@ -82,7 +82,7 @@
                     contentType: "application/json",
                     datatype: "json",
                     data: JSON.stringify(json)
-                });
+                }).then(() => { window.location.reload });
             });
         });
     </script>

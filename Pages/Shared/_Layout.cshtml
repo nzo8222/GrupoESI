@@ -39,7 +39,7 @@
                                 <a class="nav-link" asp-area="" asp-page="/Services/IndexService">Servicios</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-page="/Services/IndexService">Pedidos</a>
+                                <a class="nav-link" asp-area="" asp-page="/Quotations/IndexQuotation">Pedidos</a>
                             </li>
                         }
                         @if (User.IsInRole("Admin"))
@@ -49,6 +49,9 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" asp-area="" asp-page="/ServiceTypes/IndexServiceType">Categorías de servicios</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-page="/ManageOrders/OrderIndexAdmin">Ordenes</a>
                             </li>
 
                         }

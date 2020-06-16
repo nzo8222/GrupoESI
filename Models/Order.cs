@@ -18,6 +18,7 @@ namespace GrupoESINuevo.Models
         [Required]
         public string Concepto { get; set; }
         public string EstadoDelPedido { get; set; }
+        public virtual List<OrderDetails> LstOrderDetails { get; set; }
 
     }
 }

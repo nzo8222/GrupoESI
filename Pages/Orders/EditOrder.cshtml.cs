@@ -8,9 +8,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GrupoESINuevo.Data;
 using GrupoESINuevo.Models;
+using Microsoft.AspNetCore.Authorization;
+using GrupoESINuevo.Uitility;
 
 namespace GrupoESINuevo
 {
+    [Authorize(Roles = SD.AdminEndUser)]
     public class EditOrderModel : PageModel
     {
         private readonly GrupoESINuevo.Data.ApplicationDbContext _context;
@@ -49,8 +52,10 @@ namespace GrupoESINuevo
             {
                 return Page();
             }
-
-            _context.Attach(Order).State = EntityState.Modified;
+            var orderLocal = _context.Order.FirstOrDefault(o => o.Id == Order.Id);
+            orderLocal.Concepto = Order.Concepto;
+            orderLocal.Direccion = Order.Direccion;
+            orderLocal.OrderDate = Order.OrderDate;
 
             try
             {
@@ -68,7 +73,7 @@ namespace GrupoESINuevo
                 //}
             }
 
-            return RedirectToPage("./IndexOrder");
+            return RedirectToPage("../ManageOrders/OrderIndexAdmin");
         }
 
         private bool OrderExists(Guid id)

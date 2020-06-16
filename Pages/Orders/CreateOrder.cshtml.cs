@@ -10,9 +10,11 @@ using GrupoESINuevo.Models;
 using Microsoft.EntityFrameworkCore;
 using GrupoESINuevo.Uitility;
 using GrupoESINuevo.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GrupoESINuevo
 {
+    [Authorize(Roles = SD.AdminEndUser)]
     public class CreateOrderModel : PageModel
     {
         private readonly GrupoESINuevo.Data.ApplicationDbContext _context;
@@ -61,7 +63,10 @@ namespace GrupoESINuevo
                                                                                     .Include(s =>s.ApplicationUser)
                                                                                     .Include(s=>s.serviceType)
                                                                                     .FirstOrDefault(s => s.ID == _OrderAndOrderDetailsVM.serviceIdVM);
+            //se le asigna el estado sin cotizar a la orden
+            _OrderAndOrderDetailsVM.OrderModel.EstadoDelPedido = SD.EstadoSinCotizar;
             //se asigna la orden al order details
+
             _OrderAndOrderDetailsVM.OrderDetailsModel.Order = _OrderAndOrderDetailsVM.OrderModel;
             //se asigna un estado al orderDetails
             _OrderAndOrderDetailsVM.OrderModel.EstadoDelPedido = SD.EstadoSinCotizar;

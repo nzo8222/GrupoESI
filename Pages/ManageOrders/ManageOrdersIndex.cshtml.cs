@@ -9,9 +9,12 @@ using GrupoESINuevo.Data;
 using GrupoESINuevo.Models;
 using GrupoESINuevo.Models.ViewModels;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
+using GrupoESINuevo.Uitility;
 
 namespace GrupoESINuevo
 {
+    [Authorize(Roles = SD.AdminEndUser)]
     public class ManageOrdersIndexModel : PageModel
     {
         private readonly GrupoESINuevo.Data.ApplicationDbContext _context;

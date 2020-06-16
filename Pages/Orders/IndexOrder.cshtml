@@ -6,69 +6,85 @@
 }
 
 <h1>Index</h1>
+<div class="row">
+    <div class="col-12">
+        <p>
+            @if (User.IsInRole("Admin"))
+            {
+                <a asp-page="CreateOrder" asp-route-ServiceId="@Model.ServiceId">Create New Order</a>
+            }
+        </p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.OrderDetailsList[0].Order.OrderDate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.OrderDetailsList[0].Order.Direccion)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.OrderDetailsList[0].Order.Concepto)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.OrderDetailsList[0].Service.serviceType)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.OrderDetailsList[0].Order.EstadoDelPedido)
+                    </th>
+                    <th>
 
-<p>
-    @if (User.IsInRole("Admin"))
-    {
-        <a asp-page="CreateOrder" asp-route-ServiceId="@Model.ServiceId">Create New Order</a>
-    }
-    </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.OrderDetailsList[0].Order.OrderDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OrderDetailsList[0].Order.Direccion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OrderDetailsList[0].Order.Concepto)
-            </th>
-            <th>
-                @*@Html.DisplayNameFor(model => model.Order[0].Service)*@
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OrderDetailsList[0].Order.EstadoDelPedido)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model.OrderDetailsList) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Order.OrderDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Order.Direccion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Order.Concepto)
-            </td>
-            <td>
-                @*@Html.DisplayFor(modelItem => item.Service.Nombre)*@
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Order.EstadoDelPedido)
-            </td>
-            <td>
-                @if (User.IsInRole("Admin"))
+                    </th>
+                    <th>
+
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.OrderDetailsList)
                 {
-                    @if (item.Order.EstadoDelPedido == "Cotizado" || item.Order.EstadoDelPedido == "Asignado")
-                    {
-                        <a asp-page="../ManageOrders/ManageOrdersIndex" asp-route-orderId="@item.Order.Id" class="btn btn-success">Manejar Cotizaciones</a>
-                    }
-                    <a asp-page="./EditOrder" asp-route-orderId="@item.Order.Id">Edit</a>
-                    <a asp-page="./DetailsOrder" asp-route-orderId="@item.Order.Id">Details</a>
-                    <a asp-page="./DeleteOrder" asp-route-orderId="@item.Order.Id">Delete</a>
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Order.OrderDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Order.Direccion)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Order.Concepto)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Service.serviceType.Category)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Order.EstadoDelPedido)
+                        </td>
+                        <td>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                @if (item.Order.EstadoDelPedido == "Cotizado" || item.Order.EstadoDelPedido == "Asignado")
+                                {
+                                    <a asp-page="../ManageOrders/ManageOrdersIndex" asp-route-orderId="@item.Order.Id" class="btn btn-success">Manejar Cotizaciones</a>
+                                }
+
+                            }
+                            @if (User.IsInRole("Provider"))
+                            {
+                                <a asp-page="../Quotations/CreateQuotation" asp-route-orderDetailsId="@item.Id" class="btn btn-success">Cotizar</a>
+                            }
+                        </td>
+                        <th>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <a asp-page="./EditOrder" asp-route-orderId="@item.Order.Id">Edit</a>
+                                <a asp-page="./DetailsOrder" asp-route-orderId="@item.Order.Id">Details</a>
+                                <a asp-page="./DeleteOrder" asp-route-orderId="@item.Order.Id">Delete</a>
+                            }
+                        </th>
+                    </tr>
                 }
-                @if (User.IsInRole("Provider"))
-                {
-                    <a asp-page="../Quotations/CreateQuotation" asp-route-orderDetailsId="@item.Id" class="btn-success">Cotizar</a>
-                }
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+            </tbody>
+        </table>
+
+    </div>
+</div>

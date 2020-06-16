@@ -50,8 +50,9 @@ namespace GrupoESINuevo
             {
                 return Page();
             }
-
-            _context.Attach(ServiceType).State = EntityState.Modified;
+            var serviceTypeLocal = _context.ServiceType.FirstOrDefault(s => s.Id == ServiceType.Id);
+            serviceTypeLocal.Descripcion = ServiceType.Descripcion;
+            serviceTypeLocal.Category = ServiceType.Category;
 
             try
             {

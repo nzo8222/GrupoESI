@@ -128,8 +128,9 @@
                         </td>
                         <th>
                             <label class="idQuotation" hidden>@item.Id</label>
+                            <label class="idOrder" hidden></label>
                             <label class="idOrderDetails" hidden>@item.OrderDetailsModel.Id</label>
-                            <button class="btn btn-success" onclick="assignQuotation('@item.Id', '@item.OrderDetailsModel.Id')">Asignar Cotizacion</button>
+                            <button class="btn btn-success" onclick="assignQuotation('@item.Id', '@item.OrderDetailsModel.Id', '@Model._manageOrdersVM.OrderModel.Id')">Asignar Cotizacion</button>
                         </th>
                         <th>
                             <a class="btn btn-danger" href="/Quotations/DeleteQuotation?orderDetailsId=@item.OrderDetailsModel.Id"><i class="fa fa-trash" aria-hidden="true"></i></a>
@@ -217,19 +218,28 @@ else
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
     <script>
-        function assignQuotation(idQuotation, idOrderDetails) {
+        function assignQuotation(idQuotation, idOrderDetails, orderId) {
+
+
             var json = {
                 idQuotation: idQuotation,
                 idOrderDetails: idOrderDetails
             };
-            console.log(json.idQuottion);
+            //console.log(json.idQuottion);
             $.ajax({
                 type: "POST",
                 url: "/api/ManageOrders/PostAssignQuotation",
                 contentType: "application/json",
                 datatype: "json",
                 data: JSON.stringify(json)
-            });
+            }).then(() => {
+                console.log(this);
+                console.log(window);
+                window.location.href = "/ManageOrders/ManageOrdersIndex?orderId=" + orderId
+
+            }
+            );
+            console.log()
         };
         $(function () {
             $('#submit').on('click', function (evt) {

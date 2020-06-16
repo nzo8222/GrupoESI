@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GrupoESINuevo.Migrations
 {
-    public partial class nuevaMigracionPorqueDropieLaBdYCambieElIdAGuidDeQuotation2qq : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -222,6 +222,7 @@ namespace GrupoESINuevo.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     ServiceID = table.Column<Guid>(nullable: true),
                     OrderId = table.Column<Guid>(nullable: true),
+                    Status = table.Column<int>(nullable: false),
                     Cost = table.Column<double>(nullable: false)
                 },
                 constraints: table =>
@@ -247,17 +248,18 @@ namespace GrupoESINuevo.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     Description = table.Column<string>(nullable: true),
-                    OrderDetailsModelId = table.Column<Guid>(nullable: true)
+                    OrderDetailsId = table.Column<Guid>(nullable: false),
+                    Status = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Quotation", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Quotation_OrderDetails_OrderDetailsModelId",
-                        column: x => x.OrderDetailsModelId,
+                        name: "FK_Quotation_OrderDetails_OrderDetailsId",
+                        column: x => x.OrderDetailsId,
                         principalTable: "OrderDetails",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -268,7 +270,8 @@ namespace GrupoESINuevo.Migrations
                     Name = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     Duration = table.Column<int>(nullable: false),
-                    Cost = table.Column<int>(nullable: false),
+                    Cost = table.Column<double>(nullable: false),
+                    CostHandLabor = table.Column<double>(nullable: false),
                     QuotationModelId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
@@ -290,7 +293,7 @@ namespace GrupoESINuevo.Migrations
                     Name = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     Price = table.Column<double>(nullable: false),
-                    TaskModelId = table.Column<Guid>(nullable: true)
+                    TaskModelId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -300,7 +303,26 @@ namespace GrupoESINuevo.Migrations
                         column: x => x.TaskModelId,
                         principalTable: "Task",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Picture",
+                columns: table => new
+                {
+                    PictureId = table.Column<Guid>(nullable: false),
+                    PictureBytes = table.Column<byte[]>(nullable: true),
+                    TaskModelId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Picture", x => x.PictureId);
+                    table.ForeignKey(
+                        name: "FK_Picture_Task_TaskModelId",
+                        column: x => x.TaskModelId,
+                        principalTable: "Task",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -358,9 +380,15 @@ namespace GrupoESINuevo.Migrations
                 column: "ServiceID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Quotation_OrderDetailsModelId",
+                name: "IX_Picture_TaskModelId",
+                table: "Picture",
+                column: "TaskModelId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Quotation_OrderDetailsId",
                 table: "Quotation",
-                column: "OrderDetailsModelId");
+                column: "OrderDetailsId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_ServiceModel_UserId",
@@ -397,6 +425,9 @@ namespace GrupoESINuevo.Migrations
 
             migrationBuilder.DropTable(
                 name: "Material");
+
+            migrationBuilder.DropTable(
+                name: "Picture");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

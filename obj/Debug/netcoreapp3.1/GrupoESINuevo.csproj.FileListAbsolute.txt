@@ -248,3 +248,4 @@ C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\obj\Debug\netcoreapp3.1\
 C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\obj\Debug\netcoreapp3.1\Razor\Pages\Users\DeleteUser.cshtml.g.cs
 C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\obj\Debug\netcoreapp3.1\GrupoESINuevo.csproj.CoreCompileInputs.cache
 C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\obj\Debug\netcoreapp3.1\GrupoESINuevo.genruntimeconfig.cache
+C:\Users\Gonzo\source\repos\GrupoESINuevo\GrupoESINuevo\obj\Debug\netcoreapp3.1\Razor\Pages\ManageOrders\OrderIndexAdmin.cshtml.g.cs

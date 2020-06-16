@@ -45,7 +45,7 @@ namespace GrupoESINuevo
         {
             var tasklocal = _context.Task.FirstOrDefault(t => t.Id == taskPicVM.taskModel.Id);
 
-            if (taskPicVM.Upload == null)
+            if (taskPicVM.Upload == null && taskPicVM.Upload.Length > 0)
             {
                 return NotFound();
             }

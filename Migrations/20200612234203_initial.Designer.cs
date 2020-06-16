@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GrupoESINuevo.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200611195419_virtualPropertyOrderDetails")]
-    partial class virtualPropertyOrderDetails
+    [Migration("20200612234203_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

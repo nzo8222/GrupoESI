@@ -30,6 +30,7 @@ namespace GrupoESINuevo
 
 
             OrderDetailsLocal = _context.OrderDetails
+                                                    .Include(o => o.Quotation)
                                                          .Include(o => o.Order)
                                                          .Include(o => o.Service)
                                                             .ThenInclude(s => s.ApplicationUser)

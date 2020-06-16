@@ -7,9 +7,12 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using GrupoESINuevo.Data;
 using GrupoESINuevo.Models;
+using Microsoft.AspNetCore.Authorization;
+using GrupoESINuevo.Uitility;
 
 namespace GrupoESINuevo
 {
+    [Authorize(Roles = SD.AdminEndUser)]
     public class DeleteOrderModel : PageModel
     {
         private readonly GrupoESINuevo.Data.ApplicationDbContext _context;
@@ -73,7 +76,7 @@ namespace GrupoESINuevo
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToPage("./IndexOrder");
+            return RedirectToPage("../ManageOrders/OrderIndexAdmin");
         }
     }
 }

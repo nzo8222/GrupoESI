@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GrupoESINuevo.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200602200549_changePicId")]
-    partial class changePicId
+    [Migration("20200614223148_propiedadOrderDetailsEnOrder")]
+    partial class propiedadOrderDetailsEnOrder
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -107,7 +107,7 @@ namespace GrupoESINuevo.Migrations
                     b.Property<byte[]>("PictureBytes")
                         .HasColumnType("varbinary(max)");
 
-                    b.Property<Guid?>("TaskModelId")
+                    b.Property<Guid>("TaskModelId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("PictureId");
@@ -126,7 +126,7 @@ namespace GrupoESINuevo.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("OrderDetailsModelId")
+                    b.Property<Guid>("OrderDetailsId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Status")
@@ -134,7 +134,8 @@ namespace GrupoESINuevo.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OrderDetailsModelId");
+                    b.HasIndex("OrderDetailsId")
+                        .IsUnique();
 
                     b.ToTable("Quotation");
                 });
@@ -447,7 +448,7 @@ namespace GrupoESINuevo.Migrations
 
             modelBuilder.Entity("GrupoESINuevo.Models.Material", b =>
                 {
-                    b.HasOne("GrupoESINuevo.Models.TaskModel", null)
+                    b.HasOne("GrupoESINuevo.Models.TaskModel", "Task")
                         .WithMany("ListMaterial")
                         .HasForeignKey("TaskModelId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -457,7 +458,7 @@ namespace GrupoESINuevo.Migrations
             modelBuilder.Entity("GrupoESINuevo.Models.OrderDetails", b =>
                 {
                     b.HasOne("GrupoESINuevo.Models.Order", "Order")
-                        .WithMany()
+                        .WithMany("LstOrderDetails")
                         .HasForeignKey("OrderId");
 
                     b.HasOne("GrupoESINuevo.Models.Service", "Service")
@@ -469,14 +470,18 @@ namespace GrupoESINuevo.Migrations
                 {
                     b.HasOne("GrupoESINuevo.Models.TaskModel", null)
                         .WithMany("Pictures")
-                        .HasForeignKey("TaskModelId");
+                        .HasForeignKey("TaskModelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("GrupoESINuevo.Models.Quotation", b =>
                 {
                     b.HasOne("GrupoESINuevo.Models.OrderDetails", "OrderDetailsModel")
-                        .WithMany()
-                        .HasForeignKey("OrderDetailsModelId");
+                        .WithOne("Quotation")
+                        .HasForeignKey("GrupoESINuevo.Models.Quotation", "OrderDetailsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("GrupoESINuevo.Models.Service", b =>

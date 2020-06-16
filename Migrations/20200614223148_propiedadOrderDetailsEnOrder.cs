@@ -2,7 +2,7 @@
 
 namespace GrupoESINuevo.Migrations
 {
-    public partial class cambioModelMaterialPropiedadDenavegacionTarea : Migration
+    public partial class propiedadOrderDetailsEnOrder : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

@@ -22,15 +22,22 @@ namespace GrupoESINuevo
         public IList<OrderDetails> OrderDetailsList { get;set; }
         public string ServiceId { get; set; }
         //public OrderDetails OrderDetailsModel { get; set; }
-        public async Task<IActionResult> OnGetAsync(Guid serviceId)
+        public async Task<IActionResult> OnGetAsync(Guid? serviceId = null)
         {
             if(serviceId == null)
             {
+                //OrderDetailsList = await _context.OrderDetails
+                //                                                .Include(od => od.Order)
+                //                                                .Include(od => od.Service)
+                //                                                    .ThenInclude(s => s.serviceType)
+                //                                                    .ToListAsync();
                 return Page();
             }
             //OrderDetailsModel.Service = _context.ServiceModel.FirstOrDefault(s => s.ID == Int32.Parse(serviceId));
             OrderDetailsList = await _context.OrderDetails
                                                           .Include(o => o.Order)
+                                                          .Include(o => o.Service)
+                                                                .ThenInclude(od => od.serviceType)
                                                           .Where( s =>s.Service.ID == serviceId)
                                                           .ToListAsync();
             //ServiceId = serviceId;

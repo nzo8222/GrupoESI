@@ -51,7 +51,7 @@ namespace GrupoESINuevo
             TaskModel = await _context.Task.Include(t => t.QuotationModel)
                                                 .ThenInclude(q => q.OrderDetailsModel)
                                                 .FirstOrDefaultAsync(t => t.Id == taskId);
-
+            TaskModel.QuotationModel.OrderDetailsModel.Cost = TaskModel.QuotationModel.OrderDetailsModel.Cost - TaskModel.Cost;
             if (TaskModel != null)
             {
                 _context.Task.Remove(TaskModel);

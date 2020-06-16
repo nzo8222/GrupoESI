@@ -54,7 +54,7 @@
         <form method="post" enctype="multipart/form-data">
             <input hidden asp-for="taskPicVM.taskModel.Id" />
             <p>Subir foto </p>
-            <input type="file" asp-for="taskPicVM.Upload" />
+            <input type="file" asp-for="taskPicVM.Upload" accept="image/*" />
            
             <input type="submit" asp-page-handler="Picture" value="Agregar foto" class="btn btn-success" />
       
@@ -105,13 +105,8 @@
                         contentType: "application/json",
                         datatype: "json",
                         data: JSON.stringify(json)
-                    });
+                    }).then(() => { windows.location.reload });
                 }
-               
-
-
-
-
             });
         });
         </script>

@@ -456,7 +456,7 @@ namespace GrupoESINuevo.Migrations
             modelBuilder.Entity("GrupoESINuevo.Models.OrderDetails", b =>
                 {
                     b.HasOne("GrupoESINuevo.Models.Order", "Order")
-                        .WithMany()
+                        .WithMany("LstOrderDetails")
                         .HasForeignKey("OrderId");
 
                     b.HasOne("GrupoESINuevo.Models.Service", "Service")

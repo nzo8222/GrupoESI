@@ -48,7 +48,8 @@ namespace GrupoESINuevo
                 return Page();
             }
 
-            _context.Attach(Quotation).State = EntityState.Modified;
+            var quotationLocal = _context.Quotation.FirstOrDefault(q => q.Id == Quotation.Id);
+            quotationLocal.Description = Quotation.Description;
 
             try
             {
@@ -66,7 +67,7 @@ namespace GrupoESINuevo
                 }
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./IndexQuotation");
         }
 
         private bool QuotationExists(Guid id)
