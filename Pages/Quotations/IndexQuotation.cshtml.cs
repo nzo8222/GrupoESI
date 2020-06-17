@@ -30,11 +30,11 @@ namespace GrupoESINuevo
 
 
             OrderDetailsLocal = _context.OrderDetails
-                                                    .Include(o => o.Quotation)
-                                                         .Include(o => o.Order)
-                                                         .Include(o => o.Service)
-                                                            .ThenInclude(s => s.ApplicationUser)
-                                                            .Where(od => od.Service.ApplicationUser.Id == userId).ToList();
+                                                     .Include(o => o.Order)
+                                                     .Include(od => od.Quotation)
+                                                     .Include(o => o.Service)
+                                                           .ThenInclude(s => s.ApplicationUser)
+                                                           .Where(od => od.Service.ApplicationUser.Id == userId).ToList();
 
             return Page();
         }

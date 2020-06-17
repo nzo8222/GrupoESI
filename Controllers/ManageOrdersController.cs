@@ -111,38 +111,49 @@ namespace GrupoESINuevo.Controllers
         [Route("PostServiceToOrder")]
         public IActionResult PostServiceToOrder([FromBody] PostServiceToOrderVM serviceToOrderVM)
         {
+            //separar los id de los servicios en diferentes elementos dentro de una lista
             List<string> result = serviceToOrderVM.serviceId.Split(',').ToList();
-            var localOrderDetails = _context.OrderDetails.Include(o => o.Order).Where(orderDetails => orderDetails.Order.Id == serviceToOrderVM.orderDetailsId).ToList();
+
+            //iterar la lista de ids de servicios
             foreach (var item in result)
             {
+                //declarar un nuevo OrderDetails
                 var od = new OrderDetails();
-                var orderLocal = _context.OrderDetails.Include(od => od.Order).FirstOrDefault(od => od.Id == serviceToOrderVM.orderDetailsId);
-                od.Order = orderLocal.Order;
+                od.Order = new Order();
+                //declarar una orden local igual a la orden con el id que biene desde la peticion
+                var orderLocal = _context.Order
+                                               .FirstOrDefault(od => od.Id == serviceToOrderVM.OrderId);
+
+                //se asigna al nuevo orderDetails la orden 
+                //orderLocal.LstOrderDetails.Add(od);
+                od.Order = orderLocal;
+                //se asigna el servicio con el id del servicio que se esta iterando actualmente
                 od.Service = _context.ServiceModel.FirstOrDefault(s => s.ID.ToString() == item);
+                //se le signa un costo en  0
                 od.Cost = 0;
-                //var quotation = _context.Quotation
-                //                                 .Include(q => q.OrderDetailsModel)
-                //                                    .ThenInclude(q => q.Order)
-                //                                 .Include(q => q.Tasks)
-                //                                    .ThenInclude(t => t.ListMaterial)
-                //                                 .FirstOrDefault(q => q.OrderDetailsModel.Order.Id == serviceToOrderVM.orderId);
-                //foreach (var tasks in quotation.Tasks)
-                //{
-                //    tasks.Cost = 0;
-                //    foreach (var material in tasks.ListMaterial)
-                //    {
-                //        material.Price = 0;
-                //    }
-                //}
-                //quotation.OrderDetailsModel = od;
+                //se declara una cotizacion
+                var quotationLocal = new Quotation();
+                //se le asigna el modelo de order details a esta nueva cotizacion
+                quotationLocal.OrderDetailsModel = od;
+                //se inicializa la lista de taras
+                quotationLocal.Tasks = new List<TaskModel>();
+                //Se agrega la entidad al contexto
                 _context.OrderDetails.Add(od);
-                //_context.Quotation.Add(quotation);
+                //_context.Order.Update(orderLocal);
+                _context.Quotation.Add(quotationLocal);
+                try
+                {
+                    _context.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+
+                }
             }
-            _context.SaveChanges();
+          
             //var a = _pmovm;
             ////return LocalRedirect("/Identity/Account/Login?id=")
             return Ok();
-            //return RedirectToAction();
         }
         [HttpPost]
         [Route("PostDeletePictures")]

@@ -50,27 +50,80 @@
         </div>
     }
 }
-    <div>
-        <form method="post" enctype="multipart/form-data">
-            <input hidden asp-for="taskPicVM.taskModel.Id" />
-            <p>Subir foto </p>
-            <input type="file" asp-for="taskPicVM.Upload" accept="image/*" />
-           
-            <input type="submit" asp-page-handler="Picture" value="Agregar foto" class="btn btn-success" />
-      
+<div>
+    <form method="post" enctype="multipart/form-data">
+        <input hidden asp-for="taskPicVM.taskModel.Id" />
+        <p>Subir foto </p>
+        <input id="inputPicFile" type="file" asp-for="taskPicVM.Upload" accept="image/*" />
 
-        </form>
-            <button id="submit" value="Borrar foto" class="btn btn-danger">Borrar fotos</button>
-        </div>
+        <input type="submit" onclick="checkIfPicIsEmpty()" asp-page-handler="Picture" value="Agregar foto" class="btn btn-success" />
 
-    <div>
-        <a asp-page="./EditTask" asp-route-taskId="@Model.taskPicVM.taskModel.Id">Edit</a> |
-        <a asp-page="/../Quotations/CreateQuotation" asp-route-orderDetailsId="@Model.taskPicVM.taskModel.QuotationModel.OrderDetailsModel.Id">Back to List</a>
-    </div>
-    @section Scripts {
-        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
-        <script>
+    </form>
+    <button onclick="OnClickDeletePic()" value="Borrar foto" class="btn btn-danger">Borrar fotos</button>
+</div>
+
+<div>
+    <a asp-page="./EditTask" asp-route-taskId="@Model.taskPicVM.taskModel.Id">Edit</a> |
+    <a asp-page="/../Quotations/CreateQuotation" asp-route-orderDetailsId="@Model.taskPicVM.taskModel.QuotationModel.OrderDetailsModel.Id">Back to List</a>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        function checkIfPicIsEmpty()
+        {
+            if (document.getElementById("inputPicFile").files.length == 0) {
+                swal("Error!", "no files selected", "error");
+                evt.preventDefault();
+            } else
+            {
+
+            }
+
+        }
+        function OnClickDeletePic() {
+            var checkBoxes = document.getElementsByClassName('_checkbox');
+            var pictureIds = document.getElementsByClassName('_deletePictureId');
+            var taskId = document.getElementsByClassName('_taskId');
+            var orderDetailsId = document.getElementsByClassName('_orderDetailsId');
+            var listaIds = {
+                listaIds: ""
+            };
+            for (var i = 0; i < checkBoxes.length; i++) {
+                if (checkBoxes[i].checked == true) {
+                    listaIds.listaIds += pictureIds[i].innerText;
+                    listaIds.listaIds += ",";
+                }
+            }
+            listaIds.listaIds = listaIds.listaIds.substring(0, listaIds.listaIds.length - 1);
+            console.log(listaIds);
+            console.log(checkBoxes);
+            console.log(pictureIds);
+            var json = {
+                deletePicturesId: listaIds.listaIds,
+                taskId: taskId[0].innerText,
+                orderDetailsId: orderDetailsId[0].innerText
+            };
+            console.log(json.deletePicturesId);
+            if (json.deletePicturesId != "") {
+                $.ajax({
+                    type: "POST",
+                    url: "/api/ManageOrders/PostDeletePictures",
+                    contentType: "application/json",
+                    datatype: "json",
+                    data: JSON.stringify(json)
+                }).then(() => { windows.location.href = "/Tasks/DetailsTask?taskId=" + taskId[0].innerText });
+            }
+            else
+            {
+                swal("error!", "seleccione una foto", "error");
+            }
+
+            if (listaIds.count > 0) {
+
+            }
+        }
         $(function () {
             $('#submit').on('click', function (evt) {
                 //evt.preventDefault();
@@ -105,9 +158,9 @@
                         contentType: "application/json",
                         datatype: "json",
                         data: JSON.stringify(json)
-                    }).then(() => { windows.location.reload });
+                    }).then(() => { windows.location.href = "/Tasks/DetailsTask?taskId=" + taskId[0].innerText });
                 }
             });
         });
-        </script>
-    }
+    </script>
+}

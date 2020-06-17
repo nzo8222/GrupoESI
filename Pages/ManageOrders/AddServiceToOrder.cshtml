@@ -47,42 +47,51 @@
         }
     </tbody>
 </table>
+if(@Model._AddServiceVM.OrderDetailsList.Count > 0)
+{
 <div>
-    <input type="submit" id="submit" value="Agregar servicio" class="btn btn-primary" />
+    <input type="submit" onclick="addServiceToOrder('@Model._AddServiceVM.orderDetailsId', '@Model._AddServiceVM.OrderId')" value="Agregar servicio" class="btn btn-primary" />
 </div>
+}
+
 @section Scripts {
     <script>
+        function addServiceToOrder(orderDetailsId, orderId)
+        {
+            //var orderId = document.getElementsByClassName('orderId');
+            var serviceId = document.getElementsByClassName('serviceId');
+            var checkBoxes = document.getElementsByClassName('checkboxService');
+
+            var listaIds = {
+                listaIds: ""
+            };
+            for (var i = 0; i < checkBoxes.length; i++) {
+                if (checkBoxes[i].checked == true) {
+                    listaIds.listaIds += serviceId[i].innerText;
+                    listaIds.listaIds += ",";
+                }
+            }
+            listaIds.listaIds = listaIds.listaIds.substring(0, listaIds.listaIds.length - 1);
+            console.log(orderId);
+            console.log(serviceId[0].innerText);
+            console.log(listaIds.listaIds);
+            var json = {
+                serviceId: listaIds.listaIds,
+                orderDetailsId: orderDetailsId,
+                OrderId: orderId
+            };
+            $.ajax({
+                type: "POST",
+                url: "/api/ManageOrders/PostServiceToOrder",
+                contentType: "application/json",
+                datatype: "json",
+                data: JSON.stringify(json)
+            }).then(() => { window.location.href = "../Quotations/CreateQuotation?orderDetailsId=" + orderDetailsId });
+        }
         $(function () {
             $('#submit').on('click', function (evt) {
                 evt.preventDefault();
-                var orderId = document.getElementsByClassName('orderId');
-                var serviceId = document.getElementsByClassName('serviceId');
-                var checkBoxes = document.getElementsByClassName('checkboxService');
-
-                var listaIds = {
-                    listaIds: ""
-                };
-                for (var i = 0; i < checkBoxes.length; i++) {
-                    if (checkBoxes[i].checked == true) {
-                        listaIds.listaIds += serviceId[i].innerText;
-                        listaIds.listaIds += ",";
-                    }
-                }
-                listaIds.listaIds = listaIds.listaIds.substring(0, listaIds.listaIds.length - 1);
-                console.log(orderId[0].innerText);
-                console.log(serviceId[0].innerText);
-                console.log(listaIds.listaIds);
-                var json = {
-                    serviceId: listaIds.listaIds,
-                    orderDetailsId: orderId[0].innerText
-                };
-                $.ajax({
-                    type: "POST",
-                    url: "/api/ManageOrders/PostServiceToOrder",
-                    contentType: "application/json",
-                    datatype: "json",
-                    data: JSON.stringify(json)
-                }).then(() => { window.location.reload });
+               
             });
         });
     </script>

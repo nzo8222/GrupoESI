@@ -9,6 +9,7 @@ namespace GrupoESINuevo.Models.ViewModels
     {
         public Guid orderDetailsId { get; set; }
         public Guid serviceId { get; set; }
+        public Guid OrderId { get; set; }
         public List<Service> lstServicios { get; set; }
         public List<OrderDetails> OrderDetailsList { get; set; }
 

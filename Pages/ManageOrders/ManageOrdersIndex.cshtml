@@ -200,7 +200,7 @@
             </table>
 
             <div class="col-sm-7 offset-sm-3">
-                <button class="btn btn-primary" id="submit">Mandar Cotizaciones</button>
+                <button class="btn btn-primary" onclick="SendServiceToAddToOrderDetails()">Mandar Cotizaciones</button>
             </div>
         </div>
     </div>
@@ -219,8 +219,6 @@ else
 
     <script>
         function assignQuotation(idQuotation, idOrderDetails, orderId) {
-
-
             var json = {
                 idQuotation: idQuotation,
                 idOrderDetails: idOrderDetails
@@ -233,45 +231,49 @@ else
                 datatype: "json",
                 data: JSON.stringify(json)
             }).then(() => {
-                console.log(this);
-                console.log(window);
                 window.location.href = "/ManageOrders/ManageOrdersIndex?orderId=" + orderId
-
-            }
-            );
-            console.log()
+            });
         };
-        $(function () {
-            $('#submit').on('click', function (evt) {
-                evt.preventDefault();
-                var checkBoxes = document.getElementsByClassName('_checkbox');
-                var result = document.getElementsByClassName('IdService');
-                var listaIds = {
-                    listaIds: ""
-                };
-                for (var i = 0; i < checkBoxes.length; i++) {
-                    if (checkBoxes[i].checked == true) {
-                        listaIds.listaIds += result[i].innerText;
-                        listaIds.listaIds += ",";
-                    }
+        function SendServiceToAddToOrderDetails()
+        {
+            var checkBoxes = document.getElementsByClassName('_checkbox');
+            var result = document.getElementsByClassName('IdService');
+            var listaIds = {
+                listaIds: ""
+            };
+            for (var i = 0; i < checkBoxes.length; i++) {
+                if (checkBoxes[i].checked == true) {
+                    listaIds.listaIds += result[i].innerText;
+                    listaIds.listaIds += ",";
                 }
-                listaIds.listaIds = listaIds.listaIds.substring(0, listaIds.listaIds.length - 1);
-                console.log(listaIds);
-                console.log(checkBoxes);
-                console.log(result);
-                var _orderId = document.getElementById("labelOrderId");
-                console.log(_orderId.innerText);
-                var json = {
-                    idService: listaIds.listaIds,
-                    orderId: _orderId.innerText
-                };
+            }
+            listaIds.listaIds = listaIds.listaIds.substring(0, listaIds.listaIds.length - 1);
+            console.log(listaIds);
+            console.log(checkBoxes);
+            console.log(result);
+            var _orderId = document.getElementById("labelOrderId");
+            console.log(_orderId.innerText);
+            var json = {
+                idService: listaIds.listaIds,
+                orderId: _orderId.innerText
+            };
+            if (json.orderId != "")
+            {
                 $.ajax({
                     type: "POST",
                     url: "/api/ManageOrders/PostManageOrders",
                     contentType: "application/json",
                     datatype: "json",
                     data: JSON.stringify(json)
+                }).then(() => {
+                    window.location.href = "/ManageOrders/ManageOrdersIndex?orderId=" + json.orderId
                 });
+            }
+           
+        }
+        $(function () {
+            $('#submit').on('click', function (evt) {
+                
             });
         });
     </script>

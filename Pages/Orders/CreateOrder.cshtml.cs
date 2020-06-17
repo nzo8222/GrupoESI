@@ -65,13 +65,10 @@ namespace GrupoESINuevo
                                                                                     .FirstOrDefault(s => s.ID == _OrderAndOrderDetailsVM.serviceIdVM);
             //se le asigna el estado sin cotizar a la orden
             _OrderAndOrderDetailsVM.OrderModel.EstadoDelPedido = SD.EstadoSinCotizar;
-            //se asigna la orden al order details
 
+            //se asigna la orden al order details
             _OrderAndOrderDetailsVM.OrderDetailsModel.Order = _OrderAndOrderDetailsVM.OrderModel;
-            //se asigna un estado al orderDetails
-            _OrderAndOrderDetailsVM.OrderModel.EstadoDelPedido = SD.EstadoSinCotizar;
-            //se asigna un costo, no es necesario inicializarse en 0 porque ya lo hace el compilador automaticamente.
-            _OrderAndOrderDetailsVM.OrderDetailsModel.Cost = 0.0;
+
             //declarar una entidad Quotation
             var quotationLocal = new Quotation();
             //inicializo la lista de tareas porque si no se enoja el compilador

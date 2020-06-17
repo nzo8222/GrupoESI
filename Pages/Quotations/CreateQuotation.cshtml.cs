@@ -27,7 +27,7 @@ namespace GrupoESINuevo
         public QuotationTaskMaterialVM _QuotationTaskMaterialVM { get; set; }
         public IActionResult OnGet(Guid orderDetailsId)
         {
-            if(orderDetailsId == null)
+            if(orderDetailsId == null || orderDetailsId.ToString() == "00000000-0000-0000-0000-000000000000")
             {
                 return Page();
             }
@@ -90,8 +90,6 @@ namespace GrupoESINuevo
                     _QuotationTaskMaterialVM.lstOrderDetailsSameUserServices.Add(item);
                 }
             }
-
-            
 
             return Page();
         }
